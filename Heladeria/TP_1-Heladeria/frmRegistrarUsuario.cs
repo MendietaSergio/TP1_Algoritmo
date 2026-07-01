@@ -13,6 +13,22 @@ namespace TP_1_Heladeria
         public frmRegistrarUsuario()
         {
             InitializeComponent();
+            String[] permisos = { "Administrador", "Usuario" };
+            BindingList<string> paises = new BindingList<string> { "Seleccione la nacionalidad del usuario", "Argentina", "Uruguay" };
+            cmbNacionalidad.DataSource = paises;
+            cmbTipoUsuario.DataSource = permisos;
+
+            dtpFecNac.MaxDate= DateTime.Today.AddYears(-18);
+            
+
+            cmbProvincia.Enabled = false;
+            cmbPartidoMunicipio.Enabled = false;
+            cmbLocalidad.Enabled = false;
+            /*txtCalle.Enabled = false;
+            txtAltura.Enabled = false;
+            txtDepartamento.Enabled = false;
+            txtPiso.Enabled = false;
+            txtCodPostal.Enabled = false;*/
         }
 
         private void txtNombre_TextChanged(object sender, EventArgs e)
@@ -29,7 +45,8 @@ namespace TP_1_Heladeria
             {
                 btnAceptar.Enabled = true;
                 grpUbicacion.Enabled = true;
-            }
+
+                }
             else
             {
                 btnAceptar.Enabled = false;
@@ -41,11 +58,20 @@ namespace TP_1_Heladeria
         {
             TextBox[] txtCampos =
                 { txtNombre, txtApellido, txtDNI,
-                txtTelefono, txtEmail, 
+                txtTelefono, txtEmail,
                 txtCodPostal, txtCalle,txtAltura,
                 txtPiso,txtPiso,txtDepartamento };
+            ComboBox[] cmbCampos =
+                { cmbTipoUsuario, cmbNacionalidad,
+                 cmbProvincia, cmbPartidoMunicipio,
+                 cmbLocalidad };
+
 
             foreach (TextBox campo in txtCampos) campo.Text = "";
+            cmbNacionalidad.SelectedIndex = 0;
+           
+            //foreach (ComboBox campo in cmbCampos) campo.SelectedIndex = 0;
+
             rdbMasculino.Checked = true;
             //Falta el de fecha, tiene que ser standar hace 18 años y esa tiene que ser la fecha maxima
             //Falta el tipo de usuario
@@ -93,6 +119,28 @@ namespace TP_1_Heladeria
              * 
              * 
              */
+        }
+
+        private void cmbNacionalidad_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            BindingList<string> provincias = new BindingList<string> { "Seleccion la provincia" };
+            cmbProvincia.DataSource = provincias;
+            cmbProvincia.Enabled = true;
+            if (cmbNacionalidad.SelectedIndex == 1)
+            {
+                provincias.Add("Buenos Aires");
+                provincias.Add("Cordoba");
+            }
+            else if (cmbNacionalidad.SelectedIndex == 2)
+            {
+                provincias.Add("Montevideo");
+                provincias.Add("Canelones");
+            }
+            else
+            {
+                cmbProvincia.DataSource = null;
+                cmbProvincia.Enabled = false;
+            }
         }
     }
 }

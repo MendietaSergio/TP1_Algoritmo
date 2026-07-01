@@ -48,6 +48,10 @@
             lblTelefono = new Label();
             txtTelefono = new TextBox();
             grpUbicacion = new GroupBox();
+            cmbLocalidad = new ComboBox();
+            cmbPartidoMunicipio = new ComboBox();
+            cmbProvincia = new ComboBox();
+            cmbNacionalidad = new ComboBox();
             lblDepartamento = new Label();
             txtDepartamento = new TextBox();
             lblPiso = new Label();
@@ -64,10 +68,6 @@
             lblProvincia = new Label();
             btnAceptar = new Button();
             btnLimpiar = new Button();
-            comboBox1 = new ComboBox();
-            comboBox2 = new ComboBox();
-            comboBox3 = new ComboBox();
-            comboBox4 = new ComboBox();
             grpPersonales.SuspendLayout();
             grpGenero.SuspendLayout();
             grpUbicacion.SuspendLayout();
@@ -217,7 +217,7 @@
             lblTipoUsuario.AutoSize = true;
             lblTipoUsuario.Location = new Point(24, 235);
             lblTipoUsuario.Name = "lblTipoUsuario";
-            lblTipoUsuario.Size = new Size(90, 15);
+            lblTipoUsuario.Size = new Size(89, 15);
             lblTipoUsuario.TabIndex = 13;
             lblTipoUsuario.Text = "Tipo de Usuario";
             // 
@@ -242,7 +242,7 @@
             lblTelefono.AutoSize = true;
             lblTelefono.Location = new Point(32, 119);
             lblTelefono.Name = "lblTelefono";
-            lblTelefono.Size = new Size(53, 15);
+            lblTelefono.Size = new Size(52, 15);
             lblTelefono.TabIndex = 7;
             lblTelefono.Text = "Telefono";
             // 
@@ -255,10 +255,10 @@
             // 
             // grpUbicacion
             // 
-            grpUbicacion.Controls.Add(comboBox4);
-            grpUbicacion.Controls.Add(comboBox3);
-            grpUbicacion.Controls.Add(comboBox2);
-            grpUbicacion.Controls.Add(comboBox1);
+            grpUbicacion.Controls.Add(cmbLocalidad);
+            grpUbicacion.Controls.Add(cmbPartidoMunicipio);
+            grpUbicacion.Controls.Add(cmbProvincia);
+            grpUbicacion.Controls.Add(cmbNacionalidad);
             grpUbicacion.Controls.Add(lblDepartamento);
             grpUbicacion.Controls.Add(txtDepartamento);
             grpUbicacion.Controls.Add(lblPiso);
@@ -280,6 +280,39 @@
             grpUbicacion.TabIndex = 17;
             grpUbicacion.TabStop = false;
             grpUbicacion.Text = "Extras";
+            // 
+            // cmbLocalidad
+            // 
+            cmbLocalidad.FormattingEnabled = true;
+            cmbLocalidad.Location = new Point(142, 116);
+            cmbLocalidad.Name = "cmbLocalidad";
+            cmbLocalidad.Size = new Size(159, 23);
+            cmbLocalidad.TabIndex = 24;
+            // 
+            // cmbPartidoMunicipio
+            // 
+            cmbPartidoMunicipio.FormattingEnabled = true;
+            cmbPartidoMunicipio.Location = new Point(142, 87);
+            cmbPartidoMunicipio.Name = "cmbPartidoMunicipio";
+            cmbPartidoMunicipio.Size = new Size(159, 23);
+            cmbPartidoMunicipio.TabIndex = 23;
+            // 
+            // cmbProvincia
+            // 
+            cmbProvincia.FormattingEnabled = true;
+            cmbProvincia.Location = new Point(142, 58);
+            cmbProvincia.Name = "cmbProvincia";
+            cmbProvincia.Size = new Size(159, 23);
+            cmbProvincia.TabIndex = 22;
+            // 
+            // cmbNacionalidad
+            // 
+            cmbNacionalidad.FormattingEnabled = true;
+            cmbNacionalidad.Location = new Point(142, 29);
+            cmbNacionalidad.Name = "cmbNacionalidad";
+            cmbNacionalidad.Size = new Size(159, 23);
+            cmbNacionalidad.TabIndex = 21;
+            cmbNacionalidad.SelectedIndexChanged += cmbNacionalidad_SelectedIndexChanged;
             // 
             // lblDepartamento
             // 
@@ -418,38 +451,6 @@
             btnLimpiar.UseVisualStyleBackColor = true;
             btnLimpiar.Click += btnLimpiar_Click;
             // 
-            // comboBox1
-            // 
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(142, 29);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(159, 23);
-            comboBox1.TabIndex = 21;
-            // 
-            // comboBox2
-            // 
-            comboBox2.FormattingEnabled = true;
-            comboBox2.Location = new Point(142, 58);
-            comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(159, 23);
-            comboBox2.TabIndex = 22;
-            // 
-            // comboBox3
-            // 
-            comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(142, 87);
-            comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(159, 23);
-            comboBox3.TabIndex = 23;
-            // 
-            // comboBox4
-            // 
-            comboBox4.FormattingEnabled = true;
-            comboBox4.Location = new Point(142, 116);
-            comboBox4.Name = "comboBox4";
-            comboBox4.Size = new Size(159, 23);
-            comboBox4.TabIndex = 24;
-            // 
             // frmRegistrarUsuario
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -512,9 +513,9 @@
         private Button btnLimpiar;
         private Label lblDepartamento;
         private TextBox txtDepartamento;
-        private ComboBox comboBox4;
-        private ComboBox comboBox3;
-        private ComboBox comboBox2;
-        private ComboBox comboBox1;
+        private ComboBox cmbLocalidad;
+        private ComboBox cmbPartidoMunicipio;
+        private ComboBox cmbProvincia;
+        private ComboBox cmbNacionalidad;
     }
 }
