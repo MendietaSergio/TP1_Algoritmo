@@ -105,6 +105,7 @@
             txtApellido.Name = "txtApellido";
             txtApellido.Size = new Size(197, 23);
             txtApellido.TabIndex = 2;
+            txtApellido.TextChanged += txtApellido_TextChanged;
             // 
             // lblApellido
             // 
@@ -121,6 +122,7 @@
             txtDNI.Name = "txtDNI";
             txtDNI.Size = new Size(197, 23);
             txtDNI.TabIndex = 3;
+            txtDNI.TextChanged += txtDNI_TextChanged;
             // 
             // lblDNI
             // 
@@ -202,6 +204,7 @@
             cmbTipoUsuario.Name = "cmbTipoUsuario";
             cmbTipoUsuario.Size = new Size(197, 23);
             cmbTipoUsuario.TabIndex = 8;
+            cmbTipoUsuario.SelectedIndexChanged += cmbTipoUsuario_SelectedIndexChanged;
             // 
             // lblFecNac
             // 
@@ -236,6 +239,7 @@
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(197, 23);
             txtEmail.TabIndex = 5;
+            txtEmail.TextChanged += txtEmail_TextChanged;
             // 
             // lblTelefono
             // 
@@ -252,6 +256,7 @@
             txtTelefono.Name = "txtTelefono";
             txtTelefono.Size = new Size(197, 23);
             txtTelefono.TabIndex = 4;
+            txtTelefono.TextChanged += txtTelefono_TextChanged;
             // 
             // grpUbicacion
             // 
