@@ -220,7 +220,7 @@
             lblTipoUsuario.AutoSize = true;
             lblTipoUsuario.Location = new Point(24, 235);
             lblTipoUsuario.Name = "lblTipoUsuario";
-            lblTipoUsuario.Size = new Size(89, 15);
+            lblTipoUsuario.Size = new Size(90, 15);
             lblTipoUsuario.TabIndex = 13;
             lblTipoUsuario.Text = "Tipo de Usuario";
             // 
@@ -246,7 +246,7 @@
             lblTelefono.AutoSize = true;
             lblTelefono.Location = new Point(32, 119);
             lblTelefono.Name = "lblTelefono";
-            lblTelefono.Size = new Size(52, 15);
+            lblTelefono.Size = new Size(53, 15);
             lblTelefono.TabIndex = 7;
             lblTelefono.Text = "Telefono";
             // 
@@ -288,6 +288,7 @@
             // 
             // cmbLocalidad
             // 
+            cmbLocalidad.AccessibleDescription = "Seleccione la Localidad";
             cmbLocalidad.FormattingEnabled = true;
             cmbLocalidad.Location = new Point(142, 116);
             cmbLocalidad.Name = "cmbLocalidad";
@@ -296,22 +297,27 @@
             // 
             // cmbPartidoMunicipio
             // 
+            cmbPartidoMunicipio.AccessibleDescription = "Seleccione el Municipio";
             cmbPartidoMunicipio.FormattingEnabled = true;
             cmbPartidoMunicipio.Location = new Point(142, 87);
             cmbPartidoMunicipio.Name = "cmbPartidoMunicipio";
             cmbPartidoMunicipio.Size = new Size(159, 23);
             cmbPartidoMunicipio.TabIndex = 23;
+            cmbPartidoMunicipio.SelectedIndexChanged += cmbPartidoMunicipio_SelectedIndexChanged;
             // 
             // cmbProvincia
             // 
+            cmbProvincia.AccessibleDescription = "Seleccione la Provincia";
             cmbProvincia.FormattingEnabled = true;
             cmbProvincia.Location = new Point(142, 58);
             cmbProvincia.Name = "cmbProvincia";
             cmbProvincia.Size = new Size(159, 23);
             cmbProvincia.TabIndex = 22;
+            cmbProvincia.SelectedIndexChanged += cmbProvincia_SelectedIndexChanged;
             // 
             // cmbNacionalidad
             // 
+            cmbNacionalidad.AccessibleDescription = "Seleccione la Nacionalidad";
             cmbNacionalidad.FormattingEnabled = true;
             cmbNacionalidad.Location = new Point(142, 29);
             cmbNacionalidad.Name = "cmbNacionalidad";

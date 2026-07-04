@@ -15,22 +15,31 @@ namespace TP_1_Heladeria
         public frmRegistrarUsuario()
         {
             InitializeComponent();
-            string[] permisos = { "Seleccione el tipo de usuario", "Administrador", "Usuario" };
-            BindingList<string> paises = new BindingList<string> { "Seleccione la nacionalidad del usuario", "Argentina", "Uruguay" };
-            List<string> ubicaciones = new List<string>
+
+
+            /*List<string> ubicaciones = new List<string>
             {
 
                 "Argentina",
                 "Buenos Aires", "Cordoba",
-                "Lomas de Zamora", "Lanús", "Villa Carlos Paz", "Cosquin",
-                "Lomas de Zamora", "Temperley", "Lanus", "Valentin Alsina", "Villa Domingues", "La Quinta", "Casa Grande", "Villa Hermoso",
+                "Lomas de Zamora", "Villa Carlos Paz", "Lanús", "Cosquin",
+                "Lomas de Zamora",  "Villa Domingues", "Lanus",          "Casa Grande",
+                "Temperley",        "La Quinta",       "Valentin Alsina", "Villa Hermoso",
+
+
+
 
                 "Uruguay",
                 "Montevideo", "Canelones",
-                "B", "CH", "18 de Mayo", "Aguas Corrientes",
-                "Ciudad Vieja", "Centro", "Pocitos", "Punta Carretas", "El Dorado", "Villa Alegria", "-", "-"
+                "B",           "18 de Mayo",   "CH",              "Aguas Corrientes",
+                "Ciudad Vieja","El Dorado",     "Pocitos"      , "-",
+                "Centro",      "Villa Alegria", "Punta Carretas","-"
+
             };
-            MessageBox.Show(ubicaciones.Count().ToString());
+            */
+            string[] permisos = { "Seleccione el tipo de usuario", "Administrador", "Usuario" };
+            BindingList<string> paises = new BindingList<string> { cmbNacionalidad.AccessibleDescription, "Argentina", "Uruguay" };
+
             cmbNacionalidad.DataSource = paises;
             cmbTipoUsuario.DataSource = permisos;
 
@@ -48,7 +57,7 @@ namespace TP_1_Heladeria
             txtCodPostal.Enabled = false;*/
         }
 
-        public void AsignarDatosACmb (ComboBox cmbActual, ComboBox cmbSiguiente)
+        public void AsignarDatosACmb(ComboBox cmbActual, ComboBox cmbSiguiente)
         {
             /*
             List<string> ubicaciones = new List<string>
@@ -64,15 +73,14 @@ namespace TP_1_Heladeria
                 "Montevideo", "Canelones",
                 "B", "CH", "18 de Mayo", "Aguas Corrientes",
                 "Ciudad Vieja", "Centro", "Pocitos", "Punta Carretas", "El Dorado", "Villa Alegria", "-", "-"
-            };
-            */
+            }; */
             List<string> ubicaciones = new List<string>
             {
 
                 "Argentina",
                 "Buenos Aires", "Cordoba",
                 "Lomas de Zamora", "Villa Carlos Paz", "Lanús", "Cosquin",
-                "Lomas de Zamora",  "Villa Domingues", "Lanus",          "Casa Grande", 
+                "Lomas de Zamora",  "Villa Domingues", "Lanus",          "Casa Grande",
                 "Temperley",        "La Quinta",       "Valentin Alsina", "Villa Hermoso",
 
 
@@ -81,7 +89,7 @@ namespace TP_1_Heladeria
                 "Uruguay",
                 "Montevideo", "Canelones",
                 "B",           "18 de Mayo",   "CH",              "Aguas Corrientes",
-                "Ciudad Vieja","El Dorado",     "Pocitos"      , "-", 
+                "Ciudad Vieja","El Dorado",     "Pocitos"      , "-",
                 "Centro",      "Villa Alegria", "Punta Carretas","-"
 
             };
@@ -91,37 +99,40 @@ namespace TP_1_Heladeria
             {
                 seleccionadoGral = ubicaciones.IndexOf(cmbActual.SelectedValue.ToString());
                 seleccionadoPos = seleccionadoGral;
-                MessageBox.Show(seleccionadoGral.ToString());
+                //MessageBox.Show(seleccionadoGral.ToString());
             }
             int nivel = 0;
-            int mitadDeLasUbicaciones= ubicaciones.Count()/2;
+            int mitadDeLasUbicaciones = ubicaciones.Count() / 2;
             bool Arg = true;
-            
-            
+
+
             if (seleccionadoPos > mitadDeLasUbicaciones)
             {
                 Arg = false;
                 seleccionadoPos -= mitadDeLasUbicaciones;
             }
-            
+
 
             while (true)
             {
-                if (seleccionadoPos+1 <= Math.Pow(2, nivel)) break;
+                if (seleccionadoPos + 1 <= Math.Pow(2, nivel)) break;
                 nivel++;
             }
             int mover = Convert.ToInt32(Math.Pow(2, nivel));
             string[] ubicacionesProximo = new string[3];
 
-            for(int i= 1; i <= 2; i++) {
-                ubicacionesProximo[i] = ubicaciones[seleccionadoGral+(i) * mover];
-                MessageBox.Show("Esta es la posicion "+(seleccionadoGral + (i) * mover).ToString());
+            for (int i = 1; i <= 2; i++)
+            {
+                ubicacionesProximo[i] = ubicaciones[seleccionadoGral + (i) * mover];
+                //MessageBox.Show("Esta es la posicion " + (seleccionadoGral + (i) * mover).ToString());
             }
-            MessageBox.Show(nivel.ToString());
-            ubicacionesProximo[0] = "Seleccione";
-            foreach (string ubicacion in ubicacionesProximo) 
-                MessageBox.Show("La primera ubicacion que se va a agregar es" + ubicacion);
-            cmbSiguiente.DataSource= ubicacionesProximo;
+            MessageBox.Show("2 a la" + nivel.ToString());
+            ubicacionesProximo[0] = "Seleccione " + cmbActual.AccessibleDescription;
+            foreach (string ubicacion in ubicacionesProximo)
+                //MessageBox.Show("La primera ubicacion que se va a agregar es" + ubicacion);
+
+                cmbSiguiente.DataSource = ubicacionesProximo;
+            cmbSiguiente.Enabled = true;
 
 
         }
@@ -238,70 +249,9 @@ namespace TP_1_Heladeria
             }
         }
 
-        //Eventos ComboBox
-        private void cmbTipoUsuario_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (txtNombre.Text.Length > 0 &&
-               txtApellido.Text.Length > 0 &&
-               txtDNI.Text.Length > 0 &&
-               txtTelefono.Text.Length > 0 &&
-               txtEmail.Text.Length > 0 &&
-               (cmbTipoUsuario.SelectedIndex == 1
-               ||
-               cmbTipoUsuario.SelectedIndex == 2))
-            {
-                btnAceptar.Enabled = true;
-                grpUbicacion.Enabled = true;
 
-            }
-            else
-            {
-                btnAceptar.Enabled = false;
-                grpUbicacion.Enabled = false;
-            }
-        }
 
-        private void cmbNacionalidad_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            BindingList<string> provincias = new BindingList<string> { "Seleccion la provincia" };
-            cmbProvincia.DataSource = provincias;
-            cmbProvincia.Enabled = true;
-            /*
-            if (cmbNacionalidad.SelectedIndex == 1)
-            {
-                provincias.Add("Buenos Aires");
-                provincias.Add("Cordoba");
-            }
-            else if (cmbNacionalidad.SelectedIndex == 2)
-            {
-                provincias.Add("Montevideo");
-                provincias.Add("Canelones");
-            }
-            else
-            {
-                cmbProvincia.DataSource = null;
-                cmbProvincia.Enabled = false;
-            }*/
-            AsignarDatosACmb(cmbNacionalidad, cmbProvincia);
-        }
 
-        private void cmbProvincia_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            /*if (cmbNacionalidad.DataSource != null)
-            {
-                BindingList<string> pronvincias = new BindingList<string>((List<string>)cmbNacionalidad.DataSource);
-                MessageBox.Show(cmbNacionalidad.SelectedValue.ToString());
-                //ESTABA TRABAJANDO ACA.
-                //EN COMO AGREGAR LAS DISTINTAS UBICACIONES SIN MATARME CON LO EXPONENCIAL
-            }
-            BindingList<string> municipios = new BindingList<string> { "Selecciones el municipio" };
-            
-            if(cmbNacionalidad.SelectedIndex == 1)
-            {
-
-            }*/
-            AsignarDatosACmb(cmbProvincia, cmbPartidoMunicipio);
-        }
 
         //Eventos Botones
         private void btnLimpiar_Click(object sender, EventArgs e)
@@ -406,6 +356,179 @@ namespace TP_1_Heladeria
          */
         }
 
-       
+
+        //Eventos ComboBox
+        private void cmbTipoUsuario_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (txtNombre.Text.Length > 0 &&
+               txtApellido.Text.Length > 0 &&
+               txtDNI.Text.Length > 0 &&
+               txtTelefono.Text.Length > 0 &&
+               txtEmail.Text.Length > 0 &&
+               (cmbTipoUsuario.SelectedIndex == 1
+               ||
+               cmbTipoUsuario.SelectedIndex == 2))
+            {
+                btnAceptar.Enabled = true;
+                grpUbicacion.Enabled = true;
+
+            }
+            else
+            {
+                btnAceptar.Enabled = false;
+                grpUbicacion.Enabled = false;
+            }
+        }
+
+        private void cmbNacionalidad_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            BindingList<string> provincias = new BindingList<string> { cmbProvincia.AccessibleDescription };
+            
+
+            if (cmbNacionalidad.SelectedValue != null && cmbNacionalidad.SelectedIndex != -1)
+            {
+                cmbProvincia.Enabled = true;
+                cmbProvincia.DataSource = provincias;
+                //MessageBox.Show(cmbNacionalidad.SelectedValue.ToString());
+                if (cmbNacionalidad.SelectedValue.ToString().ToLower() == "argentina")
+                {
+                    provincias.Add("Buenos Aires");
+                    provincias.Add("Cordoba");
+                }
+                else if (cmbNacionalidad.SelectedValue.ToString().ToLower() == "uruguay")
+                {
+                    provincias.Add("Montevideo");
+                    provincias.Add("Canelones");
+                }
+                else
+                {
+                    cmbProvincia.DataSource = null;
+                    cmbProvincia.Enabled = false;
+                }
+
+            }
+
+        }
+
+        private void cmbProvincia_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            BindingList<string> municipio = new BindingList<string> { cmbPartidoMunicipio.AccessibleDescription };
+            
+            if (cmbProvincia.SelectedValue != null && cmbProvincia.SelectedIndex != -1)
+            {
+
+                cmbPartidoMunicipio.Enabled = true;
+                cmbPartidoMunicipio.DataSource = municipio;
+                if (cmbProvincia.SelectedValue.ToString().ToLower() == "buenos aires")
+                {
+                    municipio.Add("Lomas de Zamora");
+                    municipio.Add("Lanus");
+                }
+                else if (cmbProvincia.SelectedValue.ToString().ToLower() == "cordoba")
+                {
+                    municipio.Add("Villa Carlos Paz");
+                    municipio.Add("Cosquin");
+                }
+                else if (cmbProvincia.SelectedValue.ToString().ToLower() == "montevideo")
+                {
+                    municipio.Add("B");
+                    municipio.Add("CH");
+                }
+                else if (cmbProvincia.SelectedValue.ToString().ToLower() == "canelones")
+                {
+                    municipio.Add("18 de Mayo");
+                    municipio.Add("Aguas Corrientes");
+                }
+                else
+                {
+                    cmbPartidoMunicipio.DataSource = null;
+                    cmbPartidoMunicipio.Enabled = false;
+                }
+            }
+
+        }
+
+        private void cmbPartidoMunicipio_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //AsignarDatosACmb(cmbPartidoMunicipio, cmbLocalidad);
+            List<string> ubicaciones = new List<string>
+            {
+
+                "Argentina",
+                "Buenos Aires", "Cordoba",
+                "Lomas de Zamora", "Villa Carlos Paz", "Lanus", "Cosquin",
+                "Lomas de Zamora",  "Villa Domingues", "Lanus",          "Casa Grande",
+                "Temperley",        "La Quinta",       "Valentin Alsina", "Villa Hermoso",
+
+
+
+
+                "Uruguay",
+                "Montevideo", "Canelones",
+                "B",           "18 de Mayo",   "CH",              "Aguas Corrientes",
+                "Ciudad Vieja","El Dorado",     "Pocitos"      , "-",
+                "Centro",      "Villa Alegria", "Punta Carretas","-"
+
+            };
+
+            BindingList<string> localidad = new BindingList<string> { cmbLocalidad.AccessibleDescription };
+            
+
+            if (cmbPartidoMunicipio.SelectedValue != null && cmbPartidoMunicipio.SelectedIndex != -1)
+            {
+
+                cmbLocalidad.Enabled = true;
+                cmbLocalidad.DataSource = localidad;
+                if (cmbPartidoMunicipio.SelectedValue.ToString().ToLower() == "lomas de zamora")
+                {
+                    localidad.Add("Lomas de Zamora");
+                    localidad.Add("Temperley");
+                }
+                else if (cmbPartidoMunicipio.SelectedValue.ToString().ToLower() == "villa carlos paz")
+                {
+                    localidad.Add("Villa Domingues");
+                    localidad.Add("La Quinta");
+                }
+                else if (cmbPartidoMunicipio.SelectedValue.ToString().ToLower() == "lanus")
+                {
+                    localidad.Add("Lanus");
+                    localidad.Add("Valentin Alsina");
+                }
+                else if (cmbPartidoMunicipio.SelectedValue.ToString().ToLower() == "cosquin")
+                {
+                    localidad.Add("Casa Grande");
+                    localidad.Add("Villa Hermoso");
+
+                }
+                else if (cmbPartidoMunicipio.SelectedValue.ToString().ToLower() == "b")
+                {
+                    localidad.Add("Ciudad Vieja");
+                    localidad.Add("Centro");
+                }
+                else if (cmbPartidoMunicipio.SelectedValue.ToString().ToLower() == "ch")
+                {
+                    localidad.Add("Pocitos");
+                    localidad.Add("Punta Carretas");
+                }
+                else if (cmbPartidoMunicipio.SelectedValue.ToString().ToLower() == "18 de mayo")
+                {
+                    localidad.Add("El Dorado");
+                    localidad.Add("Villa Alegria");
+                }
+                else if (cmbPartidoMunicipio.SelectedValue.ToString().ToLower() == "aguas corrientes")
+                {
+                    localidad.Add("-");
+                    localidad.Add("-");
+                }
+                else
+                {
+                    cmbLocalidad.DataSource = null;
+                    cmbLocalidad.Enabled = false;
+                }
+
+            }
+        }
+        
     }
 }
