@@ -354,7 +354,7 @@ namespace TP_1_Heladeria
             string nombreUsuarioConstruido = "";
             inicial = txtNombre.Text.Substring(0, 1).ToLower();
             apellido = txtApellido.Text.ToLower();
-            nros = txtDNI.Text.Substring(txtDNI.Text.Length-3, 3);
+            nros = txtDNI.Text.Substring(txtDNI.Text.Length - 3, 3);
             /*Si ya existe se le agrega _X siendo X la cantidad de veces que aparece*/
             //Para esto, voy a contar por cada elemento de la lista de usuarios
             //Las veces que existe en la posicon 17 el nombre recientemente generado.
@@ -364,12 +364,12 @@ namespace TP_1_Heladeria
             //tal vez seria un buen momento para crearlo, pero la necesitaria en el Login
             //Asi que entiendo que el mejor momento seria que se cree ahi y traerlo aca para modificarlo
             nombreUsuarioConstruido = inicial + apellido + nros;
-            
+
             //Contraseña
             Random random = new Random();
             long password = random.Next(10000000, 999999999);
             usuario[18] = password.ToString();
-            
+
             //Faltaria validar que no se repita el nombre de usuario
             usuario[19] = "si";
 
@@ -530,6 +530,11 @@ namespace TP_1_Heladeria
             }
         }
 
-
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            Form principal = new frmPrincipal();
+            principal.Show();
+            this.Hide();
+        }
     }
 }

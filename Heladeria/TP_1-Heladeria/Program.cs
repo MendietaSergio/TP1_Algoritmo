@@ -12,7 +12,7 @@ namespace TP_1_Heladeria
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             //Application.Run(new frmLogin());
-            Application.Run(new frmRegistrarUsuario());
+            Application.Run(new frmPrincipal());
         }
     }
 }

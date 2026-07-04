@@ -68,6 +68,7 @@
             lblProvincia = new Label();
             btnAceptar = new Button();
             btnLimpiar = new Button();
+            btnVolver = new Button();
             grpPersonales.SuspendLayout();
             grpGenero.SuspendLayout();
             grpUbicacion.SuspendLayout();
@@ -293,7 +294,7 @@
             cmbLocalidad.Location = new Point(142, 116);
             cmbLocalidad.Name = "cmbLocalidad";
             cmbLocalidad.Size = new Size(159, 23);
-            cmbLocalidad.TabIndex = 24;
+            cmbLocalidad.TabIndex = 13;
             // 
             // cmbPartidoMunicipio
             // 
@@ -302,7 +303,7 @@
             cmbPartidoMunicipio.Location = new Point(142, 87);
             cmbPartidoMunicipio.Name = "cmbPartidoMunicipio";
             cmbPartidoMunicipio.Size = new Size(159, 23);
-            cmbPartidoMunicipio.TabIndex = 23;
+            cmbPartidoMunicipio.TabIndex = 12;
             cmbPartidoMunicipio.SelectedIndexChanged += cmbPartidoMunicipio_SelectedIndexChanged;
             // 
             // cmbProvincia
@@ -312,7 +313,7 @@
             cmbProvincia.Location = new Point(142, 58);
             cmbProvincia.Name = "cmbProvincia";
             cmbProvincia.Size = new Size(159, 23);
-            cmbProvincia.TabIndex = 22;
+            cmbProvincia.TabIndex = 11;
             cmbProvincia.SelectedIndexChanged += cmbProvincia_SelectedIndexChanged;
             // 
             // cmbNacionalidad
@@ -322,7 +323,7 @@
             cmbNacionalidad.Location = new Point(142, 29);
             cmbNacionalidad.Name = "cmbNacionalidad";
             cmbNacionalidad.Size = new Size(159, 23);
-            cmbNacionalidad.TabIndex = 21;
+            cmbNacionalidad.TabIndex = 10;
             cmbNacionalidad.SelectedIndexChanged += cmbNacionalidad_SelectedIndexChanged;
             // 
             // lblDepartamento
@@ -339,7 +340,7 @@
             txtDepartamento.Location = new Point(142, 261);
             txtDepartamento.Name = "txtDepartamento";
             txtDepartamento.Size = new Size(159, 23);
-            txtDepartamento.TabIndex = 20;
+            txtDepartamento.TabIndex = 18;
             // 
             // lblPiso
             // 
@@ -355,7 +356,7 @@
             txtPiso.Location = new Point(142, 232);
             txtPiso.Name = "txtPiso";
             txtPiso.Size = new Size(159, 23);
-            txtPiso.TabIndex = 19;
+            txtPiso.TabIndex = 17;
             // 
             // lblAltura
             // 
@@ -371,7 +372,7 @@
             txtAltura.Location = new Point(142, 203);
             txtAltura.Name = "txtAltura";
             txtAltura.Size = new Size(159, 23);
-            txtAltura.TabIndex = 18;
+            txtAltura.TabIndex = 16;
             // 
             // lblCalle
             // 
@@ -387,7 +388,7 @@
             txtCalle.Location = new Point(142, 174);
             txtCalle.Name = "txtCalle";
             txtCalle.Size = new Size(159, 23);
-            txtCalle.TabIndex = 17;
+            txtCalle.TabIndex = 15;
             // 
             // lblCodPostal
             // 
@@ -403,7 +404,7 @@
             txtCodPostal.Location = new Point(142, 145);
             txtCodPostal.Name = "txtCodPostal";
             txtCodPostal.Size = new Size(159, 23);
-            txtCodPostal.TabIndex = 16;
+            txtCodPostal.TabIndex = 14;
             // 
             // lblLocalidad
             // 
@@ -447,26 +448,37 @@
             btnAceptar.Location = new Point(391, 349);
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(138, 41);
-            btnAceptar.TabIndex = 10;
+            btnAceptar.TabIndex = 19;
             btnAceptar.Text = "Aceptar";
             btnAceptar.UseVisualStyleBackColor = true;
             btnAceptar.Click += btnAceptar_Click;
             // 
             // btnLimpiar
             // 
-            btnLimpiar.Location = new Point(599, 349);
+            btnLimpiar.Location = new Point(561, 349);
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(138, 41);
-            btnLimpiar.TabIndex = 11;
+            btnLimpiar.TabIndex = 20;
             btnLimpiar.Text = "Limpiar";
             btnLimpiar.UseVisualStyleBackColor = true;
             btnLimpiar.Click += btnLimpiar_Click;
+            // 
+            // btnVolver
+            // 
+            btnVolver.Location = new Point(599, 7);
+            btnVolver.Name = "btnVolver";
+            btnVolver.Size = new Size(95, 40);
+            btnVolver.TabIndex = 21;
+            btnVolver.Text = "Volver al Menu Principal";
+            btnVolver.UseVisualStyleBackColor = true;
+            btnVolver.Click += btnVolver_Click;
             // 
             // frmRegistrarUsuario
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(765, 406);
+            ClientSize = new Size(711, 406);
+            Controls.Add(btnVolver);
             Controls.Add(btnLimpiar);
             Controls.Add(btnAceptar);
             Controls.Add(grpUbicacion);
@@ -528,5 +540,6 @@
         private ComboBox cmbPartidoMunicipio;
         private ComboBox cmbProvincia;
         private ComboBox cmbNacionalidad;
+        private Button btnVolver;
     }
 }
