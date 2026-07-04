@@ -54,6 +54,15 @@ namespace TP_1_Heladeria
             cmbProvincia.Enabled = false;
             cmbPartidoMunicipio.Enabled = false;
             cmbLocalidad.Enabled = false;
+
+
+            //Valores Test
+            txtNombre.Text = "asd";
+            txtApellido.Text = "ads";
+            txtDNI.Text = "12345678";
+            txtTelefono.Text = "1234567890";
+            txtEmail.Text = "asd@asd.asd";
+            cmbTipoUsuario.SelectedIndex = 1;
         }
 
         //Eventos de los txt
@@ -240,9 +249,8 @@ namespace TP_1_Heladeria
             /*
 
          * Email
-         *      Puedo buscar como hacerlo con IA
-         *      Lo sigo debiendo*/
-            bool esValido = Regex.IsMatch(txtEmail.Text,@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+         *   Busca que tenga un arroba y un punto, como hablamos en clase*/
+            bool esValido = Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
             if (!esValido)
             {
                 MessageBox.Show("Valores no soportados en el campo Email",
@@ -250,7 +258,7 @@ namespace TP_1_Heladeria
                 txtEmail.Focus();
                 return;
             }
-                
+
             /*
          * Genero
          *      No necesito una validacion extra. 
@@ -268,7 +276,8 @@ namespace TP_1_Heladeria
          * Cod Postal
          *      Hasta 8 caracteres.
          *      */
-            if(txtCodPostal.Text.Length > 8) {
+            if (txtCodPostal.Text.Length > 8)
+            {
                 MessageBox.Show("Valores no soportados en el campo Codigo Postal",
                         "Error CP", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtCodPostal.Focus();
@@ -277,7 +286,7 @@ namespace TP_1_Heladeria
             /*
          * Altura
          *      Num*/
-            if(!int.TryParse(txtAltura.Text, out int altura))
+            if (!int.TryParse(txtAltura.Text, out int altura) && (txtAltura.Text != ""))
             {
                 MessageBox.Show("Se esperaba un valor numerico para la Altura",
                     "Error Altura", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -287,27 +296,86 @@ namespace TP_1_Heladeria
             /*
          * Piso
          *      Text. Valido que no sean 2, porque por lo gral se identifica con 2 caracteres */
-            if(txtPiso.Text.Length > 2)
+            if (txtPiso.Text.Length > 2)
             {
                 MessageBox.Show("Valores no soportados en el campo Piso",
                         "Error Piso", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtPiso.Focus();
                 return;
             }
-        /*
-         * Departamento
-         *      Text
-         * 
-         * 
-         * 
-         *   
-         * Una vez que pase todas las validaciones, 
-         * deberia simular una carga. Lo vamos a hacer con un array de string,
-         * pero podria hacerlo con un array object
-         * 
-         */
+            /*
+             * Departamento
+             *      Text
+             * 
+             * 
+             * 
+             *   
+             * Una vez que pase todas las validaciones, 
+             * deberia simular una carga. Lo vamos a hacer con un array de string,
+             * 
+             * 
+             */
+            string[] usuario = new string[20];
+
+            for (int i = 0; i < usuario.Length; i++) usuario[i] = "";
+
+            usuario[0] = txtNombre.Text;
+            usuario[1] = txtApellido.Text;
+            usuario[2] = txtDNI.Text;
+            usuario[3] = txtTelefono.Text;
+            usuario[4] = txtEmail.Text;
+            if (rdbMasculino.Checked)
+                usuario[5] = "Masculino";
+            else
+                usuario[5] = "Femenino";
+            usuario[6] = cmbTipoUsuario.SelectedValue.ToString();
+            usuario[7] = dtpFecNac.Text;
+            if (cmbNacionalidad.SelectedIndex > 0)
+                usuario[8] = cmbNacionalidad.SelectedValue.ToString();
+            if (cmbProvincia.SelectedIndex > 0)
+                usuario[9] = cmbProvincia.SelectedValue.ToString();
+            if (cmbPartidoMunicipio.SelectedIndex > 0)
+                usuario[10] = cmbPartidoMunicipio.SelectedValue.ToString();
+            usuario[11] = cmbLocalidad.SelectedIndex > 0 ? cmbLocalidad.SelectedValue.ToString() : "";
+            MessageBox.Show("Localidad " + usuario[11]);
+            usuario[12] = txtCodPostal.Text;
+            usuario[13] = txtCalle.Text;
+            usuario[14] = txtAltura.Text;
+            usuario[15] = txtPiso.Text;
+            usuario[16] = txtDepartamento.Text;
+
+            //Usuario
+            /*
+            El nombre se genera con inicialnombre+apellido+3 ultimos caracteres del dni
+            */
+            string inicial = "";
+            string apellido = "";
+            string nros = "";
+            string nombreUsuarioConstruido = "";
+            inicial = txtNombre.Text.Substring(0, 1).ToLower();
+            apellido = txtApellido.Text.ToLower();
+            nros = txtDNI.Text.Substring(txtDNI.Text.Length-3, 3);
+            /*Si ya existe se le agrega _X siendo X la cantidad de veces que aparece*/
+            //Para esto, voy a contar por cada elemento de la lista de usuarios
+            //Las veces que existe en la posicon 17 el nombre recientemente generado.
+            //Si no existe, no le pongo nada. De otra forma le agrego _X
+            //siendo X la cantidad de veces que aparece.
+            //--El impedimento. No se de donde sale esa lista,
+            //tal vez seria un buen momento para crearlo, pero la necesitaria en el Login
+            //Asi que entiendo que el mejor momento seria que se cree ahi y traerlo aca para modificarlo
+            nombreUsuarioConstruido = inicial + apellido + nros;
+            
+            //Contraseña
+            Random random = new Random();
+            long password = random.Next(10000000, 999999999);
+            usuario[18] = password.ToString();
+            
+            //Faltaria validar que no se repita el nombre de usuario
+            usuario[19] = "si";
+
+            MessageBox.Show("Usuario registrado con exito");
         }
-        
+
 
 
         //Eventos ComboBox
@@ -337,7 +405,7 @@ namespace TP_1_Heladeria
         {
 
             BindingList<string> provincias = new BindingList<string> { cmbProvincia.AccessibleDescription };
-            
+
 
             if (cmbNacionalidad.SelectedValue != null && cmbNacionalidad.SelectedIndex != -1)
             {
@@ -366,7 +434,7 @@ namespace TP_1_Heladeria
         private void cmbProvincia_SelectedIndexChanged(object sender, EventArgs e)
         {
             BindingList<string> municipio = new BindingList<string> { cmbPartidoMunicipio.AccessibleDescription };
-            
+
             if (cmbProvincia.SelectedValue != null && cmbProvincia.SelectedIndex != -1)
             {
 
@@ -403,9 +471,9 @@ namespace TP_1_Heladeria
 
         private void cmbPartidoMunicipio_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
+
             BindingList<string> localidad = new BindingList<string> { cmbLocalidad.AccessibleDescription };
-            
+
 
             if (cmbPartidoMunicipio.SelectedValue != null && cmbPartidoMunicipio.SelectedIndex != -1)
             {
@@ -461,6 +529,7 @@ namespace TP_1_Heladeria
 
             }
         }
-        
+
+
     }
 }
