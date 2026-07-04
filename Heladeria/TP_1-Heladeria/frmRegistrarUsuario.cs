@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Text.RegularExpressions;
 
 namespace TP_1_Heladeria
 {
@@ -16,27 +17,6 @@ namespace TP_1_Heladeria
         {
             InitializeComponent();
 
-
-            /*List<string> ubicaciones = new List<string>
-            {
-
-                "Argentina",
-                "Buenos Aires", "Cordoba",
-                "Lomas de Zamora", "Villa Carlos Paz", "Lanús", "Cosquin",
-                "Lomas de Zamora",  "Villa Domingues", "Lanus",          "Casa Grande",
-                "Temperley",        "La Quinta",       "Valentin Alsina", "Villa Hermoso",
-
-
-
-
-                "Uruguay",
-                "Montevideo", "Canelones",
-                "B",           "18 de Mayo",   "CH",              "Aguas Corrientes",
-                "Ciudad Vieja","El Dorado",     "Pocitos"      , "-",
-                "Centro",      "Villa Alegria", "Punta Carretas","-"
-
-            };
-            */
             string[] permisos = { "Seleccione el tipo de usuario", "Administrador", "Usuario" };
             BindingList<string> paises = new BindingList<string> { cmbNacionalidad.AccessibleDescription, "Argentina", "Uruguay" };
 
@@ -50,93 +30,7 @@ namespace TP_1_Heladeria
             cmbProvincia.Enabled = false;
             cmbPartidoMunicipio.Enabled = false;
             cmbLocalidad.Enabled = false;
-            /*txtCalle.Enabled = false;
-            txtAltura.Enabled = false;
-            txtDepartamento.Enabled = false;
-            txtPiso.Enabled = false;
-            txtCodPostal.Enabled = false;*/
         }
-
-        public void AsignarDatosACmb(ComboBox cmbActual, ComboBox cmbSiguiente)
-        {
-            /*
-            List<string> ubicaciones = new List<string>
-            {
-
-                "Argentina",
-                "Buenos Aires", "Cordoba",
-                "Lomas de Zamora", "Lanús", "Villa Carlos Paz", "Cosquin",
-                "Lomas de Zamora", "Temperley", "Lanus", "Valentin Alsina", 
-                "Villa Domingues", "La Quinta", "Casa Grande", "Villa Hermoso",
-
-                "Uruguay",
-                "Montevideo", "Canelones",
-                "B", "CH", "18 de Mayo", "Aguas Corrientes",
-                "Ciudad Vieja", "Centro", "Pocitos", "Punta Carretas", "El Dorado", "Villa Alegria", "-", "-"
-            }; */
-            List<string> ubicaciones = new List<string>
-            {
-
-                "Argentina",
-                "Buenos Aires", "Cordoba",
-                "Lomas de Zamora", "Villa Carlos Paz", "Lanús", "Cosquin",
-                "Lomas de Zamora",  "Villa Domingues", "Lanus",          "Casa Grande",
-                "Temperley",        "La Quinta",       "Valentin Alsina", "Villa Hermoso",
-
-
-
-
-                "Uruguay",
-                "Montevideo", "Canelones",
-                "B",           "18 de Mayo",   "CH",              "Aguas Corrientes",
-                "Ciudad Vieja","El Dorado",     "Pocitos"      , "-",
-                "Centro",      "Villa Alegria", "Punta Carretas","-"
-
-            };
-            int seleccionadoGral = 0;
-            int seleccionadoPos = 0;
-            if (cmbActual.SelectedValue != null)
-            {
-                seleccionadoGral = ubicaciones.IndexOf(cmbActual.SelectedValue.ToString());
-                seleccionadoPos = seleccionadoGral;
-                //MessageBox.Show(seleccionadoGral.ToString());
-            }
-            int nivel = 0;
-            int mitadDeLasUbicaciones = ubicaciones.Count() / 2;
-            bool Arg = true;
-
-
-            if (seleccionadoPos > mitadDeLasUbicaciones)
-            {
-                Arg = false;
-                seleccionadoPos -= mitadDeLasUbicaciones;
-            }
-
-
-            while (true)
-            {
-                if (seleccionadoPos + 1 <= Math.Pow(2, nivel)) break;
-                nivel++;
-            }
-            int mover = Convert.ToInt32(Math.Pow(2, nivel));
-            string[] ubicacionesProximo = new string[3];
-
-            for (int i = 1; i <= 2; i++)
-            {
-                ubicacionesProximo[i] = ubicaciones[seleccionadoGral + (i) * mover];
-                //MessageBox.Show("Esta es la posicion " + (seleccionadoGral + (i) * mover).ToString());
-            }
-            MessageBox.Show("2 a la" + nivel.ToString());
-            ubicacionesProximo[0] = "Seleccione " + cmbActual.AccessibleDescription;
-            foreach (string ubicacion in ubicacionesProximo)
-                //MessageBox.Show("La primera ubicacion que se va a agregar es" + ubicacion);
-
-                cmbSiguiente.DataSource = ubicacionesProximo;
-            cmbSiguiente.Enabled = true;
-
-
-        }
-
 
         //Eventos de los txt
         private void txtNombre_TextChanged(object sender, EventArgs e)
@@ -323,19 +217,25 @@ namespace TP_1_Heladeria
 
          * Email
          *      Puedo buscar como hacerlo con IA
-         *      Lo sigo debiendo
+         *      Lo sigo debiendo*/
+            bool esValido = Regex.IsMatch(txtEmail.Text,@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+            if (esValido)
+                MessageBox.Show("Mail valido");
+            else
+                MessageBox.Show("Gay");
+            /*
          * Genero
          *      No necesito una validacion extra. 
          *      Esta seleccionado por defecto masculino
          * Tipo de Usuario
          *      Ya esta hecho. Si no pongo un tipo valido, se bloquea el boton
          * Fecha de Nacimiento
-         *      Solo se van a poder fechas de hace 18 años, por lo que no se van a poder poner fechas futuras.
+         *      Solo se van a poder fechas hasta hace 18 años, por lo que no se van a poder poner fechas futuras.
          *      Tampoco me interesa ver hace 150 años. Es un monton, pero lo voy a frenar ahi.
          * 
          *  ////No Requeridas ////
          * 
-         * Nacionalidad, Provincia, Partido/Municipio y Localidad tienen que ser ComboBox. Cambiar.
+         * Nacionalidad, Provincia, Partido/Municipio y Localidad 
          *          Si los index son 0, que se guarde ""
          * Cod Postal
          *      Hasta 8 caracteres.
@@ -355,6 +255,7 @@ namespace TP_1_Heladeria
          * 
          */
         }
+        
 
 
         //Eventos ComboBox
