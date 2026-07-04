@@ -9,6 +9,30 @@ using System.Windows.Forms;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Text.RegularExpressions;
 
+/*
+ 
+            {
+
+                "Argentina",
+                "Buenos Aires", "Cordoba",
+                "Lomas de Zamora", "Villa Carlos Paz", "Lanus", "Cosquin",
+                "Lomas de Zamora",  "Villa Domingues", "Lanus",          "Casa Grande",
+                "Temperley",        "La Quinta",       "Valentin Alsina", "Villa Hermoso",
+
+
+
+
+                "Uruguay",
+                "Montevideo", "Canelones",
+                "B",           "18 de Mayo",   "CH",              "Aguas Corrientes",
+                "Ciudad Vieja","El Dorado",     "Pocitos"      , "-",
+                "Centro",      "Villa Alegria", "Punta Carretas","-"
+
+            }
+
+ */
+
+
 namespace TP_1_Heladeria
 {
     public partial class frmRegistrarUsuario : Form
@@ -219,10 +243,14 @@ namespace TP_1_Heladeria
          *      Puedo buscar como hacerlo con IA
          *      Lo sigo debiendo*/
             bool esValido = Regex.IsMatch(txtEmail.Text,@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
-            if (esValido)
-                MessageBox.Show("Mail valido");
-            else
-                MessageBox.Show("Gay");
+            if (!esValido)
+            {
+                MessageBox.Show("Valores no soportados en el campo Email",
+                    "Error Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtEmail.Focus();
+                return;
+            }
+                
             /*
          * Genero
          *      No necesito una validacion extra. 
@@ -236,13 +264,37 @@ namespace TP_1_Heladeria
          *  ////No Requeridas ////
          * 
          * Nacionalidad, Provincia, Partido/Municipio y Localidad 
-         *          Si los index son 0, que se guarde ""
+         *          Si los index son 0 o null, que se guarde ""
          * Cod Postal
          *      Hasta 8 caracteres.
+         *      */
+            if(txtCodPostal.Text.Length > 8) {
+                MessageBox.Show("Valores no soportados en el campo Codigo Postal",
+                        "Error CP", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtCodPostal.Focus();
+                return;
+            }
+            /*
          * Altura
-         *      Num
+         *      Num*/
+            if(!int.TryParse(txtAltura.Text, out int altura))
+            {
+                MessageBox.Show("Se esperaba un valor numerico para la Altura",
+                    "Error Altura", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtAltura.Focus();
+                return;
+            }
+            /*
          * Piso
-         *      Text
+         *      Text. Valido que no sean 2, porque por lo gral se identifica con 2 caracteres */
+            if(txtPiso.Text.Length > 2)
+            {
+                MessageBox.Show("Valores no soportados en el campo Piso",
+                        "Error Piso", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtPiso.Focus();
+                return;
+            }
+        /*
          * Departamento
          *      Text
          * 
@@ -291,7 +343,6 @@ namespace TP_1_Heladeria
             {
                 cmbProvincia.Enabled = true;
                 cmbProvincia.DataSource = provincias;
-                //MessageBox.Show(cmbNacionalidad.SelectedValue.ToString());
                 if (cmbNacionalidad.SelectedValue.ToString().ToLower() == "argentina")
                 {
                     provincias.Add("Buenos Aires");
@@ -352,27 +403,7 @@ namespace TP_1_Heladeria
 
         private void cmbPartidoMunicipio_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //AsignarDatosACmb(cmbPartidoMunicipio, cmbLocalidad);
-            List<string> ubicaciones = new List<string>
-            {
-
-                "Argentina",
-                "Buenos Aires", "Cordoba",
-                "Lomas de Zamora", "Villa Carlos Paz", "Lanus", "Cosquin",
-                "Lomas de Zamora",  "Villa Domingues", "Lanus",          "Casa Grande",
-                "Temperley",        "La Quinta",       "Valentin Alsina", "Villa Hermoso",
-
-
-
-
-                "Uruguay",
-                "Montevideo", "Canelones",
-                "B",           "18 de Mayo",   "CH",              "Aguas Corrientes",
-                "Ciudad Vieja","El Dorado",     "Pocitos"      , "-",
-                "Centro",      "Villa Alegria", "Punta Carretas","-"
-
-            };
-
+            
             BindingList<string> localidad = new BindingList<string> { cmbLocalidad.AccessibleDescription };
             
 
