@@ -57,12 +57,14 @@ namespace TP_1_Heladeria
 
 
             //Valores Test
+            /*
             txtNombre.Text = "asd";
             txtApellido.Text = "ads";
             txtDNI.Text = "12345678";
             txtTelefono.Text = "1234567890";
             txtEmail.Text = "asd@asd.asd";
             cmbTipoUsuario.SelectedIndex = 1;
+            */
         }
 
         //Eventos de los txt

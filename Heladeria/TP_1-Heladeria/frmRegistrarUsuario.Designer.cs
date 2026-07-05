@@ -484,7 +484,7 @@
             Controls.Add(grpUbicacion);
             Controls.Add(grpPersonales);
             Controls.Add(lblTitulo);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            FormBorderStyle = FormBorderStyle.None;
             Name = "frmRegistrarUsuario";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Registrar Usuario";

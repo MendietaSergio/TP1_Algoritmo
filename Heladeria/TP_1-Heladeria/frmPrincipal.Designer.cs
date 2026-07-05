@@ -107,7 +107,9 @@
             Controls.Add(btnEditarPerfil);
             Controls.Add(btnLogout);
             Controls.Add(lblBienvenida);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "frmPrincipal";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Principal";
             ResumeLayout(false);
             PerformLayout();
