@@ -77,9 +77,10 @@
             // lblTitulo
             // 
             lblTitulo.AutoSize = true;
-            lblTitulo.Location = new Point(31, 20);
+            lblTitulo.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTitulo.Location = new Point(31, 12);
             lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(114, 15);
+            lblTitulo.Size = new Size(195, 25);
             lblTitulo.TabIndex = 0;
             lblTitulo.Text = "Registro de Usuarios";
             // 
@@ -221,7 +222,7 @@
             lblTipoUsuario.AutoSize = true;
             lblTipoUsuario.Location = new Point(24, 235);
             lblTipoUsuario.Name = "lblTipoUsuario";
-            lblTipoUsuario.Size = new Size(89, 15);
+            lblTipoUsuario.Size = new Size(90, 15);
             lblTipoUsuario.TabIndex = 13;
             lblTipoUsuario.Text = "Tipo de Usuario";
             // 
@@ -247,7 +248,7 @@
             lblTelefono.AutoSize = true;
             lblTelefono.Location = new Point(32, 119);
             lblTelefono.Name = "lblTelefono";
-            lblTelefono.Size = new Size(52, 15);
+            lblTelefono.Size = new Size(53, 15);
             lblTelefono.TabIndex = 7;
             lblTelefono.Text = "Telefono";
             // 

@@ -57,6 +57,7 @@ namespace TP_1_Heladeria
             //Aca quiero volver el usuario a vacio
             Form login = new frmLogin();
             login.Show();
+            //Eventualmente, cambiar a close
             this.Hide();
         }
 

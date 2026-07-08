@@ -339,7 +339,7 @@ namespace TP_1_Heladeria
             if (cmbPartidoMunicipio.SelectedIndex > 0)
                 usuario[10] = cmbPartidoMunicipio.SelectedValue.ToString();
             usuario[11] = cmbLocalidad.SelectedIndex > 0 ? cmbLocalidad.SelectedValue.ToString() : "";
-            MessageBox.Show("Localidad " + usuario[11]);
+            //MessageBox.Show("Localidad " + usuario[11]);
             usuario[12] = txtCodPostal.Text;
             usuario[13] = txtCalle.Text;
             usuario[14] = txtAltura.Text;
@@ -375,7 +375,7 @@ namespace TP_1_Heladeria
             //Faltaria validar que no se repita el nombre de usuario
             usuario[19] = "si";
 
-            MessageBox.Show("Usuario registrado con exito");
+            MessageBox.Show("Usuario registrado con exito. La contraseña es "+ usuario[18]);
         }
 
 
@@ -536,7 +536,7 @@ namespace TP_1_Heladeria
         {
             Form principal = new frmPrincipal();
             principal.Show();
-            this.Hide();
+            this.Close();
         }
     }
 }

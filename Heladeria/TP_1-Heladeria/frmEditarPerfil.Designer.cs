@@ -28,18 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
+            textBox1 = new TextBox();
             SuspendLayout();
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(139, 148);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(100, 23);
+            textBox1.TabIndex = 0;
+            textBox1.TextChanged += textBox1_TextChanged;
             // 
             // frmEditarPerfil
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(711, 406);
+            Controls.Add(textBox1);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "frmEditarPerfil";
-            Text = "Editar Perfil";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Registrar Usuario";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private TextBox textBox1;
     }
 }

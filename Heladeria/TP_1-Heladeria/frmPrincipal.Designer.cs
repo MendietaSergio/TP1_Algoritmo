@@ -31,7 +31,6 @@
             lblBienvenida = new Label();
             btnLogout = new Button();
             btnEditarPerfil = new Button();
-            btnCambiarContrasena = new Button();
             lblUsuario = new Label();
             btnRegistrarUsuario = new Button();
             SuspendLayout();
@@ -66,16 +65,6 @@
             btnEditarPerfil.UseVisualStyleBackColor = true;
             btnEditarPerfil.Click += btnEditarPerfil_Click;
             // 
-            // btnCambiarContrasena
-            // 
-            btnCambiarContrasena.Location = new Point(272, 67);
-            btnCambiarContrasena.Name = "btnCambiarContrasena";
-            btnCambiarContrasena.Size = new Size(75, 39);
-            btnCambiarContrasena.TabIndex = 3;
-            btnCambiarContrasena.Text = "Cambiar Contraseña";
-            btnCambiarContrasena.UseVisualStyleBackColor = true;
-            btnCambiarContrasena.Click += btnCambiarContrasena_Click;
-            // 
             // lblUsuario
             // 
             lblUsuario.AutoSize = true;
@@ -103,7 +92,6 @@
             ClientSize = new Size(359, 146);
             Controls.Add(btnRegistrarUsuario);
             Controls.Add(lblUsuario);
-            Controls.Add(btnCambiarContrasena);
             Controls.Add(btnEditarPerfil);
             Controls.Add(btnLogout);
             Controls.Add(lblBienvenida);
@@ -120,7 +108,6 @@
         private Label lblBienvenida;
         private Button btnLogout;
         private Button btnEditarPerfil;
-        private Button btnCambiarContrasena;
         private Label lblUsuario;
         private Button btnRegistrarUsuario;
     }
