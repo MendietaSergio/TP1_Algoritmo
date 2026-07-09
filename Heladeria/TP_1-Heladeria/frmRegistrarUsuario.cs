@@ -37,9 +37,14 @@ namespace TP_1_Heladeria
 {
     public partial class frmRegistrarUsuario : Form
     {
-        public frmRegistrarUsuario()
+
+        public string[] usuario;
+        public List<string[]> usuarios = new List<string[]>();
+        public frmRegistrarUsuario(List<string[]> _usuarios, string[] _usuario)
         {
             InitializeComponent();
+            usuarios = _usuarios;
+            usuario = _usuario;
 
             string[] permisos = { "Seleccione el tipo de usuario", "Administrador", "Usuario" };
             BindingList<string> paises = new BindingList<string> { cmbNacionalidad.AccessibleDescription, "Argentina", "Uruguay" };
@@ -377,6 +382,12 @@ namespace TP_1_Heladeria
 
             MessageBox.Show("Usuario registrado con exito. La contraseña es "+ usuario[18]);
         }
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            Form principal = new frmPrincipal(usuarios, usuario);
+            principal.Show();
+            this.Close();
+        }
 
 
 
@@ -532,11 +543,6 @@ namespace TP_1_Heladeria
             }
         }
 
-        private void btnVolver_Click(object sender, EventArgs e)
-        {
-            Form principal = new frmPrincipal();
-            principal.Show();
-            this.Close();
-        }
+        
     }
 }

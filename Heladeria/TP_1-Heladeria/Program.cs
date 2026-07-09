@@ -12,7 +12,33 @@ namespace TP_1_Heladeria
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
             //Application.Run(new frmLogin());
-            Application.Run(new frmPrincipal());
+            string[] usuario =
+                {
+                    "Gustavo",
+                    "Martinez",
+                    "12345678",
+                    "1234567890",
+                    "gus@mar.tinez",
+                    "Masculino",
+                    //"Usuario",
+                    "Administrador",
+                    "6/12/1990",
+                    "argentina",
+                    "buenos aires",
+                    "lomas de zamora",
+                    "lomas de zamora",
+                    "1934",
+                    "Calle falsa",
+                    "123",
+                    "",
+                    "",
+                    "gmartinez678",
+                    "123456",
+                    "No"  };
+
+            List<string[]> usuarios = new List<string[]>{ usuario };
+            
+            Application.Run(new frmLogin(usuarios));
         }
     }
 }

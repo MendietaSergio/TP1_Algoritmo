@@ -8,35 +8,18 @@ using System.Windows.Forms;
 
 namespace TP_1_Heladeria
 {
+    
     public partial class frmPrincipal : Form
     {
-        public frmPrincipal()
+       
+        public string[] usuario;
+        public List<string[]> usuarios = new List<string[]>();
+        public frmPrincipal(List<string[]> _usuarios, string[] _usuario)
         {
             InitializeComponent();
-            //string[] args = Environment.GetCommandLineArgs();
-            string[] usuario =
-                {
-                    "Gustavo",
-                    "Martinez",
-                    "12345678",
-                    "1234567890",
-                    "gus@mar.tinez",
-                    "Masculino",
-                    //"Usuario",
-                    "Administrador",
-                    "6/12/1990",
-                    "argentina",
-                    "buenos aires",
-                    "lomas de zamora",
-                    "lomas de zamora",
-                    "1934",
-                    "Calle falsa",
-                    "123",
-                    "",
-                    "",
-                    "gmartinez678",
-                    "123456",
-                    "No"  };
+            usuarios = _usuarios;
+            usuario = _usuario;
+
             lblUsuario.Text = usuario[0];
             if (usuario[6].ToLower() == "administrador")
                 btnRegistrarUsuario.Visible = true;
@@ -47,7 +30,8 @@ namespace TP_1_Heladeria
 
         private void btnRegistrarUsuario_Click(object sender, EventArgs e)
         {
-            Form RegistrarUsuario = new frmRegistrarUsuario();
+            //Sacarle a Registra el usuario. No se para que necesitaria eso
+            Form RegistrarUsuario = new frmRegistrarUsuario(usuarios, usuario);
             RegistrarUsuario.Show();
             this.Hide();
         }
@@ -55,7 +39,7 @@ namespace TP_1_Heladeria
         private void btnLogout_Click(object sender, EventArgs e)
         {
             //Aca quiero volver el usuario a vacio
-            Form login = new frmLogin();
+            Form login = new frmLogin(usuarios);
             login.Show();
             //Eventualmente, cambiar a close
             this.Hide();
@@ -64,8 +48,8 @@ namespace TP_1_Heladeria
         private void btnEditarPerfil_Click(object sender, EventArgs e)
         {
             //Aca tengo que ver como pasarle los datos al proximo formulario
-            Form EditarPerfil = new frmEditarPerfil();
-            EditarPerfil.Show();
+            frmEditarPerfil frm = new frmEditarPerfil(usuarios, usuario);
+            frm.Show();
             this.Hide();
         }
 
