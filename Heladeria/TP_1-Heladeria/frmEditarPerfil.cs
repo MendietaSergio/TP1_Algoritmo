@@ -421,6 +421,8 @@ namespace TP_1_Heladeria
 
         private void btnEditarContrasena_Click(object sender, EventArgs e)
         {
+
+            //Solamente la contraseña del logeado porque hay una opcion para recuperar contraseña
             frmRecuperarContrasena frm = new frmRecuperarContrasena(usuarios, usuario);
             frm.ShowDialog();
             
