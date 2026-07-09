@@ -46,7 +46,7 @@ namespace TP_1_Heladeria
             usuarios = _usuarios;
             usuario = _usuario;
 
-            string[] permisos = { "Seleccione el tipo de usuario", "Administrador", "Usuario" };
+            string[] permisos = { cmbTipoUsuario.AccessibleDescription, "Administrador", "General" };
             BindingList<string> paises = new BindingList<string> { cmbNacionalidad.AccessibleDescription, "Argentina", "Uruguay" };
 
             cmbNacionalidad.DataSource = paises;

@@ -20,7 +20,7 @@ namespace TP_1_Heladeria
             usuarios = _usuarios;
             usuario = _usuario;
 
-            string[] permisos = { "Seleccione el tipo de usuario", "Administrador", "Usuario" };
+            string[] permisos = { cmbTipoUsuario.AccessibleDescription, "Administrador", "General" };
             BindingList<string> paises = new BindingList<string> { cmbNacionalidad.AccessibleDescription, "Argentina", "Uruguay" };
 
             cmbNacionalidad.DataSource = paises;
@@ -52,6 +52,7 @@ namespace TP_1_Heladeria
                 txtAltura.Text = usuario[14];
                 txtPiso.Text = usuario[15];
                 txtDepartamento.Text = usuario[16];
+                cmbUsuarioEditado.SelectedValue = usuario[17];
 
             }
             //Me fijo que el campo del que depende 1 campo de la ubicacion, este disponible para habilitarlo
@@ -72,7 +73,7 @@ namespace TP_1_Heladeria
                     cmbLocalidad.Enabled = false;
             }
             //Me aseguro de que todos los items esten cargados con sus longitudes correctas
-            { 
+            {
                 if (txtNombre.Text.Length > 0 &&
                    txtApellido.Text.Length > 0 &&
                    txtDNI.Text.Length > 0 &&
@@ -91,9 +92,24 @@ namespace TP_1_Heladeria
                     btnGuardarCambios.Enabled = false;
                     grpUbicacion.Enabled = false;
                 }
-            
+
             }
-            
+            //Ahora voy a bloquear los datos que no tienen que modificar los usuarios
+            if (usuario[6].ToLower() != "administrador")
+            {
+                cmbTipoUsuario.Enabled = false;
+                txtDNI.Enabled = false;
+                //Tengo que agregar un cmb para Nombre de Usuario
+                //Los datos tiene que ser readonly, pero el admin tiene que poder
+                //Cambiar de usuario, pero no modificar el nombre de usuario.
+                //Esto puedo hacerlo bloqueando el boton guardar si el selectedValue no existe en la lista de usuarios
+
+            }/*
+            else if (usuario[17]=! ){
+                //No esta todavia pero quiero agregarle que pueda cambiar de usuario para modificar
+            }*/
+
+
         }
 
 
@@ -361,10 +377,11 @@ namespace TP_1_Heladeria
              * 
              * 
              */
-            string[] usuario = new string[20];
+            //string[] usuario = new string[20];
 
-            for (int i = 0; i < usuario.Length; i++) usuario[i] = "";
+            //for (int i = 0; i < usuario.Length; i++) usuario[i] = "";
 
+            int guardarEn = usuarios.FindIndex(nom => nom[17] == usuario[17]);
             usuario[0] = txtNombre.Text;
             usuario[1] = txtApellido.Text;
             usuario[2] = txtDNI.Text;
@@ -391,38 +408,22 @@ namespace TP_1_Heladeria
             usuario[16] = txtDepartamento.Text;
 
             //Usuario
-            /*
-            El nombre se genera con inicialnombre+apellido+3 ultimos caracteres del dni
-            */
-            string inicial = "";
-            string apellido = "";
-            string nros = "";
-            string nombreUsuarioConstruido = "";
-            inicial = txtNombre.Text.Substring(0, 1).ToLower();
-            apellido = txtApellido.Text.ToLower();
-            nros = txtDNI.Text.Substring(txtDNI.Text.Length - 3, 3);
-            /*Si ya existe se le agrega _X siendo X la cantidad de veces que aparece*/
-            //Para esto, voy a contar por cada elemento de la lista de usuarios
-            //Las veces que existe en la posicon 17 el nombre recientemente generado.
-            //Si no existe, no le pongo nada. De otra forma le agrego _X
-            //siendo X la cantidad de veces que aparece.
-            //--El impedimento. No se de donde sale esa lista,
-            //tal vez seria un buen momento para crearlo, pero la necesitaria en el Login
-            //Asi que entiendo que el mejor momento seria que se cree ahi y traerlo aca para modificarlo
-            nombreUsuarioConstruido = inicial + apellido + nros;
-
-            //Contraseña
-            Random random = new Random();
-            long password = random.Next(10000000, 999999999);
-            usuario[18] = password.ToString();
-
-            //Faltaria validar que no se repita el nombre de usuario
-            usuario[19] = "no";
+            //No se tocan esos datos
 
             MessageBox.Show("Se edito el usuario exitosamente");
+
+
+            usuarios[guardarEn] = usuario;
             frmPrincipal prin = new frmPrincipal(usuarios, usuario);
             prin.Show();
             this.Hide();
+        }
+
+        private void btnEditarContrasena_Click(object sender, EventArgs e)
+        {
+            frmRecuperarContrasena frm = new frmRecuperarContrasena(usuarios, usuario);
+            frm.ShowDialog();
+            
         }
 
 

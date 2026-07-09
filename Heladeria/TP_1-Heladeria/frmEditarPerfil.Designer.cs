@@ -68,6 +68,8 @@
             lblProvincia = new Label();
             btnGuardarCambios = new Button();
             btnVolver = new Button();
+            btnEditarContrasena = new Button();
+            cmbUsuarioEditado = new ComboBox();
             grpPersonales.SuspendLayout();
             grpGenero.SuspendLayout();
             grpUbicacion.SuspendLayout();
@@ -79,9 +81,9 @@
             lblTitulo.Font = new Font("Segoe UI", 14.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTitulo.Location = new Point(31, 12);
             lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(146, 25);
+            lblTitulo.Size = new Size(163, 25);
             lblTitulo.TabIndex = 0;
-            lblTitulo.Text = "Editar Usuarios";
+            lblTitulo.Text = "Editar el Usuario:";
             // 
             // lblNombre
             // 
@@ -198,6 +200,7 @@
             // 
             // cmbTipoUsuario
             // 
+            cmbTipoUsuario.AccessibleDescription = "Seleccione el tipo de usuario";
             cmbTipoUsuario.FormattingEnabled = true;
             cmbTipoUsuario.Location = new Point(24, 253);
             cmbTipoUsuario.Name = "cmbTipoUsuario";
@@ -440,7 +443,7 @@
             // 
             btnGuardarCambios.Location = new Point(391, 349);
             btnGuardarCambios.Name = "btnGuardarCambios";
-            btnGuardarCambios.Size = new Size(329, 41);
+            btnGuardarCambios.Size = new Size(202, 41);
             btnGuardarCambios.TabIndex = 19;
             btnGuardarCambios.Text = "Guardar Cambios";
             btnGuardarCambios.UseVisualStyleBackColor = true;
@@ -456,12 +459,32 @@
             btnVolver.UseVisualStyleBackColor = true;
             btnVolver.Click += btnVolver_Click;
             // 
+            // btnEditarContrasena
+            // 
+            btnEditarContrasena.Location = new Point(599, 349);
+            btnEditarContrasena.Name = "btnEditarContrasena";
+            btnEditarContrasena.Size = new Size(121, 40);
+            btnEditarContrasena.TabIndex = 22;
+            btnEditarContrasena.Text = "Editar Clave de Acceso";
+            btnEditarContrasena.UseVisualStyleBackColor = true;
+            btnEditarContrasena.Click += btnEditarContrasena_Click;
+            // 
+            // cmbUsuarioEditado
+            // 
+            cmbUsuarioEditado.FormattingEnabled = true;
+            cmbUsuarioEditado.Location = new Point(200, 12);
+            cmbUsuarioEditado.Name = "cmbUsuarioEditado";
+            cmbUsuarioEditado.Size = new Size(201, 23);
+            cmbUsuarioEditado.TabIndex = 23;
+            // 
             // frmEditarPerfil
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightSteelBlue;
             ClientSize = new Size(747, 406);
+            Controls.Add(cmbUsuarioEditado);
+            Controls.Add(btnEditarContrasena);
             Controls.Add(btnVolver);
             Controls.Add(btnGuardarCambios);
             Controls.Add(grpUbicacion);
@@ -523,5 +546,7 @@
         private ComboBox cmbProvincia;
         private ComboBox cmbNacionalidad;
         private Button btnVolver;
+        private Button btnEditarContrasena;
+        private ComboBox cmbUsuarioEditado;
     }
 }

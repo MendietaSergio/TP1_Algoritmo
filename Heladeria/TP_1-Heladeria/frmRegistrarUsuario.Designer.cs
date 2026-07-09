@@ -201,6 +201,7 @@
             // 
             // cmbTipoUsuario
             // 
+            cmbTipoUsuario.AccessibleDescription = "Seleccione el tipo de usuario";
             cmbTipoUsuario.FormattingEnabled = true;
             cmbTipoUsuario.Location = new Point(24, 253);
             cmbTipoUsuario.Name = "cmbTipoUsuario";
