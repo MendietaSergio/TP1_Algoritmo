@@ -1,3 +1,5 @@
+using System.ComponentModel;
+
 namespace TP_1_Heladeria
 {
     internal static class Program
@@ -20,7 +22,6 @@ namespace TP_1_Heladeria
                     "1234567890",
                     "gus@mar.tinez",
                     "Masculino",
-                    //"Usuario",
                     "Administrador",
                     "6/12/1990",
                     "argentina",
@@ -34,7 +35,9 @@ namespace TP_1_Heladeria
                     "",
                     "admin001",
                     "admin123",
-                    "No"  };
+                    "No",
+                    "admin001"};
+
             string[] usuario = {
                     "Gustavo",
                     "Martinez",
@@ -43,7 +46,6 @@ namespace TP_1_Heladeria
                     "gus@mar.tinez",
                     "Masculino",
                     "General",
-                    //"Administrador",
                     "6/12/1990",
                     "argentina",
                     "buenos aires",
@@ -54,11 +56,12 @@ namespace TP_1_Heladeria
                     "123",
                     "",
                     "",
-                    "gmartinez678",
+                    "jperez123",
                     "1234",
-                    "Si"  };
+                    "Si",
+                    "jperez123"};
 
-            List<string[]> usuarios = new List<string[]>{ usuarioAdmin, usuario };
+            BindingList<string[]> usuarios = new BindingList<string[]>{ usuarioAdmin, usuario };
             
             Application.Run(new frmLogin(usuarios));
         }

@@ -13,9 +13,9 @@ namespace TP_1_Heladeria
     {
        
         public string[] usuario;
-        public List<string[]> usuarios = new List<string[]>();
+        public BindingList<string[]> usuarios = new BindingList<string[]>();
         int indiceLogeado;
-        public frmPrincipal(List<string[]> _usuarios, int _indiceLogeado)
+        public frmPrincipal(BindingList<string[]> _usuarios, int _indiceLogeado)
         {
             InitializeComponent();
             usuarios = _usuarios;
@@ -36,23 +36,17 @@ namespace TP_1_Heladeria
             RegistrarUsuario.Show();
             this.Hide();
         }
-
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            //Aca quiero volver el usuario a vacio
             Form login = new frmLogin(usuarios);
             login.Show();
-            //Eventualmente, cambiar a close
             this.Hide();
         }
-
         private void btnEditarPerfil_Click(object sender, EventArgs e)
         {
-            //Aca tengo que ver como pasarle los datos al proximo formulario
-            frmEditarPerfil frm = new frmEditarPerfil(usuarios, usuario);
+            frmEditarPerfil frm = new frmEditarPerfil(usuarios, indiceLogeado);
             frm.Show();
             this.Hide();
         }
-
     }
 }

@@ -11,52 +11,61 @@ namespace TP_1_Heladeria
 {
     public partial class frmEditarPerfil : Form
     {
-        public string[] usuario;
-        public List<string[]> usuarios = new List<string[]>();
-        int indice;
-        public frmEditarPerfil(List<string[]> _usuarios, string[] _usuario)
+        public string[] usuarioLogeado;
+        public string[] usuarioEditando;
+        public BindingList<string[]> usuarios = new BindingList<string[]>();
+        int indiceLogeado;
+        public frmEditarPerfil(BindingList<string[]> _usuarios, int _indiceLogeado)
         {
 
             InitializeComponent();
 
             usuarios = _usuarios;
-            usuario = _usuario;
+            indiceLogeado = _indiceLogeado;
 
-            indice = usuarios.IndexOf(usuario);
+            usuarioLogeado = usuarios[indiceLogeado];
+            usuarioEditando = usuarioLogeado;
 
             string[] permisos = { cmbTipoUsuario.AccessibleDescription, "Administrador", "General" };
             BindingList<string> paises = new BindingList<string> { cmbNacionalidad.AccessibleDescription, "Argentina", "Uruguay" };
+            BindingList<string> nombreUsuarios = new BindingList<string>();
 
+            foreach (string[] usuarioActual in usuarios) nombreUsuarios.Add(usuarioActual[17]);
+
+
+
+            cmbUsuarioEditado.DataSource = nombreUsuarios;
             cmbNacionalidad.DataSource = paises;
             cmbTipoUsuario.DataSource = permisos;
 
             //Carga de datos
             {
 
-                txtNombre.Text = usuario[0];
-                txtApellido.Text = usuario[1];
-                txtDNI.Text = usuario[2];
-                txtTelefono.Text = usuario[3];
-                txtEmail.Text = usuario[4];
+                txtNombre.Text = usuarioEditando[0];
+                txtApellido.Text = usuarioEditando[1];
+                txtDNI.Text = usuarioEditando[2];
+                txtTelefono.Text = usuarioEditando[3];
+                txtEmail.Text = usuarioEditando[4];
 
-                if (usuario[5].ToLower() == "masculino")
+                if (usuarioEditando[5].ToLower() == "masculino")
                     rdbMasculino.Checked = true;
                 else
                     rdbFemenino.Checked = true;
 
 
-                cmbTipoUsuario.Text = usuario[6];
-                dtpFecNac.Text = usuario[7];
-                cmbNacionalidad.Text = usuario[8];
-                cmbProvincia.Text = usuario[9];
-                cmbPartidoMunicipio.Text = usuario[10];
-                cmbLocalidad.Text = usuario[11];
-                txtCodPostal.Text = usuario[12];
-                txtCalle.Text = usuario[13];
-                txtAltura.Text = usuario[14];
-                txtPiso.Text = usuario[15];
-                txtDepartamento.Text = usuario[16];
-                cmbUsuarioEditado.SelectedValue = usuario[17];
+                cmbTipoUsuario.Text = usuarioEditando[6];
+                dtpFecNac.Text = usuarioEditando[7];
+                cmbNacionalidad.Text = usuarioEditando[8];
+                cmbProvincia.Text = usuarioEditando[9];
+                cmbPartidoMunicipio.Text = usuarioEditando[10];
+                cmbLocalidad.Text = usuarioEditando[11];
+                txtCodPostal.Text = usuarioEditando[12];
+                txtCalle.Text = usuarioEditando[13];
+                txtAltura.Text = usuarioEditando[14];
+                txtPiso.Text = usuarioEditando[15];
+                txtDepartamento.Text = usuarioEditando[16];
+                cmbUsuarioEditado.SelectedIndex = indiceLogeado;
+
 
             }
             //Me fijo que el campo del que depende 1 campo de la ubicacion, este disponible para habilitarlo
@@ -99,32 +108,21 @@ namespace TP_1_Heladeria
 
             }
             //Ahora voy a bloquear los datos que no tienen que modificar los usuarios
-            if (usuario[6].ToLower() != "administrador")
+            if (usuarioLogeado[6].ToLower() != "administrador")
             {
                 cmbTipoUsuario.Enabled = false;
                 txtDNI.Enabled = false;
-                //Tengo que agregar un cmb para Nombre de Usuario
-                //Los datos tiene que ser readonly, pero el admin tiene que poder
-                //Cambiar de usuario, pero no modificar el nombre de usuario.
-                //Esto puedo hacerlo bloqueando el boton guardar si el selectedValue no existe en la lista de usuarios
+                cmbUsuarioEditado.Enabled = false;
+            }
 
-            }/*
-            else if (usuario[17]=! ){
-                //No esta todavia pero quiero agregarle que pueda cambiar de usuario para modificar
-            }*/
-
+            dtpFecNac.MaxDate = DateTime.Today.AddYears(-18);
+            dtpFecNac.MinDate = DateTime.Today.AddYears(-150);
 
         }
 
 
-        private void btnVolver_Click(object sender, EventArgs e)
-        {
-            frmPrincipal principal = new frmPrincipal(usuarios, indice);
-            principal.Show();
-            this.Hide();
-        }
 
-
+        //Eventos Combo
         private void cmbNacionalidad_SelectedIndexChanged(object sender, EventArgs e)
         {
             BindingList<string> provincias = new BindingList<string> { cmbProvincia.AccessibleDescription };
@@ -248,6 +246,70 @@ namespace TP_1_Heladeria
             }
 
         }
+        private void cmbTipoUsuario_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (txtNombre.Text.Length > 0 &&
+               txtApellido.Text.Length > 0 &&
+               txtDNI.Text.Length > 0 &&
+               txtTelefono.Text.Length > 0 &&
+               txtEmail.Text.Length > 0 &&
+               (cmbTipoUsuario.SelectedIndex == 1
+               ||
+               cmbTipoUsuario.SelectedIndex == 2))
+            {
+                btnGuardarCambios.Enabled = true;
+                grpUbicacion.Enabled = true;
+
+            }
+            else
+            {
+                btnGuardarCambios.Enabled = false;
+                grpUbicacion.Enabled = false;
+            }
+        }
+        private void cmbUsuarioEditado_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            usuarioEditando = usuarios[cmbUsuarioEditado.SelectedIndex];
+            //Carga de datos
+            {
+
+                txtNombre.Text = usuarioEditando[0];
+                txtApellido.Text = usuarioEditando[1];
+                txtDNI.Text = usuarioEditando[2];
+                txtTelefono.Text = usuarioEditando[3];
+                txtEmail.Text = usuarioEditando[4];
+
+                if (usuarioEditando[5].ToLower() == "masculino")
+                    rdbMasculino.Checked = true;
+                else
+                    rdbFemenino.Checked = true;
+
+
+                cmbTipoUsuario.Text = usuarioEditando[6];
+                dtpFecNac.Text = usuarioEditando[7];
+                cmbNacionalidad.Text = usuarioEditando[8];
+                cmbProvincia.Text = usuarioEditando[9];
+                cmbPartidoMunicipio.Text = usuarioEditando[10];
+                cmbLocalidad.Text = usuarioEditando[11];
+                txtCodPostal.Text = usuarioEditando[12];
+                txtCalle.Text = usuarioEditando[13];
+                txtAltura.Text = usuarioEditando[14];
+                txtPiso.Text = usuarioEditando[15];
+                txtDepartamento.Text = usuarioEditando[16];
+
+                if (indiceLogeado != usuarios.IndexOf(usuarioEditando))
+                    btnEditarContrasena.Enabled = false;
+                else
+                    btnEditarContrasena.Enabled = true;
+
+
+
+
+            }
+
+        }
+
+        //Eventos txt
         private void txtNombre_TextChanged(object sender, EventArgs e)
         {
             if (txtNombre.Text.Length > 0 &&
@@ -268,6 +330,99 @@ namespace TP_1_Heladeria
                 btnGuardarCambios.Enabled = false;
                 grpUbicacion.Enabled = false;
             }
+        }
+        private void txtApellido_TextChanged(object sender, EventArgs e)
+        {
+            if (txtNombre.Text.Length > 0 &&
+               txtApellido.Text.Length > 0 &&
+               txtDNI.Text.Length > 0 &&
+               txtTelefono.Text.Length > 0 &&
+               txtEmail.Text.Length > 0 &&
+               (cmbTipoUsuario.SelectedIndex == 1
+               ||
+               cmbTipoUsuario.SelectedIndex == 2))
+            {
+                btnGuardarCambios.Enabled = true;
+                grpUbicacion.Enabled = true;
+
+            }
+            else
+            {
+                btnGuardarCambios.Enabled = false;
+                grpUbicacion.Enabled = false;
+            }
+        }
+        private void txtDNI_TextChanged(object sender, EventArgs e)
+        {
+            if (txtNombre.Text.Length > 0 &&
+               txtApellido.Text.Length > 0 &&
+               txtDNI.Text.Length > 0 &&
+               txtTelefono.Text.Length > 0 &&
+               txtEmail.Text.Length > 0 &&
+               (cmbTipoUsuario.SelectedIndex == 1
+               ||
+               cmbTipoUsuario.SelectedIndex == 2))
+            {
+                btnGuardarCambios.Enabled = true;
+                grpUbicacion.Enabled = true;
+
+            }
+            else
+            {
+                btnGuardarCambios.Enabled = false;
+                grpUbicacion.Enabled = false;
+            }
+        }
+        private void txtTelefono_TextChanged(object sender, EventArgs e)
+        {
+            if (txtNombre.Text.Length > 0 &&
+               txtApellido.Text.Length > 0 &&
+               txtDNI.Text.Length > 0 &&
+               txtTelefono.Text.Length > 0 &&
+               txtEmail.Text.Length > 0 &&
+               (cmbTipoUsuario.SelectedIndex == 1
+               ||
+               cmbTipoUsuario.SelectedIndex == 2))
+            {
+                btnGuardarCambios.Enabled = true;
+                grpUbicacion.Enabled = true;
+
+            }
+            else
+            {
+                btnGuardarCambios.Enabled = false;
+                grpUbicacion.Enabled = false;
+            }
+        }
+        private void txtEmail_TextChanged(object sender, EventArgs e)
+        {
+            if (txtNombre.Text.Length > 0 &&
+               txtApellido.Text.Length > 0 &&
+               txtDNI.Text.Length > 0 &&
+               txtTelefono.Text.Length > 0 &&
+               txtEmail.Text.Length > 0 &&
+               (cmbTipoUsuario.SelectedIndex == 1
+               ||
+               cmbTipoUsuario.SelectedIndex == 2))
+            {
+                btnGuardarCambios.Enabled = true;
+                grpUbicacion.Enabled = true;
+
+            }
+            else
+            {
+                btnGuardarCambios.Enabled = false;
+                grpUbicacion.Enabled = false;
+            }
+        }
+
+
+        //Eventos Botones
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            frmPrincipal principal = new frmPrincipal(usuarios, indiceLogeado);
+            principal.Show();
+            this.Hide();
         }
         private void btnAceptar_Click(object sender, EventArgs e)
         {
@@ -352,9 +507,17 @@ namespace TP_1_Heladeria
             /*
          * Altura
          *      Num*/
-            if (!int.TryParse(txtAltura.Text, out int altura) && (txtAltura.Text != ""))
+            int altura = 0;
+            if (!int.TryParse(txtAltura.Text, out altura) && (txtAltura.Text != ""))
             {
                 MessageBox.Show("Se esperaba un valor numerico para la Altura",
+                    "Error Altura", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtAltura.Focus();
+                return;
+            }
+            if (altura <= 0)
+            {
+                MessageBox.Show("Se esperaba un valor positivo para la Altura",
                     "Error Altura", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtAltura.Focus();
                 return;
@@ -372,44 +535,32 @@ namespace TP_1_Heladeria
             /*
              * Departamento
              *      Text
-             * 
-             * 
-             * 
-             *   
-             * Una vez que pase todas las validaciones, 
-             * deberia simular una carga. Lo vamos a hacer con un array de string,
-             * 
-             * 
              */
-            //string[] usuario = new string[20];
 
-            //for (int i = 0; i < usuario.Length; i++) usuario[i] = "";
-
-            int guardarEn = usuarios.FindIndex(nom => nom[17] == usuario[17]);
-            usuario[0] = txtNombre.Text;
-            usuario[1] = txtApellido.Text;
-            usuario[2] = txtDNI.Text;
-            usuario[3] = txtTelefono.Text;
-            usuario[4] = txtEmail.Text;
+            int guardarEn = usuarios.ToList().FindIndex(nombreCuenta => nombreCuenta[17] == usuarioEditando[17]);
+            usuarioEditando[0] = txtNombre.Text;
+            usuarioEditando[1] = txtApellido.Text;
+            usuarioEditando[2] = txtDNI.Text;
+            usuarioEditando[3] = txtTelefono.Text;
+            usuarioEditando[4] = txtEmail.Text;
             if (rdbMasculino.Checked)
-                usuario[5] = "Masculino";
+                usuarioEditando[5] = "Masculino";
             else
-                usuario[5] = "Femenino";
-            usuario[6] = cmbTipoUsuario.SelectedValue.ToString();
-            usuario[7] = dtpFecNac.Text;
+                usuarioEditando[5] = "Femenino";
+            usuarioEditando[6] = cmbTipoUsuario.SelectedValue.ToString();
+            usuarioEditando[7] = dtpFecNac.Text;
             if (cmbNacionalidad.SelectedIndex > 0)
-                usuario[8] = cmbNacionalidad.SelectedValue.ToString();
+                usuarioEditando[8] = cmbNacionalidad.SelectedValue.ToString();
             if (cmbProvincia.SelectedIndex > 0)
-                usuario[9] = cmbProvincia.SelectedValue.ToString();
+                usuarioEditando[9] = cmbProvincia.SelectedValue.ToString();
             if (cmbPartidoMunicipio.SelectedIndex > 0)
-                usuario[10] = cmbPartidoMunicipio.SelectedValue.ToString();
-            usuario[11] = cmbLocalidad.SelectedIndex > 0 ? cmbLocalidad.SelectedValue.ToString() : "";
-            //MessageBox.Show("Localidad " + usuario[11]);
-            usuario[12] = txtCodPostal.Text;
-            usuario[13] = txtCalle.Text;
-            usuario[14] = txtAltura.Text;
-            usuario[15] = txtPiso.Text;
-            usuario[16] = txtDepartamento.Text;
+                usuarioEditando[10] = cmbPartidoMunicipio.SelectedValue.ToString();
+            usuarioEditando[11] = cmbLocalidad.SelectedIndex > 0 ? cmbLocalidad.SelectedValue.ToString() : "";
+            usuarioEditando[12] = txtCodPostal.Text;
+            usuarioEditando[13] = txtCalle.Text;
+            usuarioEditando[14] = txtAltura.Text;
+            usuarioEditando[15] = txtPiso.Text;
+            usuarioEditando[16] = txtDepartamento.Text;
 
             //Usuario
             //No se tocan esos datos
@@ -417,24 +568,20 @@ namespace TP_1_Heladeria
             MessageBox.Show("Se edito el usuario exitosamente");
 
 
-            usuarios[guardarEn] = usuario;
-            frmPrincipal prin = new frmPrincipal(usuarios, indice);
+            usuarios[guardarEn] = usuarioEditando;
+            frmPrincipal prin = new frmPrincipal(usuarios, indiceLogeado);
             prin.Show();
             this.Hide();
         }
-
         private void btnEditarContrasena_Click(object sender, EventArgs e)
         {
 
             //Solamente la contraseña del logeado porque hay una opcion para recuperar contraseña
-            frmRecuperarContrasena frm = new frmRecuperarContrasena(usuarios, usuario);
+            frmRecuperarContrasena frm = new frmRecuperarContrasena(usuarios, usuarioLogeado);
             frm.ShowDialog();
-            
+
         }
 
-
-        ///////////////////////////////////////////////////////////////
-
-
+        
     }
 }

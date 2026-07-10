@@ -8,7 +8,6 @@ using System.Text;
 using System.Windows.Forms;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Text.RegularExpressions;
-
 /*
  
             {
@@ -33,16 +32,16 @@ using System.Text.RegularExpressions;
  */
 
 
+
 namespace TP_1_Heladeria
 {
     public partial class frmRegistrarUsuario : Form
     {
 
-        //public string[] usuario;
-        public List<string[]> usuarios = new List<string[]>();
+        public BindingList<string[]> usuarios = new BindingList<string[]>();
         int indice;
 
-        public frmRegistrarUsuario(List<string[]> _usuarios, int _indice)
+        public frmRegistrarUsuario(BindingList<string[]> _usuarios, int _indice)
         {
             InitializeComponent();
             usuarios = _usuarios;
@@ -57,22 +56,12 @@ namespace TP_1_Heladeria
             dtpFecNac.MaxDate = DateTime.Today.AddYears(-18);
             dtpFecNac.MinDate = DateTime.Today.AddYears(-150);
 
-
             cmbProvincia.Enabled = false;
             cmbPartidoMunicipio.Enabled = false;
             cmbLocalidad.Enabled = false;
 
-
-            //Valores Test
-            /*
-            txtNombre.Text = "asd";
-            txtApellido.Text = "ads";
-            txtDNI.Text = "12345678";
-            txtTelefono.Text = "1234567890";
-            txtEmail.Text = "asd@asd.asd";
-            cmbTipoUsuario.SelectedIndex = 1;
-            */
         }
+
 
         //Eventos de los txt
         private void txtNombre_TextChanged(object sender, EventArgs e)
@@ -96,7 +85,6 @@ namespace TP_1_Heladeria
                 grpUbicacion.Enabled = false;
             }
         }
-
         private void txtApellido_TextChanged(object sender, EventArgs e)
         {
             if (txtNombre.Text.Length > 0 &&
@@ -118,7 +106,6 @@ namespace TP_1_Heladeria
                 grpUbicacion.Enabled = false;
             }
         }
-
         private void txtDNI_TextChanged(object sender, EventArgs e)
         {
             if (txtNombre.Text.Length > 0 &&
@@ -140,7 +127,6 @@ namespace TP_1_Heladeria
                 grpUbicacion.Enabled = false;
             }
         }
-
         private void txtTelefono_TextChanged(object sender, EventArgs e)
         {
             if (txtNombre.Text.Length > 0 &&
@@ -162,7 +148,6 @@ namespace TP_1_Heladeria
                 grpUbicacion.Enabled = false;
             }
         }
-
         private void txtEmail_TextChanged(object sender, EventArgs e)
         {
             if (txtNombre.Text.Length > 0 &&
@@ -184,9 +169,6 @@ namespace TP_1_Heladeria
                 grpUbicacion.Enabled = false;
             }
         }
-
-
-
 
 
         //Eventos Botones
@@ -211,16 +193,15 @@ namespace TP_1_Heladeria
             rdbMasculino.Checked = true;
             txtNombre.Focus();
         }
-
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            //Aca tengo que meter las validaciones.
+            
             /*
              * ////Requeridas ////
              * Nombre y Apellido, 
              *      no llevan validacion extra. Con lo que puse para que se bloquee el boton, estamos bien.
              * DNI
-             *      Validar que la longitud sea menor a 8 y que sea numerio*/
+             *      Validar que la longitud sea menor a 8 y que sea numerio positivo*/
             int DNI = 0;
             if (!int.TryParse(txtDNI.Text, out DNI))
             {
@@ -295,9 +276,17 @@ namespace TP_1_Heladeria
             /*
          * Altura
          *      Num*/
-            if (!int.TryParse(txtAltura.Text, out int altura) && (txtAltura.Text != ""))
+            int altura=0;
+            if (!int.TryParse(txtAltura.Text, out altura) && (txtAltura.Text != ""))
             {
                 MessageBox.Show("Se esperaba un valor numerico para la Altura",
+                    "Error Altura", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtAltura.Focus();
+                return;
+            }
+            if (altura <= 0)
+            {
+                MessageBox.Show("Se esperaba un valor positivo para la Altura",
                     "Error Altura", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtAltura.Focus();
                 return;
@@ -314,49 +303,39 @@ namespace TP_1_Heladeria
             }
             /*
              * Departamento
-             *      Text
-             * 
-             * 
-             * 
-             *   
-             * Una vez que pase todas las validaciones, 
-             * deberia simular una carga. Lo vamos a hacer con un array de string,
-             * 
-             * 
+             *      Text, no tiene validacion
              */
-            string[] usuario = new string[20];
 
-            for (int i = 0; i < usuario.Length; i++) usuario[i] = "";
+            string[] usuarioNuevo = new string[21];
 
-            usuario[0] = txtNombre.Text;
-            usuario[1] = txtApellido.Text;
-            usuario[2] = txtDNI.Text;
-            usuario[3] = txtTelefono.Text;
-            usuario[4] = txtEmail.Text;
+            for (int i = 0; i < usuarioNuevo.Length; i++) usuarioNuevo[i] = "";
+
+            usuarioNuevo[0] = txtNombre.Text;
+            usuarioNuevo[1] = txtApellido.Text;
+            usuarioNuevo[2] = txtDNI.Text;
+            usuarioNuevo[3] = txtTelefono.Text;
+            usuarioNuevo[4] = txtEmail.Text;
             if (rdbMasculino.Checked)
-                usuario[5] = "Masculino";
+                usuarioNuevo[5] = "Masculino";
             else
-                usuario[5] = "Femenino";
-            usuario[6] = cmbTipoUsuario.SelectedValue.ToString();
-            usuario[7] = dtpFecNac.Text;
+                usuarioNuevo[5] = "Femenino";
+            usuarioNuevo[6] = cmbTipoUsuario.SelectedValue.ToString();
+            usuarioNuevo[7] = dtpFecNac.Text;
             if (cmbNacionalidad.SelectedIndex > 0)
-                usuario[8] = cmbNacionalidad.SelectedValue.ToString();
+                usuarioNuevo[8] = cmbNacionalidad.SelectedValue.ToString();
             if (cmbProvincia.SelectedIndex > 0)
-                usuario[9] = cmbProvincia.SelectedValue.ToString();
+                usuarioNuevo[9] = cmbProvincia.SelectedValue.ToString();
             if (cmbPartidoMunicipio.SelectedIndex > 0)
-                usuario[10] = cmbPartidoMunicipio.SelectedValue.ToString();
-            usuario[11] = cmbLocalidad.SelectedIndex > 0 ? cmbLocalidad.SelectedValue.ToString() : "";
-            //MessageBox.Show("Localidad " + usuario[11]);
-            usuario[12] = txtCodPostal.Text;
-            usuario[13] = txtCalle.Text;
-            usuario[14] = txtAltura.Text;
-            usuario[15] = txtPiso.Text;
-            usuario[16] = txtDepartamento.Text;
+                usuarioNuevo[10] = cmbPartidoMunicipio.SelectedValue.ToString();
+            usuarioNuevo[11] = cmbLocalidad.SelectedIndex > 0 ? cmbLocalidad.SelectedValue.ToString() : "";
+            usuarioNuevo[12] = txtCodPostal.Text;
+            usuarioNuevo[13] = txtCalle.Text;
+            usuarioNuevo[14] = txtAltura.Text;
+            usuarioNuevo[15] = txtPiso.Text;
+            usuarioNuevo[16] = txtDepartamento.Text;
 
             //Usuario
-            /*
-            El nombre se genera con inicialnombre+apellido+3 ultimos caracteres del dni
-            */
+            //El nombre se genera con inicialnombre+apellido+3 ultimos caracteres del dni
             string inicial = "";
             string apellido = "";
             string nros = "";
@@ -364,25 +343,34 @@ namespace TP_1_Heladeria
             inicial = txtNombre.Text.Substring(0, 1).ToLower();
             apellido = txtApellido.Text.ToLower();
             nros = txtDNI.Text.Substring(txtDNI.Text.Length - 3, 3);
-            /*Si ya existe se le agrega _X siendo X la cantidad de veces que aparece*/
-            //Para esto, voy a contar por cada elemento de la lista de usuarios
-            //Las veces que existe en la posicon 17 el nombre recientemente generado.
-            //Si no existe, no le pongo nada. De otra forma le agrego _X
-            //siendo X la cantidad de veces que aparece.
-            //--El impedimento. No se de donde sale esa lista,
-            //tal vez seria un buen momento para crearlo, pero la necesitaria en el Login
-            //Asi que entiendo que el mejor momento seria que se cree ahi y traerlo aca para modificarlo
+
             nombreUsuarioConstruido = inicial + apellido + nros;
+
+            int cantVeces = 1;
+            //Tengo que guardar el dato con el que voy a comparar las proximas cuentas, sin la modificacion
+            //En el 17 sigo guardando la cuenta. En el 19, voy a guardar inicialnombre+apellido+3 ultimos caracteres del dni
+            foreach (string[] usuario in usuarios)
+                if (usuario[20] == nombreUsuarioConstruido)
+                    cantVeces++;
+
+            usuarioNuevo[20] = nombreUsuarioConstruido;
+
+
+            if (cantVeces > 1)
+                nombreUsuarioConstruido = nombreUsuarioConstruido + "_" + cantVeces;
+
+            usuarioNuevo[17] = nombreUsuarioConstruido;
 
             //Contraseña
             Random random = new Random();
             long password = random.Next(10000000, 999999999);
-            usuario[18] = password.ToString();
+            usuarioNuevo[18] = password.ToString();
 
-            //Faltaria validar que no se repita el nombre de usuario
-            usuario[19] = "si";
+            usuarioNuevo[19] = "si";
 
-            MessageBox.Show("Usuario registrado con exito. La contraseña es "+ usuario[18]);
+            usuarios.Add(usuarioNuevo);
+
+            MessageBox.Show("Usuario registrado con exito. La contraseña es "+ usuarioNuevo[18]);
         }
         private void btnVolver_Click(object sender, EventArgs e)
         {
@@ -415,7 +403,6 @@ namespace TP_1_Heladeria
                 grpUbicacion.Enabled = false;
             }
         }
-
         private void cmbNacionalidad_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -445,7 +432,6 @@ namespace TP_1_Heladeria
             }
 
         }
-
         private void cmbProvincia_SelectedIndexChanged(object sender, EventArgs e)
         {
             BindingList<string> municipio = new BindingList<string> { cmbPartidoMunicipio.AccessibleDescription };
@@ -483,7 +469,6 @@ namespace TP_1_Heladeria
             }
 
         }
-
         private void cmbPartidoMunicipio_SelectedIndexChanged(object sender, EventArgs e)
         {
 

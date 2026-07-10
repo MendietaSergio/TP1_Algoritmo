@@ -39,6 +39,7 @@
             txtUsuario = new TextBox();
             linkOldPass = new LinkLabel();
             lblError = new Label();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)imgHide1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)imgShow1).BeginInit();
             SuspendLayout();
@@ -145,11 +146,22 @@
             lblError.TabIndex = 23;
             lblError.Text = "Error:";
             // 
+            // button1
+            // 
+            button1.Location = new Point(323, 86);
+            button1.Name = "button1";
+            button1.Size = new Size(75, 23);
+            button1.TabIndex = 26;
+            button1.Text = "test";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // frmLogin
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(410, 367);
+            Controls.Add(button1);
             Controls.Add(lblError);
             Controls.Add(linkOldPass);
             Controls.Add(imgHide1);
@@ -183,5 +195,6 @@
         private TextBox txtUsuario;
         private LinkLabel linkOldPass;
         private Label lblError;
+        private Button button1;
     }
 }

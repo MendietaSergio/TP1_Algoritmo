@@ -1,13 +1,14 @@
+using System.ComponentModel;
+
 namespace TP_1_Heladeria
 {
     public partial class frmLogin : Form
     {
         public int indiceUsuario;
-        public List<string[]> usuarios = new List<string[]>();
+        public BindingList<string[]> usuarios = new BindingList<string[]>();
 
 
-        // Constructor con parámetros (cuando vuelve a loguear desde frmPrincipal)
-        public frmLogin(List<string[]> _usuarios)
+        public frmLogin(BindingList<string[]> _usuarios)
         {
             InitializeComponent();
             imgHide1.Visible = true;
@@ -96,6 +97,12 @@ namespace TP_1_Heladeria
             //aca va lo del cambio de contraseña
         }
 
-
+        private void button1_Click(object sender, EventArgs e)
+        {
+            frmPrincipal frmPrincipal = new frmPrincipal(usuarios, 0);
+            this.Hide();
+            frmPrincipal.Show();
+            return;
+        }
     }
 }
