@@ -11,7 +11,56 @@ namespace TP_1_Heladeria
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new frmLogin());
+            //Application.Run(new frmLogin());
+            string[] usuarioAdmin =
+                {
+                    "Gustavo",
+                    "Martinez",
+                    "12345678",
+                    "1234567890",
+                    "gus@mar.tinez",
+                    "Masculino",
+                    //"Usuario",
+                    "Administrador",
+                    "6/12/1990",
+                    "argentina",
+                    "buenos aires",
+                    "lomas de zamora",
+                    "lomas de zamora",
+                    "1934",
+                    "Calle falsa",
+                    "123",
+                    "",
+                    "",
+                    "admin001",
+                    "admin123",
+                    "No"  };
+            string[] usuario = {
+                    "Gustavo",
+                    "Martinez",
+                    "12345678",
+                    "1234567890",
+                    "gus@mar.tinez",
+                    "Masculino",
+                    "General",
+                    //"Administrador",
+                    "6/12/1990",
+                    "argentina",
+                    "buenos aires",
+                    "lomas de zamora",
+                    "lomas de zamora",
+                    "1934",
+                    "Calle falsa",
+                    "123",
+                    "",
+                    "",
+                    "gmartinez678",
+                    "1234",
+                    "Si"  };
+
+            List<string[]> usuarios = new List<string[]>{ usuarioAdmin, usuario };
+            
+            Application.Run(new frmLogin(usuarios));
         }
     }
 }

@@ -168,6 +168,7 @@
             Controls.Add(lblContrasenia);
             Controls.Add(lblUsuario);
             Name = "frmLogin";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Login";
             ((System.ComponentModel.ISupportInitialize)imgHide1).EndInit();
             ((System.ComponentModel.ISupportInitialize)imgShow1).EndInit();

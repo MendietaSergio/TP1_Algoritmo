@@ -10,10 +10,10 @@ namespace TP_1_Heladeria
 {
     public partial class frmCambioContrasena : Form
     {
-        List<string[]> listaUsuarios = new List<string[]>();
-        int indiceUsuario;
+        public int indiceUsuario;
+        public List<string[]> usuarios = new List<string[]>();
 
-        public frmCambioContrasena(List<string[]> ListaUsuarios, int indiceUsuario)
+        public frmCambioContrasena(List<string[]> _usuarios, int indiceUsuario)
         {
             InitializeComponent();
             imgHide1.Visible = true;
@@ -21,8 +21,8 @@ namespace TP_1_Heladeria
             imgHide2.Visible = true;
             imgShow2.Visible = false;
             lblError.Visible = false;
-            listaUsuarios = ListaUsuarios;
-            this.indiceUsuario = indiceUsuario;
+            usuarios = _usuarios;
+            indiceUsuario = indiceUsuario;
         }
 
         private void imgShow1_Click(object sender, EventArgs e)
@@ -100,13 +100,13 @@ namespace TP_1_Heladeria
 
                 return;
             }
-            listaUsuarios[indiceUsuario][18] = txtPass.Text;
-            listaUsuarios[indiceUsuario][19] = "no";
+            usuarios[indiceUsuario][18] = txtPass.Text;
+            usuarios[indiceUsuario][19] = "no";
             MessageBox.Show(
                 "¡La contraseña se generó exitosamente!",
                     "Cambio guardado", MessageBoxButtons.OK, MessageBoxIcon.Information
                     );
-            frmPrincipal frmPrincipal = new frmPrincipal(ListaUsuarios: listaUsuarios);
+            frmPrincipal frmPrincipal = new frmPrincipal(usuarios, indiceUsuario);
             frmPrincipal.Show();
             this.Close();
             return;
