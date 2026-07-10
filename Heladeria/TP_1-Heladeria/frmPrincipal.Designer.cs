@@ -28,18 +28,32 @@
         /// </summary>
         private void InitializeComponent()
         {
+            btnCerraSesion = new Button();
             SuspendLayout();
+            // 
+            // btnCerraSesion
+            // 
+            btnCerraSesion.Location = new Point(606, 53);
+            btnCerraSesion.Name = "btnCerraSesion";
+            btnCerraSesion.Size = new Size(135, 23);
+            btnCerraSesion.TabIndex = 0;
+            btnCerraSesion.Text = "Cerrar Sesion";
+            btnCerraSesion.UseVisualStyleBackColor = true;
+            btnCerraSesion.Click += btnCerraSesion_Click;
             // 
             // frmPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnCerraSesion);
             Name = "frmPrincipal";
             Text = "Principal";
             ResumeLayout(false);
         }
 
         #endregion
+
+        private Button btnCerraSesion;
     }
 }

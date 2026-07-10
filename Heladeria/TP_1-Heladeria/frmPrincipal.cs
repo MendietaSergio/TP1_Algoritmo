@@ -10,9 +10,19 @@ namespace TP_1_Heladeria
 {
     public partial class frmPrincipal : Form
     {
-        public frmPrincipal()
+        List<string[]> listaUsuarios = new List<string[]>();
+
+        public frmPrincipal(List<string[]> ListaUsuarios)
         {
             InitializeComponent();
+            listaUsuarios = ListaUsuarios;
+        }
+
+        private void btnCerraSesion_Click(object sender, EventArgs e)
+        {
+            frmLogin frmLogin = new frmLogin(ListaUsuarios: listaUsuarios);
+            frmLogin.Show();
+            this.Close();
         }
     }
 }
