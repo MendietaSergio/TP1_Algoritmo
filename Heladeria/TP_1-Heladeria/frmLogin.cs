@@ -15,7 +15,7 @@ namespace TP_1_Heladeria
             lblError.Visible = false;
             usuarios = _usuarios;
 
-        }      
+        }
 
         private void btnInicioSesion_Click(object sender, EventArgs e)
         {
@@ -50,7 +50,7 @@ namespace TP_1_Heladeria
                             frmCambioContrasena frmCambioContrasenia = new frmCambioContrasena(usuarios, indiceUsuario);
                             this.Hide();
                             frmCambioContrasenia.ShowDialog();
-                            
+
                             return;
                         }
                         else
@@ -73,7 +73,7 @@ namespace TP_1_Heladeria
 
         private void btnSalir_Click(object sender, EventArgs e)
         {
-    
+
             Application.Exit();
         }
 
@@ -95,5 +95,7 @@ namespace TP_1_Heladeria
         {
             //aca va lo del cambio de contraseña
         }
+
+
     }
 }

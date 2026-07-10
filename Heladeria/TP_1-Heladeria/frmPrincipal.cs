@@ -12,15 +12,18 @@ namespace TP_1_Heladeria
     public partial class frmPrincipal : Form
     {
        
-        public int indiceUsuario;
+        public string[] usuario;
         public List<string[]> usuarios = new List<string[]>();
-        public frmPrincipal(List<string[]> _usuarios, int indiceUsuario)
+        int indiceLogeado;
+        public frmPrincipal(List<string[]> _usuarios, int _indiceLogeado)
         {
             InitializeComponent();
             usuarios = _usuarios;
+            usuario = _usuarios[indiceLogeado];
+            indiceLogeado = _indiceLogeado;
 
-            lblUsuario.Text = usuarios[indiceUsuario][0];
-            if (usuarios[indiceUsuario][6].ToLower() == "administrador")
+            lblUsuario.Text = usuario[0];
+            if (usuario[6].ToLower() == "administrador")
                 btnRegistrarUsuario.Visible = true;
             else
                 btnRegistrarUsuario.Visible = false;
@@ -29,7 +32,7 @@ namespace TP_1_Heladeria
 
         private void btnRegistrarUsuario_Click(object sender, EventArgs e)
         {
-            Form RegistrarUsuario = new frmRegistrarUsuario(usuarios);
+            Form RegistrarUsuario = new frmRegistrarUsuario(usuarios, indiceLogeado);
             RegistrarUsuario.Show();
             this.Hide();
         }
@@ -46,17 +49,10 @@ namespace TP_1_Heladeria
         private void btnEditarPerfil_Click(object sender, EventArgs e)
         {
             //Aca tengo que ver como pasarle los datos al proximo formulario
-            frmEditarPerfil frm = new frmEditarPerfil(usuarios, indiceUsuario);
+            frmEditarPerfil frm = new frmEditarPerfil(usuarios, usuario);
             frm.Show();
             this.Hide();
         }
 
-        private void btnCambiarContrasena_Click(object sender, EventArgs e)
-        {
-            //Aca tengo que ver como pasarle los datos al proximo formulario
-            Form cambiarContrasena = new frmCambioContrasena(usuarios, indiceUsuario);
-            cambiarContrasena.Show();
-            this.Hide();
-        }
     }
 }

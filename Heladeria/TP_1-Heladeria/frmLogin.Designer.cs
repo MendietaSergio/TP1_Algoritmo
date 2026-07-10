@@ -93,25 +93,19 @@
             // 
             // imgHide1
             // 
-            imgHide1.Image = Properties.Resources.cerrar_ojo;
-            imgHide1.Location = new Point(295, 176);
+            imgHide1.Location = new Point(12, 12);
             imgHide1.Name = "imgHide1";
-            imgHide1.Size = new Size(26, 19);
-            imgHide1.SizeMode = PictureBoxSizeMode.Zoom;
-            imgHide1.TabIndex = 21;
+            imgHide1.Size = new Size(100, 50);
+            imgHide1.TabIndex = 24;
             imgHide1.TabStop = false;
-            imgHide1.Click += imgHide1_Click;
             // 
             // imgShow1
             // 
-            imgShow1.Image = Properties.Resources.ojo;
-            imgShow1.Location = new Point(295, 176);
+            imgShow1.Location = new Point(12, 12);
             imgShow1.Name = "imgShow1";
-            imgShow1.Size = new Size(26, 19);
-            imgShow1.SizeMode = PictureBoxSizeMode.Zoom;
-            imgShow1.TabIndex = 20;
+            imgShow1.Size = new Size(100, 50);
+            imgShow1.TabIndex = 25;
             imgShow1.TabStop = false;
-            imgShow1.Click += imgShow1_Click;
             // 
             // txtContrasenia
             // 

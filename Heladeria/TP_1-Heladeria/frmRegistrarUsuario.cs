@@ -1,4 +1,12 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Windows.Forms;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Text.RegularExpressions;
 
 /*
@@ -32,11 +40,13 @@ namespace TP_1_Heladeria
 
         //public string[] usuario;
         public List<string[]> usuarios = new List<string[]>();
-        public frmRegistrarUsuario(List<string[]> _usuarios)
+        int indice;
+
+        public frmRegistrarUsuario(List<string[]> _usuarios, int _indice)
         {
             InitializeComponent();
             usuarios = _usuarios;
-            //usuario = _usuario;
+            indice = _indice;
 
             string[] permisos = { cmbTipoUsuario.AccessibleDescription, "Administrador", "General" };
             BindingList<string> paises = new BindingList<string> { cmbNacionalidad.AccessibleDescription, "Argentina", "Uruguay" };
@@ -372,11 +382,11 @@ namespace TP_1_Heladeria
             //Faltaria validar que no se repita el nombre de usuario
             usuario[19] = "si";
 
-            MessageBox.Show("Usuario registrado con exito. La contraseña es " + usuarios[indiceUsuario][18]);
+            MessageBox.Show("Usuario registrado con exito. La contraseña es "+ usuario[18]);
         }
         private void btnVolver_Click(object sender, EventArgs e)
         {
-            Form principal = new frmPrincipal(usuarios, indiceUsuario);
+            Form principal = new frmPrincipal(usuarios, indice);
             principal.Show();
             this.Close();
         }
@@ -535,6 +545,6 @@ namespace TP_1_Heladeria
             }
         }
 
-
+        
     }
 }
