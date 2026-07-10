@@ -38,13 +38,13 @@ namespace TP_1_Heladeria
     public partial class frmRegistrarUsuario : Form
     {
 
-        public string[] usuario;
+        //public string[] usuario;
         public List<string[]> usuarios = new List<string[]>();
-        public frmRegistrarUsuario(List<string[]> _usuarios, string[] _usuario)
+        public frmRegistrarUsuario(List<string[]> _usuarios)
         {
             InitializeComponent();
             usuarios = _usuarios;
-            usuario = _usuario;
+            //usuario = _usuario;
 
             string[] permisos = { cmbTipoUsuario.AccessibleDescription, "Administrador", "General" };
             BindingList<string> paises = new BindingList<string> { cmbNacionalidad.AccessibleDescription, "Argentina", "Uruguay" };

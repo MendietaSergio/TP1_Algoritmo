@@ -30,8 +30,7 @@ namespace TP_1_Heladeria
 
         private void btnRegistrarUsuario_Click(object sender, EventArgs e)
         {
-            //Sacarle a Registra el usuario. No se para que necesitaria eso
-            Form RegistrarUsuario = new frmRegistrarUsuario(usuarios, usuario);
+            Form RegistrarUsuario = new frmRegistrarUsuario(usuarios);
             RegistrarUsuario.Show();
             this.Hide();
         }
