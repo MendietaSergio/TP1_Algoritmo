@@ -11,14 +11,14 @@ namespace TP_1_Heladeria
 {
     public partial class frmEditarPerfil : Form
     {
-        public string[] usuario;
+        public int indiceUsuario;
         public List<string[]> usuarios = new List<string[]>();
-        public frmEditarPerfil(List<string[]> _usuarios, string[] _usuario)
+        public frmEditarPerfil(List<string[]> _usuarios, int _indiceUsuario)
         {
             InitializeComponent();
 
             usuarios = _usuarios;
-            usuario = _usuario;
+            indiceUsuario = _indiceUsuario;
 
             string[] permisos = { cmbTipoUsuario.AccessibleDescription, "Administrador", "General" };
             BindingList<string> paises = new BindingList<string> { cmbNacionalidad.AccessibleDescription, "Argentina", "Uruguay" };
@@ -29,30 +29,29 @@ namespace TP_1_Heladeria
             //Carga de datos
             {
 
-                txtNombre.Text = usuario[0];
-                txtApellido.Text = usuario[1];
-                txtDNI.Text = usuario[2];
-                txtTelefono.Text = usuario[3];
-                txtEmail.Text = usuario[4];
-
-                if (usuario[5].ToLower() == "masculino")
+                txtNombre.Text = usuarios[indiceUsuario][0];
+                txtApellido.Text = usuarios[indiceUsuario][1];
+                txtDNI.Text = usuarios[indiceUsuario][2];
+                txtTelefono.Text = usuarios[indiceUsuario][3];
+                txtEmail.Text = usuarios[indiceUsuario][4]; 
+                if (usuarios[indiceUsuario][5].ToLower() == "masculino")
                     rdbMasculino.Checked = true;
                 else
                     rdbFemenino.Checked = true;
 
 
-                cmbTipoUsuario.Text = usuario[6];
-                dtpFecNac.Text = usuario[7];
-                cmbNacionalidad.Text = usuario[8];
-                cmbProvincia.Text = usuario[9];
-                cmbPartidoMunicipio.Text = usuario[10];
-                cmbLocalidad.Text = usuario[11];
-                txtCodPostal.Text = usuario[12];
-                txtCalle.Text = usuario[13];
-                txtAltura.Text = usuario[14];
-                txtPiso.Text = usuario[15];
-                txtDepartamento.Text = usuario[16];
-                cmbUsuarioEditado.SelectedValue = usuario[17];
+                cmbTipoUsuario.Text = usuarios[indiceUsuario][6];
+                dtpFecNac.Text = usuarios[indiceUsuario][7];
+                cmbNacionalidad.Text = usuarios[indiceUsuario][8];
+                cmbProvincia.Text = usuarios[indiceUsuario][9];
+                cmbPartidoMunicipio.Text = usuarios[indiceUsuario][10];
+                cmbLocalidad.Text = usuarios[indiceUsuario][11];
+                txtCodPostal.Text = usuarios[indiceUsuario][12];
+                txtCalle.Text = usuarios[indiceUsuario][13];
+                txtAltura.Text = usuarios[indiceUsuario][14];
+                txtPiso.Text = usuarios[indiceUsuario][15];
+                txtDepartamento.Text = usuarios[indiceUsuario][16];
+                cmbUsuarioEditado.SelectedValue = usuarios[indiceUsuario][17];
 
             }
             //Me fijo que el campo del que depende 1 campo de la ubicacion, este disponible para habilitarlo
@@ -95,7 +94,7 @@ namespace TP_1_Heladeria
 
             }
             //Ahora voy a bloquear los datos que no tienen que modificar los usuarios
-            if (usuario[6].ToLower() != "administrador")
+            if (usuarios[indiceUsuario][6].ToLower() != "administrador")
             {
                 cmbTipoUsuario.Enabled = false;
                 txtDNI.Enabled = false;
@@ -115,7 +114,7 @@ namespace TP_1_Heladeria
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
-            frmPrincipal principal = new frmPrincipal(usuarios, usuario);
+            frmPrincipal principal = new frmPrincipal(usuarios, indiceUsuario);
             principal.Show();
             this.Hide();
         }
@@ -381,31 +380,31 @@ namespace TP_1_Heladeria
 
             //for (int i = 0; i < usuario.Length; i++) usuario[i] = "";
 
-            int guardarEn = usuarios.FindIndex(nom => nom[17] == usuario[17]);
-            usuario[0] = txtNombre.Text;
-            usuario[1] = txtApellido.Text;
-            usuario[2] = txtDNI.Text;
-            usuario[3] = txtTelefono.Text;
-            usuario[4] = txtEmail.Text;
+            int guardarEn = usuarios.FindIndex(nom => nom[17] == usuarios[indiceUsuario][17]);
+            usuarios[indiceUsuario][0] = txtNombre.Text;
+            usuarios[indiceUsuario][1] = txtApellido.Text;
+            usuarios[indiceUsuario][2] = txtDNI.Text;
+            usuarios[indiceUsuario][3] = txtTelefono.Text;
+            usuarios[indiceUsuario][4] = txtEmail.Text;
             if (rdbMasculino.Checked)
-                usuario[5] = "Masculino";
+                usuarios[indiceUsuario][5] = "Masculino";
             else
-                usuario[5] = "Femenino";
-            usuario[6] = cmbTipoUsuario.SelectedValue.ToString();
-            usuario[7] = dtpFecNac.Text;
+                usuarios[indiceUsuario][5] = "Femenino";
+            usuarios[indiceUsuario][6] = cmbTipoUsuario.SelectedValue.ToString();
+            usuarios[indiceUsuario][7] = dtpFecNac.Text;
             if (cmbNacionalidad.SelectedIndex > 0)
-                usuario[8] = cmbNacionalidad.SelectedValue.ToString();
+                usuarios[indiceUsuario][8] = cmbNacionalidad.SelectedValue.ToString();
             if (cmbProvincia.SelectedIndex > 0)
-                usuario[9] = cmbProvincia.SelectedValue.ToString();
+                usuarios[indiceUsuario][9] = cmbProvincia.SelectedValue.ToString();
             if (cmbPartidoMunicipio.SelectedIndex > 0)
-                usuario[10] = cmbPartidoMunicipio.SelectedValue.ToString();
-            usuario[11] = cmbLocalidad.SelectedIndex > 0 ? cmbLocalidad.SelectedValue.ToString() : "";
+                usuarios[indiceUsuario][10] = cmbPartidoMunicipio.SelectedValue.ToString();
+            usuarios[indiceUsuario][11] = cmbLocalidad.SelectedIndex > 0 ? cmbLocalidad.SelectedValue.ToString() : "";
             //MessageBox.Show("Localidad " + usuario[11]);
-            usuario[12] = txtCodPostal.Text;
-            usuario[13] = txtCalle.Text;
-            usuario[14] = txtAltura.Text;
-            usuario[15] = txtPiso.Text;
-            usuario[16] = txtDepartamento.Text;
+            usuarios[indiceUsuario][12] = txtCodPostal.Text;
+            usuarios[indiceUsuario][13] = txtCalle.Text;
+            usuarios[indiceUsuario][14] = txtAltura.Text;
+            usuarios[indiceUsuario][15] = txtPiso.Text;
+            usuarios[indiceUsuario][16] = txtDepartamento.Text;
 
             //Usuario
             //No se tocan esos datos
@@ -413,8 +412,8 @@ namespace TP_1_Heladeria
             MessageBox.Show("Se edito el usuario exitosamente");
 
 
-            usuarios[guardarEn] = usuario;
-            frmPrincipal prin = new frmPrincipal(usuarios, usuario);
+            usuarios[guardarEn] = usuarios[indiceUsuario];
+            frmPrincipal prin = new frmPrincipal(usuarios, indiceUsuario);
             prin.Show();
             this.Hide();
         }
@@ -423,7 +422,7 @@ namespace TP_1_Heladeria
         {
 
             //Solamente la contraseña del logeado porque hay una opcion para recuperar contraseña
-            frmRecuperarContrasena frm = new frmRecuperarContrasena(usuarios, usuario);
+            frmRecuperarContrasena frm = new frmRecuperarContrasena(usuarios, indiceUsuario);
             frm.ShowDialog();
             
         }

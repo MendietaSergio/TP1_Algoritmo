@@ -12,16 +12,15 @@ namespace TP_1_Heladeria
     public partial class frmPrincipal : Form
     {
        
-        public string[] usuario;
+        public int indiceUsuario;
         public List<string[]> usuarios = new List<string[]>();
-        public frmPrincipal(List<string[]> _usuarios, string[] _usuario)
+        public frmPrincipal(List<string[]> _usuarios, int indiceUsuario)
         {
             InitializeComponent();
             usuarios = _usuarios;
-            usuario = _usuario;
 
-            lblUsuario.Text = usuario[0];
-            if (usuario[6].ToLower() == "administrador")
+            lblUsuario.Text = usuarios[indiceUsuario][0];
+            if (usuarios[indiceUsuario][6].ToLower() == "administrador")
                 btnRegistrarUsuario.Visible = true;
             else
                 btnRegistrarUsuario.Visible = false;
@@ -47,7 +46,7 @@ namespace TP_1_Heladeria
         private void btnEditarPerfil_Click(object sender, EventArgs e)
         {
             //Aca tengo que ver como pasarle los datos al proximo formulario
-            frmEditarPerfil frm = new frmEditarPerfil(usuarios, usuario);
+            frmEditarPerfil frm = new frmEditarPerfil(usuarios, indiceUsuario);
             frm.Show();
             this.Hide();
         }
@@ -55,7 +54,7 @@ namespace TP_1_Heladeria
         private void btnCambiarContrasena_Click(object sender, EventArgs e)
         {
             //Aca tengo que ver como pasarle los datos al proximo formulario
-            Form cambiarContrasena = new frmCambioContrasena();
+            Form cambiarContrasena = new frmCambioContrasena(usuarios, indiceUsuario);
             cambiarContrasena.Show();
             this.Hide();
         }
