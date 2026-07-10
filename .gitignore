@@ -4,3 +4,6 @@
 *.user
 *.suo
 *.sln.docstates
+
+*project.assets.json
+*project.nuget.cache
