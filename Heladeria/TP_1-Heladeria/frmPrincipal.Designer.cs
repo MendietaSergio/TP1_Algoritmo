@@ -50,7 +50,7 @@
             btnLogout.Location = new Point(272, 9);
             btnLogout.Name = "btnLogout";
             btnLogout.Size = new Size(75, 23);
-            btnLogout.TabIndex = 1;
+            btnLogout.TabIndex = 3;
             btnLogout.Text = "Logout";
             btnLogout.UseVisualStyleBackColor = true;
             btnLogout.Click += btnLogout_Click;
@@ -80,7 +80,7 @@
             btnRegistrarUsuario.Location = new Point(12, 112);
             btnRegistrarUsuario.Name = "btnRegistrarUsuario";
             btnRegistrarUsuario.Size = new Size(335, 23);
-            btnRegistrarUsuario.TabIndex = 5;
+            btnRegistrarUsuario.TabIndex = 1;
             btnRegistrarUsuario.Text = "Registrar Usuarios";
             btnRegistrarUsuario.UseVisualStyleBackColor = true;
             btnRegistrarUsuario.Click += btnRegistrarUsuario_Click;

@@ -200,13 +200,8 @@ namespace TP_1_Heladeria
         }
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            
-            /*
-             * ////Requeridas ////
-             * Nombre y Apellido, 
-             *      no llevan validacion extra. Con lo que puse para que se bloquee el boton, estamos bien.
-             * DNI
-             *      Validar que la longitud sea menor a 8 y que sea numerio positivo*/
+            ////Requeridas ////
+             
             int DNI = 0;
             if (!int.TryParse(txtDNI.Text, out DNI))
             {
@@ -222,10 +217,7 @@ namespace TP_1_Heladeria
                 txtDNI.Focus();
                 return;
             }
-            /*
-             * Telefono
-             *      Num 10 pos como mucho
-                */
+
             long tel = 0;
             if (!long.TryParse(txtTelefono.Text, out tel))
             {
@@ -241,10 +233,7 @@ namespace TP_1_Heladeria
                 txtTelefono.Focus();
                 return;
             }
-            /*
 
-         * Email
-         *   Busca que tenga un arroba y un punto, como hablamos en clase*/
             bool esValido = Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
             if (!esValido)
             {
@@ -253,24 +242,11 @@ namespace TP_1_Heladeria
                 txtEmail.Focus();
                 return;
             }
+                       
+            ////No Requeridas ////
 
-            /*
-         * Genero
-         *      No necesito una validacion extra. 
-         *      Esta seleccionado por defecto masculino
-         * Tipo de Usuario
-         *      Ya esta hecho. Si no pongo un tipo valido, se bloquea el boton
-         * Fecha de Nacimiento
-         *      Solo se van a poder fechas hasta hace 18 años, por lo que no se van a poder poner fechas futuras.
-         *      Tampoco me interesa ver hace 150 años. Es un monton, pero lo voy a frenar ahi.
-         * 
-         *  ////No Requeridas ////
-         * 
-         * Nacionalidad, Provincia, Partido/Municipio y Localidad 
-         *          Si los index son 0 o null, que se guarde ""
-         * Cod Postal
-         *      Hasta 8 caracteres.
-         *      */
+
+
             if (txtCodPostal.Text.Length > 8)
             {
                 MessageBox.Show("Valores no soportados en el campo Codigo Postal",
@@ -278,9 +254,7 @@ namespace TP_1_Heladeria
                 txtCodPostal.Focus();
                 return;
             }
-            /*
-         * Altura
-         *      Num*/
+
             int altura=0;
             if (!int.TryParse(txtAltura.Text, out altura) && (txtAltura.Text != ""))
             {
@@ -296,9 +270,7 @@ namespace TP_1_Heladeria
                 txtAltura.Focus();
                 return;
             }
-            /*
-         * Piso
-         *      Text. Valido que no sean 2, porque por lo gral se identifica con 2 caracteres */
+
             if (txtPiso.Text.Length > 2)
             {
                 MessageBox.Show("Valores no soportados en el campo Piso",
@@ -306,10 +278,6 @@ namespace TP_1_Heladeria
                 txtPiso.Focus();
                 return;
             }
-            /*
-             * Departamento
-             *      Text, no tiene validacion
-             */
 
             string[] usuarioNuevo = new string[21];
 
@@ -339,8 +307,6 @@ namespace TP_1_Heladeria
             usuarioNuevo[15] = txtPiso.Text;
             usuarioNuevo[16] = txtDepartamento.Text;
 
-            //Usuario
-            //El nombre se genera con inicialnombre+apellido+3 ultimos caracteres del dni
             string inicial = "";
             string apellido = "";
             string nros = "";
@@ -352,8 +318,7 @@ namespace TP_1_Heladeria
             nombreUsuarioConstruido = inicial + apellido + nros;
 
             int cantVeces = 1;
-            //Tengo que guardar el dato con el que voy a comparar las proximas cuentas, sin la modificacion
-            //En el 17 sigo guardando la cuenta. En el 19, voy a guardar inicialnombre+apellido+3 ultimos caracteres del dni
+
             foreach (string[] usuario in usuarios)
                 if (usuario[20] == nombreUsuarioConstruido)
                     cantVeces++;
@@ -366,7 +331,6 @@ namespace TP_1_Heladeria
 
             usuarioNuevo[17] = nombreUsuarioConstruido;
 
-            //Contraseña
             Random random = new Random();
             long password = random.Next(10000000, 999999999);
             usuarioNuevo[18] = password.ToString();

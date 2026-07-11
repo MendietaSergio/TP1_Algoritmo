@@ -40,9 +40,7 @@ namespace TP_1_Heladeria
             cmbNacionalidad.DataSource = paises;
             cmbTipoUsuario.DataSource = permisos;
 
-            //Carga de datos
             {
-
                 cmbUsuarioEditado.SelectedIndex = indiceLogeado;
 
                 txtNombre.Text = usuarioEditando[0];
@@ -73,7 +71,7 @@ namespace TP_1_Heladeria
 
 
             }
-            //Me fijo que el campo del que depende 1 campo de la ubicacion, este disponible para habilitarlo
+            
             {
                 if (cmbNacionalidad.SelectedValue != null && cmbNacionalidad.SelectedIndex != 0)
                     cmbProvincia.Enabled = true;
@@ -90,7 +88,7 @@ namespace TP_1_Heladeria
                 else
                     cmbLocalidad.Enabled = false;
             }
-            //Me aseguro de que todos los items esten cargados con sus longitudes correctas
+
             {
                 if (txtNombre.Text.Length > 0 &&
                    txtApellido.Text.Length > 0 &&
@@ -112,7 +110,7 @@ namespace TP_1_Heladeria
                 }
 
             }
-            //Ahora voy a bloquear los datos que no tienen que modificar los usuarios
+
             if (usuarioLogeado[6].ToLower() != "administrador")
             {
                 cmbTipoUsuario.Enabled = false;
@@ -279,7 +277,7 @@ namespace TP_1_Heladeria
         private void cmbUsuarioEditado_SelectedIndexChanged(object sender, EventArgs e)
         {
             usuarioEditando = usuarios[cmbUsuarioEditado.SelectedIndex];
-            //Carga de datos
+
             {
 
                 txtNombre.Text = usuarioEditando[0];
@@ -310,10 +308,6 @@ namespace TP_1_Heladeria
                     btnEditarContrasena.Enabled = false;
                 else
                     btnEditarContrasena.Enabled = true;
-
-
-
-
             }
 
         }
@@ -431,17 +425,12 @@ namespace TP_1_Heladeria
         {
             frmPrincipal principal = new frmPrincipal(usuarios, indiceLogeado);
             principal.Show();
-            this.Hide();
+            this.Close();
         }
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            //Aca tengo que meter las validaciones.
-            /*
-             * ////Requeridas ////
-             * Nombre y Apellido, 
-             *      no llevan validacion extra. Con lo que puse para que se bloquee el boton, estamos bien.
-             * DNI
-             *      Validar que la longitud sea menor a 8 y que sea numerio*/
+
+            //Validaciones Requeridos            
             int DNI = 0;
             if (!int.TryParse(txtDNI.Text, out DNI))
             {
@@ -457,10 +446,8 @@ namespace TP_1_Heladeria
                 txtDNI.Focus();
                 return;
             }
-            /*
-             * Telefono
-             *      Num 10 pos como mucho
-                */
+            
+
             long tel = 0;
             if (!long.TryParse(txtTelefono.Text, out tel))
             {
@@ -476,10 +463,8 @@ namespace TP_1_Heladeria
                 txtTelefono.Focus();
                 return;
             }
-            /*
+            
 
-         * Email
-         *   Busca que tenga un arroba y un punto, como hablamos en clase*/
             bool esValido = Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
             if (!esValido)
             {
@@ -488,24 +473,8 @@ namespace TP_1_Heladeria
                 txtEmail.Focus();
                 return;
             }
-
-            /*
-         * Genero
-         *      No necesito una validacion extra. 
-         *      Esta seleccionado por defecto masculino
-         * Tipo de Usuario
-         *      Ya esta hecho. Si no pongo un tipo valido, se bloquea el boton
-         * Fecha de Nacimiento
-         *      Solo se van a poder fechas hasta hace 18 años, por lo que no se van a poder poner fechas futuras.
-         *      Tampoco me interesa ver hace 150 años. Es un monton, pero lo voy a frenar ahi.
-         * 
-         *  ////No Requeridas ////
-         * 
-         * Nacionalidad, Provincia, Partido/Municipio y Localidad 
-         *          Si los index son 0 o null, que se guarde ""
-         * Cod Postal
-         *      Hasta 8 caracteres.
-         *      */
+                        
+            //Validacion No Requeridos
             if (txtCodPostal.Text.Length > 8)
             {
                 MessageBox.Show("Valores no soportados en el campo Codigo Postal",
@@ -513,9 +482,7 @@ namespace TP_1_Heladeria
                 txtCodPostal.Focus();
                 return;
             }
-            /*
-         * Altura
-         *      Num*/
+
             int altura = 0;
             if (!int.TryParse(txtAltura.Text, out altura) && (txtAltura.Text != ""))
             {
@@ -531,9 +498,7 @@ namespace TP_1_Heladeria
                 txtAltura.Focus();
                 return;
             }
-            /*
-         * Piso
-         *      Text. Valido que no sean 2, porque por lo gral se identifica con 2 caracteres */
+
             if (txtPiso.Text.Length > 2)
             {
                 MessageBox.Show("Valores no soportados en el campo Piso",
@@ -541,10 +506,7 @@ namespace TP_1_Heladeria
                 txtPiso.Focus();
                 return;
             }
-            /*
-             * Departamento
-             *      Text
-             */
+
 
             int guardarEn = usuarios.ToList().FindIndex(nombreCuenta => nombreCuenta[17] == usuarioEditando[17]);
             usuarioEditando[0] = txtNombre.Text;
@@ -576,21 +538,16 @@ namespace TP_1_Heladeria
             usuarioEditando[15] = txtPiso.Text;
             usuarioEditando[16] = txtDepartamento.Text;
 
-            //Usuario
-            //No se tocan esos datos
-
             MessageBox.Show("Se edito el usuario exitosamente");
-
 
             usuarios[guardarEn] = usuarioEditando;
             frmPrincipal prin = new frmPrincipal(usuarios, indiceLogeado);
             prin.Show();
-            this.Hide();
+            this.Close();
         }
         private void btnEditarContrasena_Click(object sender, EventArgs e)
         {
 
-            //Solamente la contraseña del logeado porque hay una opcion para recuperar contraseña
             frmCambioContrasena frm = new frmCambioContrasena(usuarios, indiceLogeado);
             frm.ShowDialog();
 

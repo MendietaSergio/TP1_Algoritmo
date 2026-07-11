@@ -23,8 +23,12 @@ namespace TP_1_Heladeria
             usuario = usuarios[indiceLogeado];
 
             lblUsuario.Text = usuario[0];
-            if (usuario[6].ToLower() == "administrador")
+            if (usuario[6].ToLower() == "administrador") 
+            { 
                 btnRegistrarUsuario.Visible = true;
+                btnEditarPerfil.Text = "Editar Perfiles";
+                btnEditarPerfil.Height = 46;
+            }
             else
                 btnRegistrarUsuario.Visible = false;
         }
@@ -34,19 +38,19 @@ namespace TP_1_Heladeria
         {
             Form RegistrarUsuario = new frmRegistrarUsuario(usuarios, indiceLogeado);
             RegistrarUsuario.Show();
-            this.Hide();
+            this.Close();
         }
         private void btnLogout_Click(object sender, EventArgs e)
         {
             Form login = new frmLogin(usuarios);
             login.Show();
-            this.Hide();
+            this.Close();
         }
         private void btnEditarPerfil_Click(object sender, EventArgs e)
         {
             frmEditarPerfil frm = new frmEditarPerfil(usuarios, indiceLogeado);
             frm.Show();
-            this.Hide();
+            this.Close();
         }
     }
 }
