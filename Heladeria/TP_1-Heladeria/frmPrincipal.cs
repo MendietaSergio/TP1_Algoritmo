@@ -12,15 +12,18 @@ namespace TP_1_Heladeria
     public partial class frmPrincipal : Form
     {
        
-        public int indiceUsuario;
+        public string[] usuario;
         public BindingList<string[]> usuarios = new BindingList<string[]>();
-        public frmPrincipal(BindingList<string[]> _usuarios, int indiceUsuario)
+        int indiceLogeado;
+        public frmPrincipal(BindingList<string[]> _usuarios, int _indiceLogeado)
         {
             InitializeComponent();
             usuarios = _usuarios;
+            usuario = _usuarios[indiceLogeado];
+            indiceLogeado = _indiceLogeado;
 
-            lblUsuario.Text = usuarios[indiceUsuario][0];
-            if (usuarios[indiceUsuario][6].ToLower() == "administrador")
+            lblUsuario.Text = usuario[0];
+            if (usuario[6].ToLower() == "administrador")
                 btnRegistrarUsuario.Visible = true;
             else
                 btnRegistrarUsuario.Visible = false;
@@ -29,34 +32,20 @@ namespace TP_1_Heladeria
 
         private void btnRegistrarUsuario_Click(object sender, EventArgs e)
         {
-            //Sacarle a Registra el usuario. No se para que necesitaria eso
-            Form RegistrarUsuario = new frmRegistrarUsuario(usuarios, indiceUsuario);
+            Form RegistrarUsuario = new frmRegistrarUsuario(usuarios, indiceLogeado);
             RegistrarUsuario.Show();
             this.Hide();
         }
-
         private void btnLogout_Click(object sender, EventArgs e)
         {
-            //Aca quiero volver el usuario a vacio
             Form login = new frmLogin(usuarios);
             login.Show();
-            //Eventualmente, cambiar a close
             this.Hide();
         }
-
         private void btnEditarPerfil_Click(object sender, EventArgs e)
         {
-            //Aca tengo que ver como pasarle los datos al proximo formulario
-            frmEditarPerfil frm = new frmEditarPerfil(usuarios, indiceUsuario);
+            frmEditarPerfil frm = new frmEditarPerfil(usuarios, indiceLogeado);
             frm.Show();
-            this.Hide();
-        }
-
-        private void btnCambiarContrasena_Click(object sender, EventArgs e)
-        {
-            //Aca tengo que ver como pasarle los datos al proximo formulario
-            Form cambiarContrasena = new frmCambioContrasena(usuarios, indiceUsuario);
-            cambiarContrasena.Show();
             this.Hide();
         }
     }

@@ -53,16 +53,16 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Arial Narrow", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Microsoft Sans Serif", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.Location = new Point(171, 8);
             label1.Name = "label1";
-            label1.Size = new Size(191, 37);
+            label1.Size = new Size(223, 37);
             label1.TabIndex = 0;
             label1.Text = "¡ Bienvenido !";
             // 
             // label2
             // 
-            label2.Font = new Font("Arial Narrow", 12F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            label2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Italic, GraphicsUnit.Point, 0);
             label2.Location = new Point(27, 60);
             label2.Name = "label2";
             label2.Size = new Size(496, 51);
@@ -166,47 +166,35 @@
             // 
             // imgShow1
             // 
-            imgShow1.Image = Properties.Resources.ojo;
-            imgShow1.Location = new Point(368, 137);
+            imgShow1.Location = new Point(0, 0);
             imgShow1.Name = "imgShow1";
-            imgShow1.Size = new Size(26, 19);
-            imgShow1.SizeMode = PictureBoxSizeMode.Zoom;
-            imgShow1.TabIndex = 13;
+            imgShow1.Size = new Size(100, 50);
+            imgShow1.TabIndex = 21;
             imgShow1.TabStop = false;
-            imgShow1.Click += imgShow1_Click;
             // 
             // imgShow2
             // 
-            imgShow2.Image = Properties.Resources.ojo;
-            imgShow2.Location = new Point(368, 184);
+            imgShow2.Location = new Point(0, 0);
             imgShow2.Name = "imgShow2";
-            imgShow2.Size = new Size(26, 19);
-            imgShow2.SizeMode = PictureBoxSizeMode.Zoom;
-            imgShow2.TabIndex = 14;
+            imgShow2.Size = new Size(100, 50);
+            imgShow2.TabIndex = 20;
             imgShow2.TabStop = false;
-            imgShow2.Click += imgShow2_Click;
             // 
             // imgHide2
             // 
-            imgHide2.Image = Properties.Resources.cerrar_ojo;
-            imgHide2.Location = new Point(368, 184);
+            imgHide2.Location = new Point(368, 180);
             imgHide2.Name = "imgHide2";
-            imgHide2.Size = new Size(26, 19);
-            imgHide2.SizeMode = PictureBoxSizeMode.Zoom;
-            imgHide2.TabIndex = 15;
+            imgHide2.Size = new Size(100, 50);
+            imgHide2.TabIndex = 19;
             imgHide2.TabStop = false;
-            imgHide2.Click += imgHide2_Click;
             // 
             // imgHide1
             // 
-            imgHide1.Image = Properties.Resources.cerrar_ojo;
-            imgHide1.Location = new Point(368, 137);
+            imgHide1.Location = new Point(368, 124);
             imgHide1.Name = "imgHide1";
-            imgHide1.Size = new Size(26, 19);
-            imgHide1.SizeMode = PictureBoxSizeMode.Zoom;
-            imgHide1.TabIndex = 16;
+            imgHide1.Size = new Size(100, 50);
+            imgHide1.TabIndex = 18;
             imgHide1.TabStop = false;
-            imgHide1.Click += imgHide1_Click;
             // 
             // lblError
             // 
