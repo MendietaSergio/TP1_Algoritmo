@@ -38,6 +38,28 @@ namespace TP_1_Heladeria
     public partial class frmRegistrarUsuario : Form
     {
 
+        public void Limpiar()
+        {
+            TextBox[] txtCampos =
+                { txtNombre, txtApellido, txtDNI,
+                txtTelefono, txtEmail,
+                txtCodPostal, txtCalle,txtAltura,
+                txtPiso,txtPiso,txtDepartamento };
+            ComboBox[] cmbCamposParaLimpiar =
+                { cmbProvincia, cmbPartidoMunicipio,
+                 cmbLocalidad };
+
+
+            foreach (TextBox campo in txtCampos) campo.Text = "";
+            foreach (ComboBox campo in cmbCamposParaLimpiar) campo.DataSource = null;
+            cmbNacionalidad.SelectedIndex = 0;
+            cmbTipoUsuario.SelectedIndex = 0;
+
+
+            rdbMasculino.Checked = true;
+            txtNombre.Focus();
+        }
+
         public BindingList<string[]> usuarios = new BindingList<string[]>();
         int indice;
 
@@ -174,24 +196,7 @@ namespace TP_1_Heladeria
         //Eventos Botones
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            TextBox[] txtCampos =
-                { txtNombre, txtApellido, txtDNI,
-                txtTelefono, txtEmail,
-                txtCodPostal, txtCalle,txtAltura,
-                txtPiso,txtPiso,txtDepartamento };
-            ComboBox[] cmbCamposParaLimpiar =
-                { cmbProvincia, cmbPartidoMunicipio,
-                 cmbLocalidad };
-
-
-            foreach (TextBox campo in txtCampos) campo.Text = "";
-            foreach (ComboBox campo in cmbCamposParaLimpiar) campo.DataSource = null;
-            cmbNacionalidad.SelectedIndex = 0;
-            cmbTipoUsuario.SelectedIndex = 0;
-
-
-            rdbMasculino.Checked = true;
-            txtNombre.Focus();
+            Limpiar();
         }
         private void btnAceptar_Click(object sender, EventArgs e)
         {
@@ -371,6 +376,7 @@ namespace TP_1_Heladeria
             usuarios.Add(usuarioNuevo);
 
             MessageBox.Show("Usuario registrado con exito. La contraseña es "+ usuarioNuevo[18]);
+            Limpiar();
         }
         private void btnVolver_Click(object sender, EventArgs e)
         {
