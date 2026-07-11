@@ -30,11 +30,13 @@ namespace TP_1_Heladeria
     public partial class frmRegistrarUsuario : Form
     {
 
-        public List<string[]> usuarios = new List<string[]>();
-        public frmRegistrarUsuario(List<string[]> _usuarios)
+        public BindingList<string[]> usuarios = new BindingList<string[]>();
+        int indiceUsuario;
+        public frmRegistrarUsuario(BindingList<string[]> _usuarios, int indiceUsuario)
         {
             InitializeComponent();
             usuarios = _usuarios;
+            indiceUsuario = indiceUsuario;
             string[] permisos = { cmbTipoUsuario.AccessibleDescription, "Administrador", "General" };
             BindingList<string> paises = new BindingList<string> { cmbNacionalidad.AccessibleDescription, "Argentina", "Uruguay" };
 
@@ -369,7 +371,7 @@ namespace TP_1_Heladeria
             //Faltaria validar que no se repita el nombre de usuario
             usuario[19] = "si";
 
-            MessageBox.Show("Usuario registrado con exito. La contraseña es " + usuarios[indiceUsuario][18]);
+            MessageBox.Show("Usuario registrado con exito. La contraseña es " + usuarios[18]);
         }
         private void btnVolver_Click(object sender, EventArgs e)
         {

@@ -13,8 +13,8 @@ namespace TP_1_Heladeria
     {
        
         public int indiceUsuario;
-        public List<string[]> usuarios = new List<string[]>();
-        public frmPrincipal(List<string[]> _usuarios, int indiceUsuario)
+        public BindingList<string[]> usuarios = new BindingList<string[]>();
+        public frmPrincipal(BindingList<string[]> _usuarios, int indiceUsuario)
         {
             InitializeComponent();
             usuarios = _usuarios;
@@ -30,7 +30,7 @@ namespace TP_1_Heladeria
         private void btnRegistrarUsuario_Click(object sender, EventArgs e)
         {
             //Sacarle a Registra el usuario. No se para que necesitaria eso
-            Form RegistrarUsuario = new frmRegistrarUsuario(usuarios);
+            Form RegistrarUsuario = new frmRegistrarUsuario(usuarios, indiceUsuario);
             RegistrarUsuario.Show();
             this.Hide();
         }

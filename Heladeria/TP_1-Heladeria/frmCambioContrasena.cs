@@ -11,9 +11,9 @@ namespace TP_1_Heladeria
     public partial class frmCambioContrasena : Form
     {
         public int indiceUsuario;
-        public List<string[]> usuarios = new List<string[]>();
+        public BindingList<string[]> usuarios = new BindingList<string[]>();
 
-        public frmCambioContrasena(List<string[]> _usuarios, int indiceUsuario)
+        public frmCambioContrasena(BindingList<string[]> _usuarios, int indiceUsuario)
         {
             InitializeComponent();
             imgHide1.Visible = true;

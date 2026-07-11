@@ -19,7 +19,7 @@ namespace TP_1_Heladeria
         "Martinez",
         "12345678",
         "1234567890",
-        "gus@mar.tinez",
+        "gus2@mar.tinez",
         "Masculino",
         "Administrador",
         "6/12/1990",

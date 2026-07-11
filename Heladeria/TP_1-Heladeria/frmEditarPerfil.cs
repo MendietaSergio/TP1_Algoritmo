@@ -12,8 +12,8 @@ namespace TP_1_Heladeria
     public partial class frmEditarPerfil : Form
     {
         public int indiceUsuario;
-        public List<string[]> usuarios = new List<string[]>();
-        public frmEditarPerfil(List<string[]> _usuarios, int _indiceUsuario)
+        public BindingList<string[]> usuarios = new BindingList<string[]>();
+        public frmEditarPerfil(BindingList<string[]> _usuarios, int _indiceUsuario)
         {
             InitializeComponent();
 
@@ -380,7 +380,7 @@ namespace TP_1_Heladeria
 
             //for (int i = 0; i < usuario.Length; i++) usuario[i] = "";
 
-            int guardarEn = usuarios.FindIndex(nom => nom[17] == usuarios[indiceUsuario][17]);
+            int guardarEn = usuarios.ToList().FindIndex(nom => nom[17] == usuarios[indiceUsuario][17]);
             usuarios[indiceUsuario][0] = txtNombre.Text;
             usuarios[indiceUsuario][1] = txtApellido.Text;
             usuarios[indiceUsuario][2] = txtDNI.Text;
@@ -422,7 +422,7 @@ namespace TP_1_Heladeria
         {
 
             //Solamente la contraseña del logeado porque hay una opcion para recuperar contraseña
-            frmRecuperarContrasena frm = new frmRecuperarContrasena(usuarios, indiceUsuario);
+            frmRecuperarContrasena frm = new frmRecuperarContrasena(usuarios);
             frm.ShowDialog();
             
         }
