@@ -120,6 +120,7 @@
             txtNuevaContra.Enabled = false;
             txtNuevaContra.Location = new Point(258, 239);
             txtNuevaContra.Name = "txtNuevaContra";
+            txtNuevaContra.PasswordChar = '*';
             txtNuevaContra.Size = new Size(150, 31);
             txtNuevaContra.TabIndex = 8;
             // 
@@ -128,6 +129,7 @@
             txtConfirmarContra.Enabled = false;
             txtConfirmarContra.Location = new Point(258, 276);
             txtConfirmarContra.Name = "txtConfirmarContra";
+            txtConfirmarContra.PasswordChar = '*';
             txtConfirmarContra.Size = new Size(150, 31);
             txtConfirmarContra.TabIndex = 9;
             // 

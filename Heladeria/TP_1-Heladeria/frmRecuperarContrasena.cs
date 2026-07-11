@@ -154,7 +154,7 @@ namespace TP_1_Heladeria
                 return;
             }
 
-            usuarios[indiceUsuario][4] = txtNuevaContra.Text ;
+            usuarios[indiceUsuario][18] = txtNuevaContra.Text ;
             lblError.Visible = false;
             // ¡SI LLEGAMOS AQUÍ, ES QUE TODO ESTÁ BIEN!
             MessageBox.Show("¡Éxito! Contraseña cambiada.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
