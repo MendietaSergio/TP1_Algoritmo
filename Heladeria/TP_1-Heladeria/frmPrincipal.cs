@@ -19,8 +19,8 @@ namespace TP_1_Heladeria
         {
             InitializeComponent();
             usuarios = _usuarios;
-            usuario = _usuarios[indiceLogeado];
             indiceLogeado = _indiceLogeado;
+            usuario = usuarios[indiceLogeado];
 
             lblUsuario.Text = usuario[0];
             if (usuario[6].ToLower() == "administrador")

@@ -70,6 +70,7 @@
             btnVolver = new Button();
             btnEditarContrasena = new Button();
             cmbUsuarioEditado = new ComboBox();
+            btnEliminar = new Button();
             grpPersonales.SuspendLayout();
             grpGenero.SuspendLayout();
             grpUbicacion.SuspendLayout();
@@ -448,7 +449,7 @@
             // 
             btnGuardarCambios.Location = new Point(391, 349);
             btnGuardarCambios.Name = "btnGuardarCambios";
-            btnGuardarCambios.Size = new Size(202, 41);
+            btnGuardarCambios.Size = new Size(115, 41);
             btnGuardarCambios.TabIndex = 19;
             btnGuardarCambios.Text = "Guardar Cambios";
             btnGuardarCambios.UseVisualStyleBackColor = true;
@@ -466,9 +467,9 @@
             // 
             // btnEditarContrasena
             // 
-            btnEditarContrasena.Location = new Point(599, 349);
+            btnEditarContrasena.Location = new Point(599, 351);
             btnEditarContrasena.Name = "btnEditarContrasena";
-            btnEditarContrasena.Size = new Size(121, 40);
+            btnEditarContrasena.Size = new Size(121, 41);
             btnEditarContrasena.TabIndex = 22;
             btnEditarContrasena.Text = "Editar Clave de Acceso";
             btnEditarContrasena.UseVisualStyleBackColor = true;
@@ -484,12 +485,23 @@
             cmbUsuarioEditado.TabIndex = 23;
             cmbUsuarioEditado.SelectedIndexChanged += cmbUsuarioEditado_SelectedIndexChanged;
             // 
+            // btnEliminar
+            // 
+            btnEliminar.Location = new Point(512, 349);
+            btnEliminar.Name = "btnEliminar";
+            btnEliminar.Size = new Size(81, 41);
+            btnEliminar.TabIndex = 24;
+            btnEliminar.Text = "Eliminar";
+            btnEliminar.UseVisualStyleBackColor = true;
+            btnEliminar.Click += btnEliminar_Click;
+            // 
             // frmEditarPerfil
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightSteelBlue;
             ClientSize = new Size(747, 406);
+            Controls.Add(btnEliminar);
             Controls.Add(cmbUsuarioEditado);
             Controls.Add(btnEditarContrasena);
             Controls.Add(btnVolver);
@@ -555,5 +567,6 @@
         private Button btnVolver;
         private Button btnEditarContrasena;
         private ComboBox cmbUsuarioEditado;
+        private Button btnEliminar;
     }
 }

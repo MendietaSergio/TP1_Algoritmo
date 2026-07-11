@@ -15,6 +15,8 @@ namespace TP_1_Heladeria
         public string[] usuarioEditando;
         public BindingList<string[]> usuarios = new BindingList<string[]>();
         int indiceLogeado;
+        BindingList<string> nombreUsuarios = new BindingList<string>();
+
         public frmEditarPerfil(BindingList<string[]> _usuarios, int _indiceLogeado)
         {
 
@@ -28,7 +30,7 @@ namespace TP_1_Heladeria
 
             string[] permisos = { cmbTipoUsuario.AccessibleDescription, "Administrador", "General" };
             BindingList<string> paises = new BindingList<string> { cmbNacionalidad.AccessibleDescription, "Argentina", "Uruguay" };
-            BindingList<string> nombreUsuarios = new BindingList<string>();
+            
 
             foreach (string[] usuarioActual in usuarios) nombreUsuarios.Add(usuarioActual[17]);
 
@@ -55,10 +57,12 @@ namespace TP_1_Heladeria
 
                 cmbTipoUsuario.Text = usuarioEditando[6];
                 dtpFecNac.Text = usuarioEditando[7];
+
                 cmbNacionalidad.Text = usuarioEditando[8];
                 cmbProvincia.Text = usuarioEditando[9];
                 cmbPartidoMunicipio.Text = usuarioEditando[10];
                 cmbLocalidad.Text = usuarioEditando[11];
+
                 txtCodPostal.Text = usuarioEditando[12];
                 txtCalle.Text = usuarioEditando[13];
                 txtAltura.Text = usuarioEditando[14];
@@ -113,6 +117,10 @@ namespace TP_1_Heladeria
                 cmbTipoUsuario.Enabled = false;
                 txtDNI.Enabled = false;
                 cmbUsuarioEditado.Enabled = false;
+                btnGuardarCambios.Width = 201;
+                btnEliminar.Enabled = false;
+                btnEliminar.Visible = false;
+
             }
 
             dtpFecNac.MaxDate = DateTime.Today.AddYears(-18);
@@ -582,6 +590,33 @@ namespace TP_1_Heladeria
 
         }
 
-        
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if ((usuarioLogeado[6].ToLower() == "administrador") &&
+                (usuarioEditando[17].ToLower() != usuarioLogeado[17].ToLower()))
+
+            {
+                DialogResult respuesta = MessageBox.Show(
+                    "¿Esta seguro que desea eliminar este usuario? Los datos no se van a recuperar",
+                    "Eliminacion de Usuario",MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Exclamation,MessageBoxDefaultButton.Button2);
+                if (respuesta == DialogResult.Yes)
+                {
+
+                    string[] usuarioABorrar = usuarioEditando;
+                    usuarioEditando = usuarios[indiceLogeado];
+                    int nroIndiceBorrar = cmbUsuarioEditado.SelectedIndex;
+                    cmbUsuarioEditado.SelectedIndex = indiceLogeado;
+
+                    nombreUsuarios.RemoveAt(nroIndiceBorrar);
+                    usuarios.Remove(usuarioABorrar);
+                    
+                    
+
+                    MessageBox.Show("Usuario " + usuarioABorrar[17] + " eliminado", "Eliminado con Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+            }
+        }
     }
 }
