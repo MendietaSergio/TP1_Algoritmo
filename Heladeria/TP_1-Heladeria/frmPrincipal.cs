@@ -10,7 +10,7 @@ namespace TP_1_Heladeria
 {
     public partial class frmPrincipal : Form
     {
-        public frmPrincipal()
+        public frmPrincipal(BindingList<string[]> _usuarios, int indiceUsuario)
         {
             InitializeComponent();
         }

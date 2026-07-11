@@ -10,7 +10,7 @@ namespace TP_1_Heladeria
 {
     public partial class frmCambioContrasena : Form
     {
-        public frmCambioContrasena()
+        public frmCambioContrasena(BindingList<string[]> _usuarios, int indiceUsuario)
         {
             InitializeComponent();
         }

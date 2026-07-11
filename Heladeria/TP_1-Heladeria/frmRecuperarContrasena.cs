@@ -11,9 +11,13 @@ namespace TP_1_Heladeria
 {
     public partial class frmRecuperarContrasena : Form
     {
-        public frmRecuperarContrasena()
+        BindingList<string[]> usuarios = new BindingList<string[]>();
+        int indiceUsuario;
+        public frmRecuperarContrasena(BindingList<string[]> _usuarios)
         {
             InitializeComponent();
+            usuarios = _usuarios;
+            lblError.Visible = false;
         }
 
         private void btnEnviarCodigo_Click(object sender, EventArgs e)
@@ -21,7 +25,9 @@ namespace TP_1_Heladeria
             // Si el email está vacío, avisamos y salimos
             if (txtEmail.Text == "")
             {
-                MessageBox.Show("¡Falta poner el email!");
+                lblError.Visible = true;
+                lblError.Text = "Complete el campo.";
+                txtEmail.Focus();
                 return;
             }
             // Chequear email
@@ -29,7 +35,9 @@ namespace TP_1_Heladeria
 
             if (!esValido)
             {
-                MessageBox.Show("Mail invalido.");
+                lblError.Visible = true;
+                lblError.Text = "Email invalido.";
+                txtEmail.Focus();
                 return;
             }
 
@@ -37,28 +45,46 @@ namespace TP_1_Heladeria
             // Como es un trabajo práctico sin base de datos real, 
             // vamos a simular que el usuario existe (o puedes poner un if simple con un email fijo si quieres probar).
 
-            MessageBox.Show("Código enviado a " + txtEmail.Text + "\nEl código es: 1234");
+            while (true)
+            {
+                for (int i = 0; i < usuarios.Count; i++)
+                {
+                    if (txtEmail.Text == usuarios[i][4])
+                    {
+                        indiceUsuario = i ;
+                        MessageBox.Show("Código enviado a " + txtEmail.Text + "\nEl código es: 1234");
+                        lblError.Visible = false;
+                        // Ahora habilitamos lo que estaba bloqueado
+                        txtCodigo.Enabled = true;
+                        btnValidarCodigo.Enabled = true;
 
-            // Ahora habilitamos lo que estaba bloqueado
-            txtCodigo.Enabled = true;
-            btnValidarCodigo.Enabled = true;
+                        // Desactivamos este botón para que no lo aprieten dos veces
+                        btnEnviarCodigo.Enabled = false;
 
-            // Desactivamos este botón para que no lo aprieten dos veces
-            btnEnviarCodigo.Enabled = false;
+                        // Cambiamos el mensaje de arriba
+                        lblEstado.Text = "Ingresá el código que te llego (1234)";
 
-            // Cambiamos el mensaje de arriba
-            lblEstado.Text = "Ingresá el código que te llego (1234)";
-
-            // Limpiamos el campo de código por si acaso
-            txtCodigo.Text = "";
-            txtCodigo.Focus(); // Dejamos el cursor listo para escribir
+                        // Limpiamos el campo de código por si acaso
+                        txtCodigo.Text = "";
+                        txtCodigo.Focus(); // Dejamos el cursor listo para escribir
+                        return;
+                    }
+                }
+                lblError.Visible = true;
+                lblError.Text = "Error: los datos son incorrectos.";
+                txtEmail.Focus();
+                break;
+            }
+            
         }
         private void btnValidarCodigo_Click(object sender, EventArgs e)
         {
             // 1. Verificar que no haya escrito nada en el código
             if (txtCodigo.Text == "")
             {
-                MessageBox.Show("¡Falta poner el código!");
+                lblError.Visible = true;
+                lblError.Text = "Falta poner el codigo.";
+                txtCodigo.Focus();
                 return;
             }
 
@@ -81,15 +107,17 @@ namespace TP_1_Heladeria
                 // Limpiamos el campo de código y ponemos el foco en la nueva contraseña
                 txtCodigo.Text = "";
                 txtNuevaContra.Focus();
-
+                lblError.Visible = false;
                 // Actualizamos el mensaje de estado
                 lblEstado.Text = "Código válido. Ingresá tu nueva contraseña.";
             }
             else
             {
                 // Código incorrecto
-                MessageBox.Show("El código que ingresaste es incorrecto. Intentá de nuevo.");
-
+                lblError.Visible = true;
+                lblError.Text = "El código que ingresaste es incorrecto. Intentá de nuevo.";
+                txtCodigo.Focus();
+         
                 // Limpiamos el campo de código para que intente de nuevo
                 txtCodigo.Text = "";
                 txtCodigo.Focus();
@@ -102,34 +130,40 @@ namespace TP_1_Heladeria
             // 1. Verificar que no estén vacías
             if (txtNuevaContra.Text == "" || txtConfirmarContra.Text == "")
             {
-                MessageBox.Show("¡Falta completar las contraseñas!");
+                lblError.Visible = true;
+                lblError.Text = "¡Falta completar las contraseñas!.";
+                txtNuevaContra.Focus();
                 return;
             }
 
             // 2. Verificar longitud (al menos 8)
             if (txtNuevaContra.Text.Length < 8)
             {
-                MessageBox.Show("La contraseña debe tener al menos 8 caracteres.");
+                lblError.Visible = true;
+                lblError.Text = "La contraseña debe tener al menos 8 caracteres.";
+                txtNuevaContra.Focus();
                 return;
             }
 
             // 3. Verificar que coincidan
             if (txtNuevaContra.Text != txtConfirmarContra.Text)
             {
-                MessageBox.Show("Las contraseñas no coinciden.");
-                txtConfirmarContra.Text = ""; // Limpiamos la confirmación
+                lblError.Visible = true;
+                lblError.Text = "Las contraseñas no coinciden.";
                 txtConfirmarContra.Focus();
                 return;
             }
 
-
-          
+            usuarios[indiceUsuario][4] = txtNuevaContra.Text ;
+            lblError.Visible = false;
             // ¡SI LLEGAMOS AQUÍ, ES QUE TODO ESTÁ BIEN!
             MessageBox.Show("¡Éxito! Contraseña cambiada.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             // Cerrar este formulario
             this.Close();
+            frmLogin login = new frmLogin (usuarios);
+            login.Show();
         }
+
     }
-    
 }

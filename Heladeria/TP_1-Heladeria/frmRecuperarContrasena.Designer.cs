@@ -41,6 +41,7 @@
             btnEnviarCodigo = new Button();
             btnValidarCodigo = new Button();
             btnGuardarContra = new Button();
+            lblError = new Label();
             SuspendLayout();
             // 
             // lblTituloRecuperacion
@@ -162,11 +163,22 @@
             btnGuardarContra.UseVisualStyleBackColor = true;
             btnGuardarContra.Click += btnGuardarContra_Click;
             // 
+            // lblError
+            // 
+            lblError.AutoSize = true;
+            lblError.ForeColor = Color.FromArgb(192, 0, 0);
+            lblError.Location = new Point(42, 330);
+            lblError.Name = "lblError";
+            lblError.Size = new Size(50, 25);
+            lblError.TabIndex = 12;
+            lblError.Text = "Error";
+            // 
             // frmRecuperarContrasena
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(798, 341);
+            ClientSize = new Size(798, 390);
+            Controls.Add(lblError);
             Controls.Add(btnGuardarContra);
             Controls.Add(btnValidarCodigo);
             Controls.Add(btnEnviarCodigo);
@@ -205,5 +217,6 @@
         private Button btnEnviarCodigo;
         private Button btnValidarCodigo;
         private Button btnGuardarContra;
+        private Label lblError;
     }
 }
