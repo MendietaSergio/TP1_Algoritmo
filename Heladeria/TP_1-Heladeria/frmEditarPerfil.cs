@@ -43,6 +43,8 @@ namespace TP_1_Heladeria
             //Carga de datos
             {
 
+                cmbUsuarioEditado.SelectedIndex = indiceLogeado;
+
                 txtNombre.Text = usuarioEditando[0];
                 txtApellido.Text = usuarioEditando[1];
                 txtDNI.Text = usuarioEditando[2];
@@ -68,23 +70,22 @@ namespace TP_1_Heladeria
                 txtAltura.Text = usuarioEditando[14];
                 txtPiso.Text = usuarioEditando[15];
                 txtDepartamento.Text = usuarioEditando[16];
-                cmbUsuarioEditado.SelectedIndex = indiceLogeado;
 
 
             }
             //Me fijo que el campo del que depende 1 campo de la ubicacion, este disponible para habilitarlo
             {
-                if (cmbNacionalidad.SelectedValue != "")
+                if (cmbNacionalidad.SelectedValue != null && cmbNacionalidad.SelectedIndex != 0)
                     cmbProvincia.Enabled = true;
                 else
                     cmbProvincia.Enabled = false;
 
-                if (cmbProvincia.SelectedValue != "")
+                if (cmbProvincia.SelectedValue != null && cmbProvincia.SelectedIndex != 0)
                     cmbPartidoMunicipio.Enabled = true;
                 else
                     cmbPartidoMunicipio.Enabled = false;
 
-                if (cmbPartidoMunicipio.SelectedValue != "")
+                if (cmbPartidoMunicipio.SelectedValue != null && cmbPartidoMunicipio.SelectedIndex != 0)
                     cmbLocalidad.Enabled = true;
                 else
                     cmbLocalidad.Enabled = false;
@@ -523,7 +524,7 @@ namespace TP_1_Heladeria
                 txtAltura.Focus();
                 return;
             }
-            if (altura <= 0)
+            if (altura <= 0 && txtAltura.Text != "")
             {
                 MessageBox.Show("Se esperaba un valor positivo para la Altura",
                     "Error Altura", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -557,13 +558,18 @@ namespace TP_1_Heladeria
                 usuarioEditando[5] = "Femenino";
             usuarioEditando[6] = cmbTipoUsuario.SelectedValue.ToString();
             usuarioEditando[7] = dtpFecNac.Text;
-            if (cmbNacionalidad.SelectedIndex > 0)
+            if (cmbNacionalidad.SelectedIndex >= 0)
                 usuarioEditando[8] = cmbNacionalidad.SelectedValue.ToString();
-            if (cmbProvincia.SelectedIndex > 0)
+
+            if (cmbProvincia.SelectedIndex >= 0)
                 usuarioEditando[9] = cmbProvincia.SelectedValue.ToString();
-            if (cmbPartidoMunicipio.SelectedIndex > 0)
+            else
+                usuarioEditando[9] = "";
+            if (cmbPartidoMunicipio.SelectedIndex >= 0)
                 usuarioEditando[10] = cmbPartidoMunicipio.SelectedValue.ToString();
-            usuarioEditando[11] = cmbLocalidad.SelectedIndex > 0 ? cmbLocalidad.SelectedValue.ToString() : "";
+            else
+                usuarioEditando[10] = "";
+            usuarioEditando[11] = cmbLocalidad.SelectedIndex >= 0 ? cmbLocalidad.SelectedValue.ToString() : "";
             usuarioEditando[12] = txtCodPostal.Text;
             usuarioEditando[13] = txtCalle.Text;
             usuarioEditando[14] = txtAltura.Text;
@@ -585,7 +591,7 @@ namespace TP_1_Heladeria
         {
 
             //Solamente la contraseña del logeado porque hay una opcion para recuperar contraseña
-            frmRecuperarContrasena frm = new frmRecuperarContrasena(usuarios, usuarioLogeado);
+            frmCambioContrasena frm = new frmCambioContrasena(usuarios, indiceLogeado);
             frm.ShowDialog();
 
         }

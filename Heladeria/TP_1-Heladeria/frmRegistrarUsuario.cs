@@ -284,7 +284,7 @@ namespace TP_1_Heladeria
                 txtAltura.Focus();
                 return;
             }
-            if (altura <= 0)
+            if (altura <= 0 && txtAltura.Text != "")
             {
                 MessageBox.Show("Se esperaba un valor positivo para la Altura",
                     "Error Altura", MessageBoxButtons.OK, MessageBoxIcon.Error);

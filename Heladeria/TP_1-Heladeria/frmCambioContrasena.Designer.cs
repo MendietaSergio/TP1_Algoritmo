@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
-            label2 = new Label();
+            lblTitulo = new Label();
+            lblInfo = new Label();
             label4 = new Label();
             label5 = new Label();
             label3 = new Label();
@@ -44,31 +44,32 @@
             imgHide2 = new PictureBox();
             imgHide1 = new PictureBox();
             lblError = new Label();
+            btnAtras = new Button();
             ((System.ComponentModel.ISupportInitialize)imgShow1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)imgShow2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)imgHide2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)imgHide1).BeginInit();
             SuspendLayout();
             // 
-            // label1
+            // lblTitulo
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Microsoft Sans Serif", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(171, 8);
-            label1.Name = "label1";
-            label1.Size = new Size(223, 37);
-            label1.TabIndex = 0;
-            label1.Text = "¡ Bienvenido !";
+            lblTitulo.AutoSize = true;
+            lblTitulo.Font = new Font("Microsoft Sans Serif", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTitulo.Location = new Point(171, 8);
+            lblTitulo.Name = "lblTitulo";
+            lblTitulo.Size = new Size(223, 37);
+            lblTitulo.TabIndex = 0;
+            lblTitulo.Text = "¡ Bienvenido !";
             // 
-            // label2
+            // lblInfo
             // 
-            label2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            label2.Location = new Point(27, 60);
-            label2.Name = "label2";
-            label2.Size = new Size(496, 51);
-            label2.TabIndex = 1;
-            label2.Text = "Te informamos que al ingresar por primera vez, tenes que cambiar la contraseña a una mas segura para poder continuar\r\n ";
-            label2.TextAlign = ContentAlignment.TopCenter;
+            lblInfo.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            lblInfo.Location = new Point(27, 60);
+            lblInfo.Name = "lblInfo";
+            lblInfo.Size = new Size(496, 51);
+            lblInfo.TabIndex = 1;
+            lblInfo.Text = "Te informamos que al ingresar por primera vez, tenes que cambiar la contraseña a una mas segura para poder continuar\r\n ";
+            lblInfo.TextAlign = ContentAlignment.TopCenter;
             // 
             // label4
             // 
@@ -150,7 +151,6 @@
             txtPass.Location = new Point(224, 135);
             txtPass.Name = "txtPass";
             txtPass.PasswordChar = '*';
-            txtPass.PlaceholderText = "**********************";
             txtPass.Size = new Size(138, 22);
             txtPass.TabIndex = 11;
             // 
@@ -160,7 +160,6 @@
             txtPass2.Location = new Point(224, 184);
             txtPass2.Name = "txtPass2";
             txtPass2.PasswordChar = '*';
-            txtPass2.PlaceholderText = "**********************";
             txtPass2.Size = new Size(138, 22);
             txtPass2.TabIndex = 12;
             // 
@@ -208,11 +207,25 @@
             lblError.TabIndex = 17;
             lblError.Text = "Errores:";
             // 
+            // btnAtras
+            // 
+            btnAtras.BackColor = Color.DarkRed;
+            btnAtras.ForeColor = Color.White;
+            btnAtras.Location = new Point(500, 8);
+            btnAtras.Name = "btnAtras";
+            btnAtras.Size = new Size(36, 37);
+            btnAtras.TabIndex = 22;
+            btnAtras.Text = "X";
+            btnAtras.UseVisualStyleBackColor = false;
+            btnAtras.Visible = false;
+            btnAtras.Click += btnAtras_Click;
+            // 
             // frmCambioContrasena
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(548, 468);
+            Controls.Add(btnAtras);
             Controls.Add(lblError);
             Controls.Add(imgHide1);
             Controls.Add(imgHide2);
@@ -227,9 +240,11 @@
             Controls.Add(label3);
             Controls.Add(label5);
             Controls.Add(label4);
-            Controls.Add(label2);
-            Controls.Add(label1);
+            Controls.Add(lblInfo);
+            Controls.Add(lblTitulo);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "frmCambioContrasena";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Cambio Contrasenia";
             ((System.ComponentModel.ISupportInitialize)imgShow1).EndInit();
             ((System.ComponentModel.ISupportInitialize)imgShow2).EndInit();
@@ -241,8 +256,8 @@
 
         #endregion
 
-        private Label label1;
-        private Label label2;
+        private Label lblTitulo;
+        private Label lblInfo;
         private Label label4;
         private Label label5;
         private Label label3;
@@ -257,5 +272,6 @@
         private PictureBox imgHide2;
         private PictureBox imgHide1;
         private Label lblError;
+        private Button btnAtras;
     }
 }

@@ -23,6 +23,15 @@ namespace TP_1_Heladeria
             lblError.Visible = false;
             usuarios = _usuarios;
             indiceUsuario = _indiceUsuario;
+
+            if (usuarios[indiceUsuario][19].ToLower() == "no")
+            {
+                lblTitulo.Text = "Cambio de Contraseña";
+                lblTitulo.Location = new Point(106, 60);
+                lblInfo.Visible = false;
+                btnAtras.Visible = true;
+
+            }
         }
 
         private void imgShow1_Click(object sender, EventArgs e)
@@ -61,7 +70,7 @@ namespace TP_1_Heladeria
 
         private void btnContinuar_Click(object sender, EventArgs e)
         {
-            lblError.Visible=false;
+            lblError.Visible = false;
             lblError.Text = "Error: ";
             if (txtPass.Text == "")
             {
@@ -77,7 +86,7 @@ namespace TP_1_Heladeria
                 txtPass2.Focus();
                 return;
             }
-            if(txtPass.MaxLength <= 8 )
+            if (txtPass.MaxLength <= 8)
             {
                 lblError.Visible = true;
                 lblError.Text = lblError.Text + "Contraseña menor a 8 caracteres.";
@@ -91,7 +100,7 @@ namespace TP_1_Heladeria
                 txtPass2.Focus();
                 return;
             }
-            
+
             if (txtPass.Text != txtPass2.Text)
             {
                 lblError.Visible = true;
@@ -101,15 +110,25 @@ namespace TP_1_Heladeria
                 return;
             }
             usuarios[indiceUsuario][18] = txtPass.Text;
-            usuarios[indiceUsuario][19] = "no";
             MessageBox.Show(
                 "¡La contraseña se generó exitosamente!",
                     "Cambio guardado", MessageBoxButtons.OK, MessageBoxIcon.Information
                     );
-            frmPrincipal frmPrincipal = new frmPrincipal(usuarios, indiceUsuario);
-            frmPrincipal.Show();
+
+            if(usuarios[indiceUsuario][19].ToLower() == "si")
+            {
+                frmPrincipal frmPrincipal = new frmPrincipal(usuarios, indiceUsuario);
+                frmPrincipal.Show();
+                usuarios[indiceUsuario][19] = "no";
+            }
+
             this.Close();
             return;
+        }
+
+        private void btnAtras_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
