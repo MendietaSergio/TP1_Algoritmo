@@ -16,10 +16,6 @@ namespace TP_1_Heladeria
         public frmCambioContrasena(BindingList<string[]> _usuarios, int _indiceUsuario)
         {
             InitializeComponent();
-            imgHide1.Visible = true;
-            imgShow1.Visible = false;
-            imgHide2.Visible = true;
-            imgShow2.Visible = false;
             lblError.Visible = false;
             usuarios = _usuarios;
             indiceUsuario = _indiceUsuario;
@@ -32,34 +28,6 @@ namespace TP_1_Heladeria
                 btnAtras.Visible = true;
 
             }
-        }
-
-        private void imgShow1_Click(object sender, EventArgs e)
-        {
-            txtPass.PasswordChar = '*';
-            imgHide1.Visible = true;
-            imgShow1.Visible = false;
-        }
-
-        private void imgHide1_Click(object sender, EventArgs e)
-        {
-            txtPass.PasswordChar = '\0';
-            imgHide1.Visible = false;
-            imgShow1.Visible = true;
-        }
-
-        private void imgShow2_Click(object sender, EventArgs e)
-        {
-            txtPass2.PasswordChar = '*';
-            imgHide2.Visible = true;
-            imgShow2.Visible = false;
-        }
-
-        private void imgHide2_Click(object sender, EventArgs e)
-        {
-            txtPass2.PasswordChar = '\0';
-            imgHide2.Visible = false;
-            imgShow2.Visible = true;
         }
 
         private void btnLimpiar_Click(object sender, EventArgs e)
@@ -115,7 +83,7 @@ namespace TP_1_Heladeria
                     "Cambio guardado", MessageBoxButtons.OK, MessageBoxIcon.Information
                     );
 
-            if(usuarios[indiceUsuario][19].ToLower() == "si")
+            if (usuarios[indiceUsuario][19].ToLower() == "si")
             {
                 frmPrincipal frmPrincipal = new frmPrincipal(usuarios, indiceUsuario);
                 frmPrincipal.Show();
@@ -129,6 +97,36 @@ namespace TP_1_Heladeria
         private void btnAtras_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void imgShowContrasena_Click(object sender, EventArgs e)
+        {
+            txtPass.PasswordChar = '\0';
+            imgShowContrasena.Visible = false;
+            imgHideContrasena.Visible = true;
+        }
+
+
+        private void imgHideContrasena_Click(object sender, EventArgs e)
+        {
+            txtPass.PasswordChar = '*';
+            imgShowContrasena.Visible = true;
+            imgHideContrasena.Visible = false;
+        }
+
+        private void imgHideConf_Click(object sender, EventArgs e)
+        {
+
+            txtPass2.PasswordChar = '*';
+            imgHideConf.Visible = false;
+            imgShowConf.Visible = true;
+        }
+
+        private void imgShowConf_Click(object sender, EventArgs e)
+        {
+            txtPass2.PasswordChar = '\0';
+            imgHideConf.Visible = true;
+            imgShowConf.Visible = false;
         }
     }
 }

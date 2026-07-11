@@ -12,12 +12,12 @@ namespace TP_1_Heladeria
         public frmLogin(BindingList<string[]> _usuarios)
         {
             InitializeComponent();
-            imgHide1.Visible = true;
-            imgShow1.Visible = false;
+            imgShow1.Visible = true;
+            imgHide1.Visible = false;
             lblError.Visible = false;
             usuarios = _usuarios;
 
-        }      
+        }
 
         private void btnInicioSesion_Click(object sender, EventArgs e)
         {
@@ -52,7 +52,7 @@ namespace TP_1_Heladeria
                             frmCambioContrasena frmCambioContrasenia = new frmCambioContrasena(usuarios, indiceUsuario);
                             this.Hide();
                             frmCambioContrasenia.ShowDialog();
-                            
+
                             return;
                         }
                         else
@@ -75,22 +75,22 @@ namespace TP_1_Heladeria
 
         private void btnSalir_Click(object sender, EventArgs e)
         {
-    
+
             Application.Exit();
         }
 
         private void imgHide1_Click(object sender, EventArgs e)
         {
             txtContrasenia.PasswordChar = '\0';
-            imgHide1.Visible = false;
-            imgShow1.Visible = true;
+            imgShow1.Visible = false;
+            imgHide1.Visible = true;
         }
 
         private void imgShow1_Click(object sender, EventArgs e)
         {
             txtContrasenia.PasswordChar = '*';
-            imgHide1.Visible = true;
-            imgShow1.Visible = false;
+            imgShow1.Visible = true;
+            imgHide1.Visible = false;
         }
 
         private void linkOldPass_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -99,6 +99,11 @@ namespace TP_1_Heladeria
             this.Hide();
 
             frmRecuperarContrasena.ShowDialog();
+        }
+
+        private void frmLogin_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

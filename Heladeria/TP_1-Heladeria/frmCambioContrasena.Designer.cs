@@ -39,16 +39,16 @@
             label8 = new Label();
             txtPass = new TextBox();
             txtPass2 = new TextBox();
-            imgShow1 = new PictureBox();
-            imgShow2 = new PictureBox();
-            imgHide2 = new PictureBox();
-            imgHide1 = new PictureBox();
+            imgHideConf = new PictureBox();
+            imgShowContrasena = new PictureBox();
+            imgShowConf = new PictureBox();
+            imgHideContrasena = new PictureBox();
             lblError = new Label();
             btnAtras = new Button();
-            ((System.ComponentModel.ISupportInitialize)imgShow1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)imgShow2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)imgHide2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)imgHide1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)imgHideConf).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)imgShowContrasena).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)imgShowConf).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)imgHideContrasena).BeginInit();
             SuspendLayout();
             // 
             // lblTitulo
@@ -107,7 +107,7 @@
             btnLimpiar.Location = new Point(38, 396);
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(201, 47);
-            btnLimpiar.TabIndex = 7;
+            btnLimpiar.TabIndex = 4;
             btnLimpiar.Text = "Limpiar";
             btnLimpiar.UseVisualStyleBackColor = false;
             btnLimpiar.Click += btnLimpiar_Click;
@@ -120,7 +120,7 @@
             btnContinuar.Location = new Point(303, 396);
             btnContinuar.Name = "btnContinuar";
             btnContinuar.Size = new Size(201, 47);
-            btnContinuar.TabIndex = 8;
+            btnContinuar.TabIndex = 3;
             btnContinuar.Text = "Continuar";
             btnContinuar.UseVisualStyleBackColor = false;
             btnContinuar.Click += btnContinuar_Click;
@@ -152,7 +152,7 @@
             txtPass.Name = "txtPass";
             txtPass.PasswordChar = '*';
             txtPass.Size = new Size(138, 22);
-            txtPass.TabIndex = 11;
+            txtPass.TabIndex = 1;
             // 
             // txtPass2
             // 
@@ -161,39 +161,53 @@
             txtPass2.Name = "txtPass2";
             txtPass2.PasswordChar = '*';
             txtPass2.Size = new Size(138, 22);
-            txtPass2.TabIndex = 12;
+            txtPass2.TabIndex = 2;
             // 
-            // imgShow1
+            // imgHideConf
             // 
-            imgShow1.Location = new Point(0, 0);
-            imgShow1.Name = "imgShow1";
-            imgShow1.Size = new Size(100, 50);
-            imgShow1.TabIndex = 21;
-            imgShow1.TabStop = false;
+            imgHideConf.Image = Properties.Resources.cerrar_ojo;
+            imgHideConf.Location = new Point(368, 174);
+            imgHideConf.Name = "imgHideConf";
+            imgHideConf.Size = new Size(32, 32);
+            imgHideConf.SizeMode = PictureBoxSizeMode.AutoSize;
+            imgHideConf.TabIndex = 21;
+            imgHideConf.TabStop = false;
+            imgHideConf.Visible = false;
+            imgHideConf.Click += imgHideConf_Click;
             // 
-            // imgShow2
+            // imgShowContrasena
             // 
-            imgShow2.Location = new Point(0, 0);
-            imgShow2.Name = "imgShow2";
-            imgShow2.Size = new Size(100, 50);
-            imgShow2.TabIndex = 20;
-            imgShow2.TabStop = false;
+            imgShowContrasena.Image = Properties.Resources.ojo;
+            imgShowContrasena.Location = new Point(368, 125);
+            imgShowContrasena.Name = "imgShowContrasena";
+            imgShowContrasena.Size = new Size(32, 32);
+            imgShowContrasena.SizeMode = PictureBoxSizeMode.AutoSize;
+            imgShowContrasena.TabIndex = 20;
+            imgShowContrasena.TabStop = false;
+            imgShowContrasena.Click += imgShowContrasena_Click;
             // 
-            // imgHide2
+            // imgShowConf
             // 
-            imgHide2.Location = new Point(368, 180);
-            imgHide2.Name = "imgHide2";
-            imgHide2.Size = new Size(100, 50);
-            imgHide2.TabIndex = 19;
-            imgHide2.TabStop = false;
+            imgShowConf.Image = Properties.Resources.ojo;
+            imgShowConf.Location = new Point(368, 174);
+            imgShowConf.Name = "imgShowConf";
+            imgShowConf.Size = new Size(32, 32);
+            imgShowConf.SizeMode = PictureBoxSizeMode.AutoSize;
+            imgShowConf.TabIndex = 19;
+            imgShowConf.TabStop = false;
+            imgShowConf.Click += imgShowConf_Click;
             // 
-            // imgHide1
+            // imgHideContrasena
             // 
-            imgHide1.Location = new Point(368, 124);
-            imgHide1.Name = "imgHide1";
-            imgHide1.Size = new Size(100, 50);
-            imgHide1.TabIndex = 18;
-            imgHide1.TabStop = false;
+            imgHideContrasena.Image = Properties.Resources.cerrar_ojo;
+            imgHideContrasena.Location = new Point(368, 125);
+            imgHideContrasena.Name = "imgHideContrasena";
+            imgHideContrasena.Size = new Size(32, 32);
+            imgHideContrasena.SizeMode = PictureBoxSizeMode.AutoSize;
+            imgHideContrasena.TabIndex = 18;
+            imgHideContrasena.TabStop = false;
+            imgHideContrasena.Visible = false;
+            imgHideContrasena.Click += imgHideContrasena_Click;
             // 
             // lblError
             // 
@@ -227,10 +241,10 @@
             ClientSize = new Size(548, 468);
             Controls.Add(btnAtras);
             Controls.Add(lblError);
-            Controls.Add(imgHide1);
-            Controls.Add(imgHide2);
-            Controls.Add(imgShow2);
-            Controls.Add(imgShow1);
+            Controls.Add(imgHideContrasena);
+            Controls.Add(imgShowConf);
+            Controls.Add(imgShowContrasena);
+            Controls.Add(imgHideConf);
             Controls.Add(txtPass2);
             Controls.Add(txtPass);
             Controls.Add(label8);
@@ -246,10 +260,10 @@
             Name = "frmCambioContrasena";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Cambio Contrasenia";
-            ((System.ComponentModel.ISupportInitialize)imgShow1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)imgShow2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)imgHide2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)imgHide1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)imgHideConf).EndInit();
+            ((System.ComponentModel.ISupportInitialize)imgShowContrasena).EndInit();
+            ((System.ComponentModel.ISupportInitialize)imgShowConf).EndInit();
+            ((System.ComponentModel.ISupportInitialize)imgHideContrasena).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -267,10 +281,10 @@
         private Label label8;
         private TextBox txtPass;
         private TextBox txtPass2;
-        private PictureBox imgShow1;
-        private PictureBox imgShow2;
-        private PictureBox imgHide2;
-        private PictureBox imgHide1;
+        private PictureBox imgHideConf;
+        private PictureBox imgShowContrasena;
+        private PictureBox imgShowConf;
+        private PictureBox imgHideContrasena;
         private Label lblError;
         private Button btnAtras;
     }

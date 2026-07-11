@@ -51,7 +51,7 @@ namespace TP_1_Heladeria
                 {
                     if (txtEmail.Text == usuarios[i][4])
                     {
-                        indiceUsuario = i ;
+                        indiceUsuario = i;
                         MessageBox.Show("Código enviado a " + txtEmail.Text + "\nEl código es: 1234");
                         lblError.Visible = false;
                         // Ahora habilitamos lo que estaba bloqueado
@@ -75,7 +75,7 @@ namespace TP_1_Heladeria
                 txtEmail.Focus();
                 break;
             }
-            
+
         }
         private void btnValidarCodigo_Click(object sender, EventArgs e)
         {
@@ -117,15 +117,15 @@ namespace TP_1_Heladeria
                 lblError.Visible = true;
                 lblError.Text = "El código que ingresaste es incorrecto. Intentá de nuevo.";
                 txtCodigo.Focus();
-         
+
                 // Limpiamos el campo de código para que intente de nuevo
                 txtCodigo.Text = "";
                 txtCodigo.Focus();
             }
         }
 
-        
-            private void btnGuardarContra_Click(object sender, EventArgs e)
+
+        private void btnGuardarContra_Click(object sender, EventArgs e)
         {
             // 1. Verificar que no estén vacías
             if (txtNuevaContra.Text == "" || txtConfirmarContra.Text == "")
@@ -154,16 +154,50 @@ namespace TP_1_Heladeria
                 return;
             }
 
-            usuarios[indiceUsuario][18] = txtNuevaContra.Text ;
+            usuarios[indiceUsuario][18] = txtNuevaContra.Text;
             lblError.Visible = false;
             // ¡SI LLEGAMOS AQUÍ, ES QUE TODO ESTÁ BIEN!
             MessageBox.Show("¡Éxito! Contraseña cambiada.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             // Cerrar este formulario
             this.Close();
-            frmLogin login = new frmLogin (usuarios);
+            frmLogin login = new frmLogin(usuarios);
             login.Show();
         }
 
+        private void btnAtras_Click(object sender, EventArgs e)
+        {
+            frmLogin login = new frmLogin(usuarios);
+            login.Show();
+            this.Close();
+        }
+
+        private void imgShow1_Click(object sender, EventArgs e)
+        {
+            txtNuevaContra.PasswordChar = '\0';
+            imgShow1.Visible = false;
+            imgHide1.Visible = true;
+        }
+
+        private void imgHide1_Click(object sender, EventArgs e)
+        {
+            txtNuevaContra.PasswordChar = '*';
+            imgShow1.Visible = true;
+            imgHide1.Visible = false;
+        }
+
+        private void imgShow2_Click(object sender, EventArgs e)
+        {
+            txtConfirmarContra.PasswordChar = '\0';
+            imgShow2.Visible = false;
+            imgHide2.Visible = true;
+        }
+
+        private void imgHide2_Click(object sender, EventArgs e)
+        {
+            txtConfirmarContra.PasswordChar = '*';
+            imgShow2.Visible = true;
+            imgHide2.Visible = false;
+        }
     }
 }

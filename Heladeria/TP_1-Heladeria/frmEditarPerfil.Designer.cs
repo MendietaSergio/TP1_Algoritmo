@@ -460,7 +460,7 @@
             btnVolver.Location = new Point(599, 7);
             btnVolver.Name = "btnVolver";
             btnVolver.Size = new Size(95, 40);
-            btnVolver.TabIndex = 21;
+            btnVolver.TabIndex = 22;
             btnVolver.Text = "Volver al Menu Principal";
             btnVolver.UseVisualStyleBackColor = true;
             btnVolver.Click += btnVolver_Click;
@@ -470,7 +470,7 @@
             btnEditarContrasena.Location = new Point(599, 351);
             btnEditarContrasena.Name = "btnEditarContrasena";
             btnEditarContrasena.Size = new Size(121, 41);
-            btnEditarContrasena.TabIndex = 22;
+            btnEditarContrasena.TabIndex = 21;
             btnEditarContrasena.Text = "Editar Clave de Acceso";
             btnEditarContrasena.UseVisualStyleBackColor = true;
             btnEditarContrasena.Click += btnEditarContrasena_Click;
@@ -487,12 +487,13 @@
             // 
             // btnEliminar
             // 
+            btnEliminar.BackColor = Color.RosyBrown;
             btnEliminar.Location = new Point(512, 349);
             btnEliminar.Name = "btnEliminar";
             btnEliminar.Size = new Size(81, 41);
-            btnEliminar.TabIndex = 24;
+            btnEliminar.TabIndex = 20;
             btnEliminar.Text = "Eliminar";
-            btnEliminar.UseVisualStyleBackColor = true;
+            btnEliminar.UseVisualStyleBackColor = false;
             btnEliminar.Click += btnEliminar_Click;
             // 
             // frmEditarPerfil
