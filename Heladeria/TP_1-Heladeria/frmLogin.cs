@@ -8,7 +8,7 @@ namespace TP_1_Heladeria
         public BindingList<string[]> usuarios = new BindingList<string[]>();
 
 
-        // Constructor con parámetros (cuando vuelve a loguear desde frmPrincipal)
+       
         public frmLogin(BindingList<string[]> _usuarios)
         {
             InitializeComponent();
@@ -19,6 +19,7 @@ namespace TP_1_Heladeria
 
         }
 
+        //Eventos Botones
         private void btnInicioSesion_Click(object sender, EventArgs e)
         {
             lblError.Visible = false;
@@ -36,7 +37,7 @@ namespace TP_1_Heladeria
                 txtContrasenia.Focus();
                 return;
             }
-            // recorremos la lista para poder validar si los datos ingresados corresponde a un usuario registrado.
+
             while (true)
             {
                 for (int i = 0; i < usuarios.Count; i++)
@@ -45,8 +46,6 @@ namespace TP_1_Heladeria
                     {
                         indiceUsuario = i;
 
-                        // si encuentra una coincidencia, deberia abrir el formulario principal de la app
-                        // y cerrar el formulario de login
                         if (usuarios[i][19].ToLower() == "si")
                         {
                             frmCambioContrasena frmCambioContrasenia = new frmCambioContrasena(usuarios, indiceUsuario);
@@ -72,20 +71,19 @@ namespace TP_1_Heladeria
 
 
         }
-
         private void btnSalir_Click(object sender, EventArgs e)
         {
 
             Application.Exit();
         }
 
+        //Eventos Imagenes
         private void imgHide1_Click(object sender, EventArgs e)
         {
             txtContrasenia.PasswordChar = '\0';
             imgShow1.Visible = false;
             imgHide1.Visible = true;
         }
-
         private void imgShow1_Click(object sender, EventArgs e)
         {
             txtContrasenia.PasswordChar = '*';
@@ -93,17 +91,13 @@ namespace TP_1_Heladeria
             imgHide1.Visible = false;
         }
 
+        //Eventos LinkdLbl
         private void linkOldPass_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             frmRecuperarContrasena frmRecuperarContrasena = new frmRecuperarContrasena(usuarios);
             this.Hide();
 
             frmRecuperarContrasena.ShowDialog();
-        }
-
-        private void frmLogin_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

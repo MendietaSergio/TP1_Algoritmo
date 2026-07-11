@@ -552,7 +552,6 @@ namespace TP_1_Heladeria
             frm.ShowDialog();
 
         }
-
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             if ((usuarioLogeado[6].ToLower() == "administrador") &&

@@ -171,7 +171,6 @@
             Name = "frmLogin";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Login";
-            Load += frmLogin_Load;
             ((System.ComponentModel.ISupportInitialize)imgShow1).EndInit();
             ((System.ComponentModel.ISupportInitialize)imgHide1).EndInit();
             ResumeLayout(false);

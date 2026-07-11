@@ -30,12 +30,12 @@ namespace TP_1_Heladeria
             }
         }
 
+        //Eventos Botones
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             txtPass.Text = "";
             txtPass2.Text = "";
         }
-
         private void btnContinuar_Click(object sender, EventArgs e)
         {
             lblError.Visible = false;
@@ -93,27 +93,24 @@ namespace TP_1_Heladeria
             this.Close();
             return;
         }
-
         private void btnAtras_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
+        //Eventos Imagenes
         private void imgShowContrasena_Click(object sender, EventArgs e)
         {
             txtPass.PasswordChar = '\0';
             imgShowContrasena.Visible = false;
             imgHideContrasena.Visible = true;
         }
-
-
         private void imgHideContrasena_Click(object sender, EventArgs e)
         {
             txtPass.PasswordChar = '*';
             imgShowContrasena.Visible = true;
             imgHideContrasena.Visible = false;
         }
-
         private void imgHideConf_Click(object sender, EventArgs e)
         {
 
@@ -121,7 +118,6 @@ namespace TP_1_Heladeria
             imgHideConf.Visible = false;
             imgShowConf.Visible = true;
         }
-
         private void imgShowConf_Click(object sender, EventArgs e)
         {
             txtPass2.PasswordChar = '\0';
