@@ -8,6 +8,7 @@ namespace TP_1_Heladeria
         public BindingList<string[]> usuarios = new BindingList<string[]>();
 
 
+        // Constructor con parámetros (cuando vuelve a loguear desde frmPrincipal)
         public frmLogin(BindingList<string[]> _usuarios)
         {
             InitializeComponent();
@@ -16,7 +17,7 @@ namespace TP_1_Heladeria
             lblError.Visible = false;
             usuarios = _usuarios;
 
-        }
+        }      
 
         private void btnInicioSesion_Click(object sender, EventArgs e)
         {
@@ -51,7 +52,7 @@ namespace TP_1_Heladeria
                             frmCambioContrasena frmCambioContrasenia = new frmCambioContrasena(usuarios, indiceUsuario);
                             this.Hide();
                             frmCambioContrasenia.ShowDialog();
-
+                            
                             return;
                         }
                         else
@@ -74,7 +75,7 @@ namespace TP_1_Heladeria
 
         private void btnSalir_Click(object sender, EventArgs e)
         {
-
+    
             Application.Exit();
         }
 
@@ -94,15 +95,10 @@ namespace TP_1_Heladeria
 
         private void linkOldPass_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            //aca va lo del cambio de contraseña
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            frmPrincipal frmPrincipal = new frmPrincipal(usuarios, 0);
+            frmRecuperarContrasena frmRecuperarContrasena = new frmRecuperarContrasena(usuarios);
             this.Hide();
-            frmPrincipal.Show();
-            return;
+
+            frmRecuperarContrasena.ShowDialog();
         }
     }
 }

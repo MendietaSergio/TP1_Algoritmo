@@ -39,7 +39,6 @@
             txtUsuario = new TextBox();
             linkOldPass = new LinkLabel();
             lblError = new Label();
-            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)imgHide1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)imgShow1).BeginInit();
             SuspendLayout();
@@ -94,19 +93,25 @@
             // 
             // imgHide1
             // 
-            imgHide1.Location = new Point(12, 12);
+            imgHide1.Image = Properties.Resources.cerrar_ojo;
+            imgHide1.Location = new Point(295, 176);
             imgHide1.Name = "imgHide1";
-            imgHide1.Size = new Size(100, 50);
-            imgHide1.TabIndex = 24;
+            imgHide1.Size = new Size(26, 19);
+            imgHide1.SizeMode = PictureBoxSizeMode.Zoom;
+            imgHide1.TabIndex = 21;
             imgHide1.TabStop = false;
+            imgHide1.Click += imgHide1_Click;
             // 
             // imgShow1
             // 
-            imgShow1.Location = new Point(12, 12);
+            imgShow1.Image = Properties.Resources.ojo;
+            imgShow1.Location = new Point(295, 176);
             imgShow1.Name = "imgShow1";
-            imgShow1.Size = new Size(100, 50);
-            imgShow1.TabIndex = 25;
+            imgShow1.Size = new Size(26, 19);
+            imgShow1.SizeMode = PictureBoxSizeMode.Zoom;
+            imgShow1.TabIndex = 20;
             imgShow1.TabStop = false;
+            imgShow1.Click += imgShow1_Click;
             // 
             // txtContrasenia
             // 
@@ -146,22 +151,11 @@
             lblError.TabIndex = 23;
             lblError.Text = "Error:";
             // 
-            // button1
-            // 
-            button1.Location = new Point(323, 86);
-            button1.Name = "button1";
-            button1.Size = new Size(75, 23);
-            button1.TabIndex = 26;
-            button1.Text = "test";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
-            // 
             // frmLogin
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(410, 367);
-            Controls.Add(button1);
             Controls.Add(lblError);
             Controls.Add(linkOldPass);
             Controls.Add(imgHide1);
@@ -195,6 +189,5 @@
         private TextBox txtUsuario;
         private LinkLabel linkOldPass;
         private Label lblError;
-        private Button button1;
     }
 }
