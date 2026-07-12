@@ -13,7 +13,7 @@ namespace TP_1_Heladeria
         public int indiceUsuario;
         public BindingList<string[]> usuarios = new BindingList<string[]>();
 
-        public frmCambioContrasena(BindingList<string[]> _usuarios, int indiceUsuario)
+        public frmCambioContrasena(BindingList<string[]> _usuarios, int _indiceUsuario)
         {
             InitializeComponent();
             imgHide1.Visible = true;
@@ -22,7 +22,7 @@ namespace TP_1_Heladeria
             imgShow2.Visible = false;
             lblError.Visible = false;
             usuarios = _usuarios;
-            indiceUsuario = indiceUsuario;
+            indiceUsuario = _indiceUsuario;
         }
 
         private void imgShow1_Click(object sender, EventArgs e)

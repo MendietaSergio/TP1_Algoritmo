@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
+﻿using System.ComponentModel;
 
 namespace TP_1_Heladeria
 {
-    
+
     public partial class frmPrincipal : Form
     {
-       
+
         public string[] usuario;
         public BindingList<string[]> usuarios = new BindingList<string[]>();
         int indiceLogeado;
@@ -19,8 +13,8 @@ namespace TP_1_Heladeria
         {
             InitializeComponent();
             usuarios = _usuarios;
-            usuario = _usuarios[indiceLogeado];
             indiceLogeado = _indiceLogeado;
+            usuario = _usuarios[indiceLogeado];
 
             lblUsuario.Text = usuario[0];
             if (usuario[6].ToLower() == "administrador")

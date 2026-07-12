@@ -269,7 +269,11 @@ namespace TP_1_Heladeria
         }
         private void cmbUsuarioEditado_SelectedIndexChanged(object sender, EventArgs e)
         {
-            usuarioEditando = usuarios[cmbUsuarioEditado.SelectedIndex];
+            
+            if (usuarioLogeado[6].ToLower() == "administrador")
+            {
+                usuarioEditando = usuarios[cmbUsuarioEditado.SelectedIndex];
+            }
             //Carga de datos
             {
 
@@ -577,8 +581,8 @@ namespace TP_1_Heladeria
         {
 
             //Solamente la contraseña del logeado porque hay una opcion para recuperar contraseña
-            frmRecuperarContrasena frm = new frmRecuperarContrasena(usuarios, usuarioLogeado);
-            frm.ShowDialog();
+            //frmRecuperarContrasena frm = new frmRecuperarContrasena(usuarios, usuarioLogeado);
+            //frm.ShowDialog();
 
         }
 

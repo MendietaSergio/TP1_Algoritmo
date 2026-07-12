@@ -38,8 +38,8 @@ namespace TP_1_Heladeria
         "admin001"};
 
             string[] usuario = {
-        "Gustavo",
-        "Martinez",
+        "Nicolas",
+        "Fell",
         "12345678",
         "1234567890",
         "gus@mar.tinez",
