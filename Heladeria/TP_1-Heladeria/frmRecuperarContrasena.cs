@@ -93,9 +93,14 @@ namespace TP_1_Heladeria
                 btnValidarCodigo.Enabled = false;
 
                 txtCodigo.Text = "";
+                txtCodigo.Enabled = false;
+
                 txtNuevaContra.Focus();
                 lblError.Visible = false;
                 lblEstado.Text = "Código válido. Ingresá tu nueva contraseña.";
+
+                imgShow1.Visible = true;
+                imgShow2.Visible = true;
             }
             else
             {

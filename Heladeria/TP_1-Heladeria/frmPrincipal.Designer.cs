@@ -29,37 +29,38 @@
         private void InitializeComponent()
         {
             lblBienvenida = new Label();
-            btnLogout = new Button();
+            btnCerrarSesion = new Button();
             btnEditarPerfil = new Button();
             lblUsuario = new Label();
             btnRegistrarUsuario = new Button();
+            btnCerrar = new Button();
             SuspendLayout();
             // 
             // lblBienvenida
             // 
             lblBienvenida.AutoSize = true;
             lblBienvenida.Font = new Font("Segoe UI", 18F);
-            lblBienvenida.Location = new Point(12, 9);
+            lblBienvenida.Location = new Point(12, 47);
             lblBienvenida.Name = "lblBienvenida";
             lblBienvenida.Size = new Size(134, 32);
             lblBienvenida.TabIndex = 0;
             lblBienvenida.Text = "Bienvenido";
             // 
-            // btnLogout
+            // btnCerrarSesion
             // 
-            btnLogout.Location = new Point(272, 9);
-            btnLogout.Name = "btnLogout";
-            btnLogout.Size = new Size(75, 23);
-            btnLogout.TabIndex = 3;
-            btnLogout.Text = "Logout";
-            btnLogout.UseVisualStyleBackColor = true;
-            btnLogout.Click += btnLogout_Click;
+            btnCerrarSesion.Location = new Point(272, 98);
+            btnCerrarSesion.Name = "btnCerrarSesion";
+            btnCerrarSesion.Size = new Size(75, 46);
+            btnCerrarSesion.TabIndex = 3;
+            btnCerrarSesion.Text = "Cerrar Sesion";
+            btnCerrarSesion.UseVisualStyleBackColor = true;
+            btnCerrarSesion.Click += btnCerrarSesion_Click;
             // 
             // btnEditarPerfil
             // 
-            btnEditarPerfil.Location = new Point(272, 38);
+            btnEditarPerfil.Location = new Point(272, 47);
             btnEditarPerfil.Name = "btnEditarPerfil";
-            btnEditarPerfil.Size = new Size(75, 23);
+            btnEditarPerfil.Size = new Size(75, 46);
             btnEditarPerfil.TabIndex = 2;
             btnEditarPerfil.Text = "Editar Perfil";
             btnEditarPerfil.UseVisualStyleBackColor = true;
@@ -69,7 +70,7 @@
             // 
             lblUsuario.AutoSize = true;
             lblUsuario.Font = new Font("Segoe UI", 18F);
-            lblUsuario.Location = new Point(12, 41);
+            lblUsuario.Location = new Point(12, 79);
             lblUsuario.Name = "lblUsuario";
             lblUsuario.Size = new Size(134, 32);
             lblUsuario.TabIndex = 4;
@@ -77,23 +78,37 @@
             // 
             // btnRegistrarUsuario
             // 
-            btnRegistrarUsuario.Location = new Point(12, 112);
+            btnRegistrarUsuario.Location = new Point(12, 150);
             btnRegistrarUsuario.Name = "btnRegistrarUsuario";
-            btnRegistrarUsuario.Size = new Size(335, 23);
+            btnRegistrarUsuario.Size = new Size(335, 46);
             btnRegistrarUsuario.TabIndex = 1;
             btnRegistrarUsuario.Text = "Registrar Usuarios";
             btnRegistrarUsuario.UseVisualStyleBackColor = true;
             btnRegistrarUsuario.Click += btnRegistrarUsuario_Click;
             // 
+            // btnCerrar
+            // 
+            btnCerrar.BackColor = Color.DarkRed;
+            btnCerrar.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnCerrar.ForeColor = Color.White;
+            btnCerrar.Location = new Point(311, 4);
+            btnCerrar.Name = "btnCerrar";
+            btnCerrar.Size = new Size(36, 37);
+            btnCerrar.TabIndex = 25;
+            btnCerrar.Text = "X";
+            btnCerrar.UseVisualStyleBackColor = false;
+            btnCerrar.Click += btnCerrar_Click;
+            // 
             // frmPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(359, 146);
+            ClientSize = new Size(359, 205);
+            Controls.Add(btnCerrar);
             Controls.Add(btnRegistrarUsuario);
             Controls.Add(lblUsuario);
             Controls.Add(btnEditarPerfil);
-            Controls.Add(btnLogout);
+            Controls.Add(btnCerrarSesion);
             Controls.Add(lblBienvenida);
             FormBorderStyle = FormBorderStyle.None;
             Name = "frmPrincipal";
@@ -106,9 +121,10 @@
         #endregion
 
         private Label lblBienvenida;
-        private Button btnLogout;
+        private Button btnCerrarSesion;
         private Button btnEditarPerfil;
         private Label lblUsuario;
         private Button btnRegistrarUsuario;
+        private Button btnCerrar;
     }
 }

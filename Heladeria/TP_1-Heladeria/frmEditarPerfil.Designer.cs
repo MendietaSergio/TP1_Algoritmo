@@ -71,6 +71,7 @@
             btnEditarContrasena = new Button();
             cmbUsuarioEditado = new ComboBox();
             btnEliminar = new Button();
+            btnCerrar = new Button();
             grpPersonales.SuspendLayout();
             grpGenero.SuspendLayout();
             grpUbicacion.SuspendLayout();
@@ -457,11 +458,11 @@
             // 
             // btnVolver
             // 
-            btnVolver.Location = new Point(599, 7);
+            btnVolver.Location = new Point(624, 9);
             btnVolver.Name = "btnVolver";
-            btnVolver.Size = new Size(95, 40);
+            btnVolver.Size = new Size(54, 37);
             btnVolver.TabIndex = 22;
-            btnVolver.Text = "Volver al Menu Principal";
+            btnVolver.Text = "Atras";
             btnVolver.UseVisualStyleBackColor = true;
             btnVolver.Click += btnVolver_Click;
             // 
@@ -496,12 +497,26 @@
             btnEliminar.UseVisualStyleBackColor = false;
             btnEliminar.Click += btnEliminar_Click;
             // 
+            // btnCerrar
+            // 
+            btnCerrar.BackColor = Color.DarkRed;
+            btnCerrar.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnCerrar.ForeColor = Color.White;
+            btnCerrar.Location = new Point(684, 9);
+            btnCerrar.Name = "btnCerrar";
+            btnCerrar.Size = new Size(36, 37);
+            btnCerrar.TabIndex = 24;
+            btnCerrar.Text = "X";
+            btnCerrar.UseVisualStyleBackColor = false;
+            btnCerrar.Click += btnCerrar_Click;
+            // 
             // frmEditarPerfil
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightSteelBlue;
             ClientSize = new Size(747, 406);
+            Controls.Add(btnCerrar);
             Controls.Add(btnEliminar);
             Controls.Add(cmbUsuarioEditado);
             Controls.Add(btnEditarContrasena);
@@ -569,5 +584,6 @@
         private Button btnEditarContrasena;
         private ComboBox cmbUsuarioEditado;
         private Button btnEliminar;
+        private Button btnCerrar;
     }
 }

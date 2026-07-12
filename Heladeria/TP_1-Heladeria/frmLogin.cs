@@ -8,7 +8,7 @@ namespace TP_1_Heladeria
         public BindingList<string[]> usuarios = new BindingList<string[]>();
 
 
-       
+
         public frmLogin(BindingList<string[]> _usuarios)
         {
             InitializeComponent();
@@ -99,5 +99,7 @@ namespace TP_1_Heladeria
 
             frmRecuperarContrasena.ShowDialog();
         }
+
+    
     }
 }

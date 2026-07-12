@@ -30,7 +30,7 @@ namespace TP_1_Heladeria
 
             string[] permisos = { cmbTipoUsuario.AccessibleDescription, "Administrador", "General" };
             BindingList<string> paises = new BindingList<string> { cmbNacionalidad.AccessibleDescription, "Argentina", "Uruguay" };
-            
+
 
             foreach (string[] usuarioActual in usuarios) nombreUsuarios.Add(usuarioActual[17]);
 
@@ -71,7 +71,7 @@ namespace TP_1_Heladeria
 
 
             }
-            
+
             {
                 if (cmbNacionalidad.SelectedValue != null && cmbNacionalidad.SelectedIndex != 0)
                     cmbProvincia.Enabled = true;
@@ -441,12 +441,12 @@ namespace TP_1_Heladeria
             }
             if (DNI <= 0 || DNI > 99999999)
             {
-                MessageBox.Show("Valores no soportados en el campo DNI",
+                MessageBox.Show("Valores no soportados en el campo DNI. \nEl Nro de DNI debe ser mayor a 0 y tiene que tener como maximo 8 caracteres de longitud",
                     "Error DNI", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtDNI.Focus();
                 return;
             }
-            
+
 
             long tel = 0;
             if (!long.TryParse(txtTelefono.Text, out tel))
@@ -458,22 +458,22 @@ namespace TP_1_Heladeria
             }
             if (tel <= 0 || tel > 9999999999)
             {
-                MessageBox.Show("Valores no soportados en el campo Telefono",
+                MessageBox.Show("Valores no soportados en el campo Telefono. \\nSe esperaba como mucho 10 caracteres y un numero positivo para el telefono\"",
                     "Error Telefono", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtTelefono.Focus();
                 return;
             }
-            
+
 
             bool esValido = Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
             if (!esValido)
             {
-                MessageBox.Show("Valores no soportados en el campo Email",
+                MessageBox.Show("Valores no soportados en el campo Email. \nDebe tener al menos un @ y un",
                     "Error Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtEmail.Focus();
                 return;
             }
-                        
+
             //Validacion No Requeridos
             if (txtCodPostal.Text.Length > 8)
             {
@@ -560,8 +560,8 @@ namespace TP_1_Heladeria
             {
                 DialogResult respuesta = MessageBox.Show(
                     "¿Esta seguro que desea eliminar este usuario? Los datos no se van a recuperar",
-                    "Eliminacion de Usuario",MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Exclamation,MessageBoxDefaultButton.Button2);
+                    "Eliminacion de Usuario", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
                 if (respuesta == DialogResult.Yes)
                 {
 
@@ -572,13 +572,20 @@ namespace TP_1_Heladeria
 
                     nombreUsuarios.RemoveAt(nroIndiceBorrar);
                     usuarios.Remove(usuarioABorrar);
-                    
-                    
+
+
 
                     MessageBox.Show("Usuario " + usuarioABorrar[17] + " eliminado", "Eliminado con Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                 }
             }
+        }
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            DialogResult deseaCerrar = MessageBox.Show("Desea cerrar la aplicacion?", "Cerrar Sistema",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            if (deseaCerrar == DialogResult.Yes)
+                Application.Exit();
         }
     }
 }

@@ -8,10 +8,10 @@ using System.Windows.Forms;
 
 namespace TP_1_Heladeria
 {
-    
+
     public partial class frmPrincipal : Form
     {
-       
+
         public string[] usuario;
         public BindingList<string[]> usuarios = new BindingList<string[]>();
         int indiceLogeado;
@@ -23,11 +23,10 @@ namespace TP_1_Heladeria
             usuario = usuarios[indiceLogeado];
 
             lblUsuario.Text = usuario[0];
-            if (usuario[6].ToLower() == "administrador") 
-            { 
+            if (usuario[6].ToLower() == "administrador")
+            {
                 btnRegistrarUsuario.Visible = true;
                 btnEditarPerfil.Text = "Editar Perfiles";
-                btnEditarPerfil.Height = 46;
             }
             else
                 btnRegistrarUsuario.Visible = false;
@@ -40,16 +39,26 @@ namespace TP_1_Heladeria
             RegistrarUsuario.Show();
             this.Close();
         }
-        private void btnLogout_Click(object sender, EventArgs e)
-        {
-            Form login = new frmLogin(usuarios);
-            login.Show();
-            this.Close();
-        }
+
         private void btnEditarPerfil_Click(object sender, EventArgs e)
         {
             frmEditarPerfil frm = new frmEditarPerfil(usuarios, indiceLogeado);
             frm.Show();
+            this.Close();
+        }
+
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            DialogResult deseaCerrar = MessageBox.Show("Desea cerrar la aplicacion?", "Cerrar Sistema",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            if (deseaCerrar == DialogResult.Yes) 
+                Application.Exit();
+        }
+
+        private void btnCerrarSesion_Click(object sender, EventArgs e)
+        {
+            Form login = new frmLogin(usuarios);
+            login.Show();
             this.Close();
         }
     }

@@ -224,6 +224,7 @@
             // btnAtras
             // 
             btnAtras.BackColor = Color.DarkRed;
+            btnAtras.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnAtras.ForeColor = Color.White;
             btnAtras.Location = new Point(500, 8);
             btnAtras.Name = "btnAtras";

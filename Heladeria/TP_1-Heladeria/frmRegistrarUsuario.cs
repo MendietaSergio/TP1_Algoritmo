@@ -201,7 +201,7 @@ namespace TP_1_Heladeria
         private void btnAceptar_Click(object sender, EventArgs e)
         {
             ////Requeridas ////
-             
+
             int DNI = 0;
             if (!int.TryParse(txtDNI.Text, out DNI))
             {
@@ -212,7 +212,7 @@ namespace TP_1_Heladeria
             }
             if (DNI <= 0 || DNI > 99999999)
             {
-                MessageBox.Show("Valores no soportados en el campo DNI",
+                MessageBox.Show("Valores no soportados en el campo DNI. \nEl Nro de DNI debe ser mayor a 0 y tiene que tener como maximo 8 caracteres de longitud",
                     "Error DNI", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtDNI.Focus();
                 return;
@@ -228,7 +228,7 @@ namespace TP_1_Heladeria
             }
             if (tel <= 0 || tel > 9999999999)
             {
-                MessageBox.Show("Valores no soportados en el campo Telefono",
+                MessageBox.Show("Valores no soportados en el campo Telefono. \nSe esperaba como mucho 10 caracteres y un numero positivo para el telefono",
                     "Error Telefono", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtTelefono.Focus();
                 return;
@@ -237,12 +237,12 @@ namespace TP_1_Heladeria
             bool esValido = Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
             if (!esValido)
             {
-                MessageBox.Show("Valores no soportados en el campo Email",
+                MessageBox.Show("Valores no soportados en el campo Email. \nDebe tener al menos un @ y un .",
                     "Error Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtEmail.Focus();
                 return;
             }
-                       
+
             ////No Requeridas ////
 
 
@@ -255,7 +255,7 @@ namespace TP_1_Heladeria
                 return;
             }
 
-            int altura=0;
+            int altura = 0;
             if (!int.TryParse(txtAltura.Text, out altura) && (txtAltura.Text != ""))
             {
                 MessageBox.Show("Se esperaba un valor numerico para la Altura",
@@ -339,7 +339,7 @@ namespace TP_1_Heladeria
 
             usuarios.Add(usuarioNuevo);
 
-            MessageBox.Show("Usuario registrado con exito. La contraseña es "+ usuarioNuevo[18]);
+            MessageBox.Show("Usuario registrado con exito. La contraseña es " + usuarioNuevo[18]);
             Limpiar();
         }
         private void btnVolver_Click(object sender, EventArgs e)
@@ -347,6 +347,13 @@ namespace TP_1_Heladeria
             Form principal = new frmPrincipal(usuarios, indice);
             principal.Show();
             this.Close();
+        }
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            DialogResult deseaCerrar = MessageBox.Show("Desea cerrar la aplicacion?", "Cerrar Sistema",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            if (deseaCerrar == DialogResult.Yes)
+                Application.Exit();
         }
 
 
@@ -500,6 +507,6 @@ namespace TP_1_Heladeria
             }
         }
 
-        
+       
     }
 }

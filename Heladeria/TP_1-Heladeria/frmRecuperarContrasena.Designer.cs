@@ -57,7 +57,7 @@
             // 
             lblTituloRecuperacion.AutoSize = true;
             lblTituloRecuperacion.Font = new Font("Segoe UI", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lblTituloRecuperacion.Location = new Point(141, 17);
+            lblTituloRecuperacion.Location = new Point(140, 68);
             lblTituloRecuperacion.Margin = new Padding(2, 0, 2, 0);
             lblTituloRecuperacion.Name = "lblTituloRecuperacion";
             lblTituloRecuperacion.Size = new Size(266, 25);
@@ -68,7 +68,7 @@
             // 
             lblEstado.AutoSize = true;
             lblEstado.Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            lblEstado.Location = new Point(29, 54);
+            lblEstado.Location = new Point(28, 105);
             lblEstado.Margin = new Padding(2, 0, 2, 0);
             lblEstado.Name = "lblEstado";
             lblEstado.Size = new Size(238, 21);
@@ -78,7 +78,7 @@
             // lblEmail
             // 
             lblEmail.AutoSize = true;
-            lblEmail.Location = new Point(29, 108);
+            lblEmail.Location = new Point(28, 159);
             lblEmail.Margin = new Padding(2, 0, 2, 0);
             lblEmail.Name = "lblEmail";
             lblEmail.Size = new Size(39, 15);
@@ -88,7 +88,7 @@
             // lblCodigo
             // 
             lblCodigo.AutoSize = true;
-            lblCodigo.Location = new Point(29, 139);
+            lblCodigo.Location = new Point(28, 190);
             lblCodigo.Margin = new Padding(2, 0, 2, 0);
             lblCodigo.Name = "lblCodigo";
             lblCodigo.Size = new Size(137, 15);
@@ -98,7 +98,7 @@
             // lblNuevaContra
             // 
             lblNuevaContra.AutoSize = true;
-            lblNuevaContra.Location = new Point(29, 186);
+            lblNuevaContra.Location = new Point(28, 237);
             lblNuevaContra.Margin = new Padding(2, 0, 2, 0);
             lblNuevaContra.Name = "lblNuevaContra";
             lblNuevaContra.Size = new Size(107, 15);
@@ -108,7 +108,7 @@
             // lblConfirmarContra
             // 
             lblConfirmarContra.AutoSize = true;
-            lblConfirmarContra.Location = new Point(29, 229);
+            lblConfirmarContra.Location = new Point(28, 280);
             lblConfirmarContra.Margin = new Padding(2, 0, 2, 0);
             lblConfirmarContra.Name = "lblConfirmarContra";
             lblConfirmarContra.Size = new Size(127, 15);
@@ -117,7 +117,7 @@
             // 
             // txtEmail
             // 
-            txtEmail.Location = new Point(181, 104);
+            txtEmail.Location = new Point(180, 155);
             txtEmail.Margin = new Padding(2);
             txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(106, 23);
@@ -126,7 +126,7 @@
             // txtCodigo
             // 
             txtCodigo.Enabled = false;
-            txtCodigo.Location = new Point(181, 135);
+            txtCodigo.Location = new Point(180, 186);
             txtCodigo.Margin = new Padding(2);
             txtCodigo.Name = "txtCodigo";
             txtCodigo.Size = new Size(106, 23);
@@ -135,7 +135,7 @@
             // txtNuevaContra
             // 
             txtNuevaContra.Enabled = false;
-            txtNuevaContra.Location = new Point(181, 182);
+            txtNuevaContra.Location = new Point(180, 233);
             txtNuevaContra.Margin = new Padding(2);
             txtNuevaContra.Name = "txtNuevaContra";
             txtNuevaContra.PasswordChar = '*';
@@ -145,7 +145,7 @@
             // txtConfirmarContra
             // 
             txtConfirmarContra.Enabled = false;
-            txtConfirmarContra.Location = new Point(181, 226);
+            txtConfirmarContra.Location = new Point(180, 277);
             txtConfirmarContra.Margin = new Padding(2);
             txtConfirmarContra.Name = "txtConfirmarContra";
             txtConfirmarContra.PasswordChar = '*';
@@ -154,10 +154,10 @@
             // 
             // btnEnviarCodigo
             // 
-            btnEnviarCodigo.Location = new Point(334, 107);
+            btnEnviarCodigo.Location = new Point(333, 153);
             btnEnviarCodigo.Margin = new Padding(2);
             btnEnviarCodigo.Name = "btnEnviarCodigo";
-            btnEnviarCodigo.Size = new Size(188, 20);
+            btnEnviarCodigo.Size = new Size(188, 27);
             btnEnviarCodigo.TabIndex = 2;
             btnEnviarCodigo.Text = "Enviar Código";
             btnEnviarCodigo.UseVisualStyleBackColor = true;
@@ -166,10 +166,10 @@
             // btnValidarCodigo
             // 
             btnValidarCodigo.Enabled = false;
-            btnValidarCodigo.Location = new Point(334, 138);
+            btnValidarCodigo.Location = new Point(333, 184);
             btnValidarCodigo.Margin = new Padding(2);
             btnValidarCodigo.Name = "btnValidarCodigo";
-            btnValidarCodigo.Size = new Size(188, 20);
+            btnValidarCodigo.Size = new Size(188, 25);
             btnValidarCodigo.TabIndex = 4;
             btnValidarCodigo.Text = "Validar Código";
             btnValidarCodigo.UseVisualStyleBackColor = true;
@@ -178,10 +178,10 @@
             // btnGuardarContra
             // 
             btnGuardarContra.Enabled = false;
-            btnGuardarContra.Location = new Point(334, 224);
+            btnGuardarContra.Location = new Point(333, 275);
             btnGuardarContra.Margin = new Padding(2);
             btnGuardarContra.Name = "btnGuardarContra";
-            btnGuardarContra.Size = new Size(188, 20);
+            btnGuardarContra.Size = new Size(188, 25);
             btnGuardarContra.TabIndex = 7;
             btnGuardarContra.Text = "Guardar Nueva Contraseña";
             btnGuardarContra.UseVisualStyleBackColor = true;
@@ -191,7 +191,7 @@
             // 
             lblError.AutoSize = true;
             lblError.ForeColor = Color.FromArgb(192, 0, 0);
-            lblError.Location = new Point(29, 258);
+            lblError.Location = new Point(28, 309);
             lblError.Margin = new Padding(2, 0, 2, 0);
             lblError.Name = "lblError";
             lblError.Size = new Size(32, 15);
@@ -213,17 +213,18 @@
             // imgShow1
             // 
             imgShow1.Image = Properties.Resources.ojo;
-            imgShow1.Location = new Point(291, 179);
+            imgShow1.Location = new Point(290, 230);
             imgShow1.Name = "imgShow1";
             imgShow1.Size = new Size(33, 30);
             imgShow1.TabIndex = 24;
             imgShow1.TabStop = false;
+            imgShow1.Visible = false;
             imgShow1.Click += imgShow1_Click;
             // 
             // imgHide1
             // 
             imgHide1.Image = Properties.Resources.cerrar_ojo;
-            imgHide1.Location = new Point(292, 179);
+            imgHide1.Location = new Point(291, 230);
             imgHide1.Name = "imgHide1";
             imgHide1.Size = new Size(32, 32);
             imgHide1.SizeMode = PictureBoxSizeMode.AutoSize;
@@ -235,18 +236,19 @@
             // imgShow2
             // 
             imgShow2.Image = Properties.Resources.ojo;
-            imgShow2.Location = new Point(292, 222);
+            imgShow2.Location = new Point(291, 273);
             imgShow2.Name = "imgShow2";
             imgShow2.Size = new Size(32, 32);
             imgShow2.SizeMode = PictureBoxSizeMode.AutoSize;
             imgShow2.TabIndex = 26;
             imgShow2.TabStop = false;
+            imgShow2.Visible = false;
             imgShow2.Click += imgShow2_Click;
             // 
             // imgHide2
             // 
             imgHide2.Image = Properties.Resources.cerrar_ojo;
-            imgHide2.Location = new Point(292, 222);
+            imgHide2.Location = new Point(291, 273);
             imgHide2.Name = "imgHide2";
             imgHide2.Size = new Size(32, 32);
             imgHide2.SizeMode = PictureBoxSizeMode.AutoSize;
