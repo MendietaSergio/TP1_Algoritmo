@@ -28,18 +28,164 @@
         /// </summary>
         private void InitializeComponent()
         {
+            lblContrasenia = new Label();
+            lblUsuario = new Label();
+            lblLogin = new Label();
+            btnInicioSesion = new Button();
+            btnSalir = new Button();
+            imgHide1 = new PictureBox();
+            imgShow1 = new PictureBox();
+            txtContrasenia = new TextBox();
+            txtUsuario = new TextBox();
+            linkOldPass = new LinkLabel();
+            lblError = new Label();
+            button1 = new Button();
+            ((System.ComponentModel.ISupportInitialize)imgHide1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)imgShow1).BeginInit();
             SuspendLayout();
+            // 
+            // lblContrasenia
+            // 
+            lblContrasenia.AutoSize = true;
+            lblContrasenia.Location = new Point(40, 180);
+            lblContrasenia.Name = "lblContrasenia";
+            lblContrasenia.Size = new Size(70, 15);
+            lblContrasenia.TabIndex = 2;
+            lblContrasenia.Text = "Contraseña:";
+            // 
+            // lblUsuario
+            // 
+            lblUsuario.AutoSize = true;
+            lblUsuario.Location = new Point(40, 129);
+            lblUsuario.Name = "lblUsuario";
+            lblUsuario.Size = new Size(50, 15);
+            lblUsuario.TabIndex = 1;
+            lblUsuario.Text = "Usuario:";
+            // 
+            // lblLogin
+            // 
+            lblLogin.AutoSize = true;
+            lblLogin.Font = new Font("Segoe UI", 21.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblLogin.Location = new Point(151, 59);
+            lblLogin.Name = "lblLogin";
+            lblLogin.Size = new Size(94, 40);
+            lblLogin.TabIndex = 3;
+            lblLogin.Text = "Login";
+            // 
+            // btnInicioSesion
+            // 
+            btnInicioSesion.Location = new Point(219, 281);
+            btnInicioSesion.Name = "btnInicioSesion";
+            btnInicioSesion.Size = new Size(118, 23);
+            btnInicioSesion.TabIndex = 4;
+            btnInicioSesion.Text = "Iniciar Sesion";
+            btnInicioSesion.UseVisualStyleBackColor = true;
+            btnInicioSesion.Click += btnInicioSesion_Click;
+            // 
+            // btnSalir
+            // 
+            btnSalir.Location = new Point(41, 281);
+            btnSalir.Name = "btnSalir";
+            btnSalir.Size = new Size(118, 23);
+            btnSalir.TabIndex = 5;
+            btnSalir.Text = "Salir";
+            btnSalir.UseVisualStyleBackColor = true;
+            btnSalir.Click += btnSalir_Click;
+            // 
+            // imgHide1
+            // 
+            imgHide1.Location = new Point(12, 12);
+            imgHide1.Name = "imgHide1";
+            imgHide1.Size = new Size(100, 50);
+            imgHide1.TabIndex = 24;
+            imgHide1.TabStop = false;
+            // 
+            // imgShow1
+            // 
+            imgShow1.Location = new Point(12, 12);
+            imgShow1.Name = "imgShow1";
+            imgShow1.Size = new Size(100, 50);
+            imgShow1.TabIndex = 25;
+            imgShow1.TabStop = false;
+            // 
+            // txtContrasenia
+            // 
+            txtContrasenia.Font = new Font("Arial", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtContrasenia.Location = new Point(151, 176);
+            txtContrasenia.Name = "txtContrasenia";
+            txtContrasenia.PasswordChar = '*';
+            txtContrasenia.Size = new Size(138, 22);
+            txtContrasenia.TabIndex = 18;
+            // 
+            // txtUsuario
+            // 
+            txtUsuario.Font = new Font("Arial", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtUsuario.Location = new Point(151, 127);
+            txtUsuario.Name = "txtUsuario";
+            txtUsuario.Size = new Size(138, 22);
+            txtUsuario.TabIndex = 17;
+            // 
+            // linkOldPass
+            // 
+            linkOldPass.AutoSize = true;
+            linkOldPass.Location = new Point(120, 329);
+            linkOldPass.Name = "linkOldPass";
+            linkOldPass.Size = new Size(141, 15);
+            linkOldPass.TabIndex = 22;
+            linkOldPass.TabStop = true;
+            linkOldPass.Text = "¿Olvidaste tu contraseña?";
+            linkOldPass.LinkClicked += linkOldPass_LinkClicked;
+            // 
+            // lblError
+            // 
+            lblError.AutoSize = true;
+            lblError.ForeColor = Color.FromArgb(192, 0, 0);
+            lblError.Location = new Point(84, 228);
+            lblError.Name = "lblError";
+            lblError.Size = new Size(35, 15);
+            lblError.TabIndex = 23;
+            lblError.Text = "Error:";
+            
             // 
             // frmLogin
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(410, 367);
+            //Controls.Add(button1);
+            Controls.Add(lblError);
+            Controls.Add(linkOldPass);
+            Controls.Add(imgHide1);
+            Controls.Add(imgShow1);
+            Controls.Add(txtContrasenia);
+            Controls.Add(txtUsuario);
+            Controls.Add(btnSalir);
+            Controls.Add(btnInicioSesion);
+            Controls.Add(lblLogin);
+            Controls.Add(lblContrasenia);
+            Controls.Add(lblUsuario);
             Name = "frmLogin";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Login";
+            ((System.ComponentModel.ISupportInitialize)imgHide1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)imgShow1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
+
+        private Label lblContrasenia;
+        private Label lblUsuario;
+        private Label lblLogin;
+        private Button btnInicioSesion;
+        private Button btnSalir;
+        private PictureBox imgHide1;
+        private PictureBox imgShow1;
+        private TextBox txtContrasenia;
+        private TextBox txtUsuario;
+        private LinkLabel linkOldPass;
+        private Label lblError;
+        private Button button1;
     }
 }
