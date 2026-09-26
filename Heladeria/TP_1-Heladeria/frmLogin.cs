@@ -1,4 +1,6 @@
+using Microsoft.Data.SqlClient;
 using System.ComponentModel;
+using System.Data.SqlClient;
 
 namespace TP_1_Heladeria
 {
@@ -6,6 +8,25 @@ namespace TP_1_Heladeria
     {
         public int indiceUsuario;
         public BindingList<string[]> usuarios = new BindingList<string[]>();
+        string CadenaConexionAccess = "Data Source=NOTE-VYG\\SQLEXPRESS01;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0";
+        
+        //string CadenaConexionAccess = "server=NOTE-VYG\\SQLEXPRESS01; database= Heladeria; user= fir3_ integrated security = true";
+        SqlConnection CN; 
+
+        void conectar()
+        {
+            try
+            {
+                CN = new SqlConnection(CadenaConexionAccess);
+                CN.Open();
+                MessageBox.Show("Cargo la DB");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error alguno" + ex.Message);
+            }
+        }
+
 
 
 
@@ -22,6 +43,8 @@ namespace TP_1_Heladeria
         //Eventos Botones
         private void btnInicioSesion_Click(object sender, EventArgs e)
         {
+
+            conectar();
             lblError.Visible = false;
             if (txtUsuario.Text == "")
             {
@@ -68,7 +91,6 @@ namespace TP_1_Heladeria
                 txtUsuario.Focus();
                 break;
             }
-
 
         }
         private void btnSalir_Click(object sender, EventArgs e)
