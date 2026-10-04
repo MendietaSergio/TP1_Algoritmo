@@ -1,4 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
 
 namespace TP_1_Heladeria
 {
@@ -14,11 +20,14 @@ namespace TP_1_Heladeria
             InitializeComponent();
             usuarios = _usuarios;
             indiceLogeado = _indiceLogeado;
-            usuario = _usuarios[indiceLogeado];
+            usuario = usuarios[indiceLogeado];
 
             lblUsuario.Text = usuario[0];
             if (usuario[6].ToLower() == "administrador")
+            {
                 btnRegistrarUsuario.Visible = true;
+                btnEditarPerfil.Text = "Editar Perfiles";
+            }
             else
                 btnRegistrarUsuario.Visible = false;
         }
@@ -28,19 +37,29 @@ namespace TP_1_Heladeria
         {
             Form RegistrarUsuario = new frmRegistrarUsuario(usuarios, indiceLogeado);
             RegistrarUsuario.Show();
-            this.Hide();
+            this.Close();
         }
-        private void btnLogout_Click(object sender, EventArgs e)
-        {
-            Form login = new frmLogin(usuarios);
-            login.Show();
-            this.Hide();
-        }
+
         private void btnEditarPerfil_Click(object sender, EventArgs e)
         {
             frmEditarPerfil frm = new frmEditarPerfil(usuarios, indiceLogeado);
             frm.Show();
-            this.Hide();
+            this.Close();
+        }
+
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            DialogResult deseaCerrar = MessageBox.Show("Desea cerrar la aplicacion?", "Cerrar Sistema",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            if (deseaCerrar == DialogResult.Yes) 
+                Application.Exit();
+        }
+
+        private void btnCerrarSesion_Click(object sender, EventArgs e)
+        {
+            Form login = new frmLogin(usuarios);
+            login.Show();
+            this.Close();
         }
     }
 }

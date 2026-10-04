@@ -28,8 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            label1 = new Label();
-            label2 = new Label();
+            lblTitulo = new Label();
+            lblInfo = new Label();
             label4 = new Label();
             label5 = new Label();
             label3 = new Label();
@@ -39,36 +39,37 @@
             label8 = new Label();
             txtPass = new TextBox();
             txtPass2 = new TextBox();
-            imgShow1 = new PictureBox();
-            imgShow2 = new PictureBox();
-            imgHide2 = new PictureBox();
-            imgHide1 = new PictureBox();
+            imgHideConf = new PictureBox();
+            imgShowContrasena = new PictureBox();
+            imgShowConf = new PictureBox();
+            imgHideContrasena = new PictureBox();
             lblError = new Label();
-            ((System.ComponentModel.ISupportInitialize)imgShow1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)imgShow2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)imgHide2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)imgHide1).BeginInit();
+            btnAtras = new Button();
+            ((System.ComponentModel.ISupportInitialize)imgHideConf).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)imgShowContrasena).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)imgShowConf).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)imgHideContrasena).BeginInit();
             SuspendLayout();
             // 
-            // label1
+            // lblTitulo
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Microsoft Sans Serif", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(171, 8);
-            label1.Name = "label1";
-            label1.Size = new Size(223, 37);
-            label1.TabIndex = 0;
-            label1.Text = "¡ Bienvenido !";
+            lblTitulo.AutoSize = true;
+            lblTitulo.Font = new Font("Microsoft Sans Serif", 24F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTitulo.Location = new Point(171, 8);
+            lblTitulo.Name = "lblTitulo";
+            lblTitulo.Size = new Size(223, 37);
+            lblTitulo.TabIndex = 0;
+            lblTitulo.Text = "¡ Bienvenido !";
             // 
-            // label2
+            // lblInfo
             // 
-            label2.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            label2.Location = new Point(27, 60);
-            label2.Name = "label2";
-            label2.Size = new Size(496, 51);
-            label2.TabIndex = 1;
-            label2.Text = "Te informamos que al ingresar por primera vez, tenes que cambiar la contraseña a una mas segura para poder continuar\r\n ";
-            label2.TextAlign = ContentAlignment.TopCenter;
+            lblInfo.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Italic, GraphicsUnit.Point, 0);
+            lblInfo.Location = new Point(27, 60);
+            lblInfo.Name = "lblInfo";
+            lblInfo.Size = new Size(496, 51);
+            lblInfo.TabIndex = 1;
+            lblInfo.Text = "Te informamos que al ingresar por primera vez, tenes que cambiar la contraseña a una mas segura para poder continuar\r\n ";
+            lblInfo.TextAlign = ContentAlignment.TopCenter;
             // 
             // label4
             // 
@@ -106,7 +107,7 @@
             btnLimpiar.Location = new Point(38, 396);
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(201, 47);
-            btnLimpiar.TabIndex = 7;
+            btnLimpiar.TabIndex = 4;
             btnLimpiar.Text = "Limpiar";
             btnLimpiar.UseVisualStyleBackColor = false;
             btnLimpiar.Click += btnLimpiar_Click;
@@ -119,7 +120,7 @@
             btnContinuar.Location = new Point(303, 396);
             btnContinuar.Name = "btnContinuar";
             btnContinuar.Size = new Size(201, 47);
-            btnContinuar.TabIndex = 8;
+            btnContinuar.TabIndex = 3;
             btnContinuar.Text = "Continuar";
             btnContinuar.UseVisualStyleBackColor = false;
             btnContinuar.Click += btnContinuar_Click;
@@ -150,9 +151,8 @@
             txtPass.Location = new Point(224, 135);
             txtPass.Name = "txtPass";
             txtPass.PasswordChar = '*';
-            txtPass.PlaceholderText = "**********************";
             txtPass.Size = new Size(138, 22);
-            txtPass.TabIndex = 11;
+            txtPass.TabIndex = 1;
             // 
             // txtPass2
             // 
@@ -160,41 +160,54 @@
             txtPass2.Location = new Point(224, 184);
             txtPass2.Name = "txtPass2";
             txtPass2.PasswordChar = '*';
-            txtPass2.PlaceholderText = "**********************";
             txtPass2.Size = new Size(138, 22);
-            txtPass2.TabIndex = 12;
+            txtPass2.TabIndex = 2;
             // 
-            // imgShow1
+            // imgHideConf
             // 
-            imgShow1.Location = new Point(0, 0);
-            imgShow1.Name = "imgShow1";
-            imgShow1.Size = new Size(100, 50);
-            imgShow1.TabIndex = 21;
-            imgShow1.TabStop = false;
+            imgHideConf.Image = Properties.Resources.cerrar_ojo;
+            imgHideConf.Location = new Point(368, 174);
+            imgHideConf.Name = "imgHideConf";
+            imgHideConf.Size = new Size(32, 32);
+            imgHideConf.SizeMode = PictureBoxSizeMode.AutoSize;
+            imgHideConf.TabIndex = 21;
+            imgHideConf.TabStop = false;
+            imgHideConf.Visible = false;
+            imgHideConf.Click += imgHideConf_Click;
             // 
-            // imgShow2
+            // imgShowContrasena
             // 
-            imgShow2.Location = new Point(0, 0);
-            imgShow2.Name = "imgShow2";
-            imgShow2.Size = new Size(100, 50);
-            imgShow2.TabIndex = 20;
-            imgShow2.TabStop = false;
+            imgShowContrasena.Image = Properties.Resources.ojo;
+            imgShowContrasena.Location = new Point(368, 125);
+            imgShowContrasena.Name = "imgShowContrasena";
+            imgShowContrasena.Size = new Size(32, 32);
+            imgShowContrasena.SizeMode = PictureBoxSizeMode.AutoSize;
+            imgShowContrasena.TabIndex = 20;
+            imgShowContrasena.TabStop = false;
+            imgShowContrasena.Click += imgShowContrasena_Click;
             // 
-            // imgHide2
+            // imgShowConf
             // 
-            imgHide2.Location = new Point(368, 180);
-            imgHide2.Name = "imgHide2";
-            imgHide2.Size = new Size(100, 50);
-            imgHide2.TabIndex = 19;
-            imgHide2.TabStop = false;
+            imgShowConf.Image = Properties.Resources.ojo;
+            imgShowConf.Location = new Point(368, 174);
+            imgShowConf.Name = "imgShowConf";
+            imgShowConf.Size = new Size(32, 32);
+            imgShowConf.SizeMode = PictureBoxSizeMode.AutoSize;
+            imgShowConf.TabIndex = 19;
+            imgShowConf.TabStop = false;
+            imgShowConf.Click += imgShowConf_Click;
             // 
-            // imgHide1
+            // imgHideContrasena
             // 
-            imgHide1.Location = new Point(368, 124);
-            imgHide1.Name = "imgHide1";
-            imgHide1.Size = new Size(100, 50);
-            imgHide1.TabIndex = 18;
-            imgHide1.TabStop = false;
+            imgHideContrasena.Image = Properties.Resources.cerrar_ojo;
+            imgHideContrasena.Location = new Point(368, 125);
+            imgHideContrasena.Name = "imgHideContrasena";
+            imgHideContrasena.Size = new Size(32, 32);
+            imgHideContrasena.SizeMode = PictureBoxSizeMode.AutoSize;
+            imgHideContrasena.TabIndex = 18;
+            imgHideContrasena.TabStop = false;
+            imgHideContrasena.Visible = false;
+            imgHideContrasena.Click += imgHideContrasena_Click;
             // 
             // lblError
             // 
@@ -208,16 +221,31 @@
             lblError.TabIndex = 17;
             lblError.Text = "Errores:";
             // 
+            // btnAtras
+            // 
+            btnAtras.BackColor = Color.DarkRed;
+            btnAtras.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnAtras.ForeColor = Color.White;
+            btnAtras.Location = new Point(500, 8);
+            btnAtras.Name = "btnAtras";
+            btnAtras.Size = new Size(36, 37);
+            btnAtras.TabIndex = 22;
+            btnAtras.Text = "X";
+            btnAtras.UseVisualStyleBackColor = false;
+            btnAtras.Visible = false;
+            btnAtras.Click += btnAtras_Click;
+            // 
             // frmCambioContrasena
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(548, 468);
+            Controls.Add(btnAtras);
             Controls.Add(lblError);
-            Controls.Add(imgHide1);
-            Controls.Add(imgHide2);
-            Controls.Add(imgShow2);
-            Controls.Add(imgShow1);
+            Controls.Add(imgHideContrasena);
+            Controls.Add(imgShowConf);
+            Controls.Add(imgShowContrasena);
+            Controls.Add(imgHideConf);
             Controls.Add(txtPass2);
             Controls.Add(txtPass);
             Controls.Add(label8);
@@ -227,22 +255,24 @@
             Controls.Add(label3);
             Controls.Add(label5);
             Controls.Add(label4);
-            Controls.Add(label2);
-            Controls.Add(label1);
+            Controls.Add(lblInfo);
+            Controls.Add(lblTitulo);
+            FormBorderStyle = FormBorderStyle.None;
             Name = "frmCambioContrasena";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Cambio Contrasenia";
-            ((System.ComponentModel.ISupportInitialize)imgShow1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)imgShow2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)imgHide2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)imgHide1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)imgHideConf).EndInit();
+            ((System.ComponentModel.ISupportInitialize)imgShowContrasena).EndInit();
+            ((System.ComponentModel.ISupportInitialize)imgShowConf).EndInit();
+            ((System.ComponentModel.ISupportInitialize)imgHideContrasena).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Label label1;
-        private Label label2;
+        private Label lblTitulo;
+        private Label lblInfo;
         private Label label4;
         private Label label5;
         private Label label3;
@@ -252,10 +282,11 @@
         private Label label8;
         private TextBox txtPass;
         private TextBox txtPass2;
-        private PictureBox imgShow1;
-        private PictureBox imgShow2;
-        private PictureBox imgHide2;
-        private PictureBox imgHide1;
+        private PictureBox imgHideConf;
+        private PictureBox imgShowContrasena;
+        private PictureBox imgShowConf;
+        private PictureBox imgHideContrasena;
         private Label lblError;
+        private Button btnAtras;
     }
 }

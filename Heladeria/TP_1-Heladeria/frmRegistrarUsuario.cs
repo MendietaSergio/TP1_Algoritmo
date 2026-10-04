@@ -38,6 +38,28 @@ namespace TP_1_Heladeria
     public partial class frmRegistrarUsuario : Form
     {
 
+        public void Limpiar()
+        {
+            TextBox[] txtCampos =
+                { txtNombre, txtApellido, txtDNI,
+                txtTelefono, txtEmail,
+                txtCodPostal, txtCalle,txtAltura,
+                txtPiso,txtPiso,txtDepartamento };
+            ComboBox[] cmbCamposParaLimpiar =
+                { cmbProvincia, cmbPartidoMunicipio,
+                 cmbLocalidad };
+
+
+            foreach (TextBox campo in txtCampos) campo.Text = "";
+            foreach (ComboBox campo in cmbCamposParaLimpiar) campo.DataSource = null;
+            cmbNacionalidad.SelectedIndex = 0;
+            cmbTipoUsuario.SelectedIndex = 0;
+
+
+            rdbMasculino.Checked = true;
+            txtNombre.Focus();
+        }
+
         public BindingList<string[]> usuarios = new BindingList<string[]>();
         int indice;
 
@@ -174,34 +196,12 @@ namespace TP_1_Heladeria
         //Eventos Botones
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            TextBox[] txtCampos =
-                { txtNombre, txtApellido, txtDNI,
-                txtTelefono, txtEmail,
-                txtCodPostal, txtCalle,txtAltura,
-                txtPiso,txtPiso,txtDepartamento };
-            ComboBox[] cmbCamposParaLimpiar =
-                { cmbProvincia, cmbPartidoMunicipio,
-                 cmbLocalidad };
-
-
-            foreach (TextBox campo in txtCampos) campo.Text = "";
-            foreach (ComboBox campo in cmbCamposParaLimpiar) campo.DataSource = null;
-            cmbNacionalidad.SelectedIndex = 0;
-            cmbTipoUsuario.SelectedIndex = 0;
-
-
-            rdbMasculino.Checked = true;
-            txtNombre.Focus();
+            Limpiar();
         }
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            
-            /*
-             * ////Requeridas ////
-             * Nombre y Apellido, 
-             *      no llevan validacion extra. Con lo que puse para que se bloquee el boton, estamos bien.
-             * DNI
-             *      Validar que la longitud sea menor a 8 y que sea numerio positivo*/
+            ////Requeridas ////
+
             int DNI = 0;
             if (!int.TryParse(txtDNI.Text, out DNI))
             {
@@ -212,15 +212,12 @@ namespace TP_1_Heladeria
             }
             if (DNI <= 0 || DNI > 99999999)
             {
-                MessageBox.Show("Valores no soportados en el campo DNI",
+                MessageBox.Show("Valores no soportados en el campo DNI. \nEl Nro de DNI debe ser mayor a 0 y tiene que tener como maximo 8 caracteres de longitud",
                     "Error DNI", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtDNI.Focus();
                 return;
             }
-            /*
-             * Telefono
-             *      Num 10 pos como mucho
-                */
+
             long tel = 0;
             if (!long.TryParse(txtTelefono.Text, out tel))
             {
@@ -231,41 +228,25 @@ namespace TP_1_Heladeria
             }
             if (tel <= 0 || tel > 9999999999)
             {
-                MessageBox.Show("Valores no soportados en el campo Telefono",
+                MessageBox.Show("Valores no soportados en el campo Telefono. \nSe esperaba como mucho 10 caracteres y un numero positivo para el telefono",
                     "Error Telefono", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtTelefono.Focus();
                 return;
             }
-            /*
 
-         * Email
-         *   Busca que tenga un arroba y un punto, como hablamos en clase*/
             bool esValido = Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
             if (!esValido)
             {
-                MessageBox.Show("Valores no soportados en el campo Email",
+                MessageBox.Show("Valores no soportados en el campo Email. \nDebe tener al menos un @ y un .",
                     "Error Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtEmail.Focus();
                 return;
             }
 
-            /*
-         * Genero
-         *      No necesito una validacion extra. 
-         *      Esta seleccionado por defecto masculino
-         * Tipo de Usuario
-         *      Ya esta hecho. Si no pongo un tipo valido, se bloquea el boton
-         * Fecha de Nacimiento
-         *      Solo se van a poder fechas hasta hace 18 años, por lo que no se van a poder poner fechas futuras.
-         *      Tampoco me interesa ver hace 150 años. Es un monton, pero lo voy a frenar ahi.
-         * 
-         *  ////No Requeridas ////
-         * 
-         * Nacionalidad, Provincia, Partido/Municipio y Localidad 
-         *          Si los index son 0 o null, que se guarde ""
-         * Cod Postal
-         *      Hasta 8 caracteres.
-         *      */
+            ////No Requeridas ////
+
+
+
             if (txtCodPostal.Text.Length > 8)
             {
                 MessageBox.Show("Valores no soportados en el campo Codigo Postal",
@@ -273,10 +254,8 @@ namespace TP_1_Heladeria
                 txtCodPostal.Focus();
                 return;
             }
-            /*
-         * Altura
-         *      Num*/
-            int altura=0;
+
+            int altura = 0;
             if (!int.TryParse(txtAltura.Text, out altura) && (txtAltura.Text != ""))
             {
                 MessageBox.Show("Se esperaba un valor numerico para la Altura",
@@ -284,16 +263,14 @@ namespace TP_1_Heladeria
                 txtAltura.Focus();
                 return;
             }
-            if (altura <= 0)
+            if (altura <= 0 && txtAltura.Text != "")
             {
                 MessageBox.Show("Se esperaba un valor positivo para la Altura",
                     "Error Altura", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtAltura.Focus();
                 return;
             }
-            /*
-         * Piso
-         *      Text. Valido que no sean 2, porque por lo gral se identifica con 2 caracteres */
+
             if (txtPiso.Text.Length > 2)
             {
                 MessageBox.Show("Valores no soportados en el campo Piso",
@@ -301,10 +278,6 @@ namespace TP_1_Heladeria
                 txtPiso.Focus();
                 return;
             }
-            /*
-             * Departamento
-             *      Text, no tiene validacion
-             */
 
             string[] usuarioNuevo = new string[21];
 
@@ -334,8 +307,6 @@ namespace TP_1_Heladeria
             usuarioNuevo[15] = txtPiso.Text;
             usuarioNuevo[16] = txtDepartamento.Text;
 
-            //Usuario
-            //El nombre se genera con inicialnombre+apellido+3 ultimos caracteres del dni
             string inicial = "";
             string apellido = "";
             string nros = "";
@@ -347,8 +318,7 @@ namespace TP_1_Heladeria
             nombreUsuarioConstruido = inicial + apellido + nros;
 
             int cantVeces = 1;
-            //Tengo que guardar el dato con el que voy a comparar las proximas cuentas, sin la modificacion
-            //En el 17 sigo guardando la cuenta. En el 19, voy a guardar inicialnombre+apellido+3 ultimos caracteres del dni
+
             foreach (string[] usuario in usuarios)
                 if (usuario[20] == nombreUsuarioConstruido)
                     cantVeces++;
@@ -361,7 +331,6 @@ namespace TP_1_Heladeria
 
             usuarioNuevo[17] = nombreUsuarioConstruido;
 
-            //Contraseña
             Random random = new Random();
             long password = random.Next(10000000, 999999999);
             usuarioNuevo[18] = password.ToString();
@@ -370,13 +339,21 @@ namespace TP_1_Heladeria
 
             usuarios.Add(usuarioNuevo);
 
-            MessageBox.Show("Usuario registrado con exito. La contraseña es "+ usuarioNuevo[18]);
+            MessageBox.Show("Usuario registrado con exito. La contraseña es " + usuarioNuevo[18]);
+            Limpiar();
         }
         private void btnVolver_Click(object sender, EventArgs e)
         {
             Form principal = new frmPrincipal(usuarios, indice);
             principal.Show();
             this.Close();
+        }
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            DialogResult deseaCerrar = MessageBox.Show("Desea cerrar la aplicacion?", "Cerrar Sistema",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            if (deseaCerrar == DialogResult.Yes)
+                Application.Exit();
         }
 
 
@@ -530,6 +507,6 @@ namespace TP_1_Heladeria
             }
         }
 
-        
+       
     }
 }

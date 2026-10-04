@@ -69,6 +69,7 @@
             btnAceptar = new Button();
             btnLimpiar = new Button();
             btnVolver = new Button();
+            btnCerrar = new Button();
             grpPersonales.SuspendLayout();
             grpGenero.SuspendLayout();
             grpUbicacion.SuspendLayout();
@@ -97,6 +98,7 @@
             // 
             txtNombre.Location = new Point(104, 29);
             txtNombre.Name = "txtNombre";
+            txtNombre.PlaceholderText = "Ingrese su nombre";
             txtNombre.Size = new Size(197, 23);
             txtNombre.TabIndex = 1;
             txtNombre.TextChanged += txtNombre_TextChanged;
@@ -105,6 +107,7 @@
             // 
             txtApellido.Location = new Point(104, 58);
             txtApellido.Name = "txtApellido";
+            txtApellido.PlaceholderText = "Ingrese su apellido";
             txtApellido.Size = new Size(197, 23);
             txtApellido.TabIndex = 2;
             txtApellido.TextChanged += txtApellido_TextChanged;
@@ -122,6 +125,7 @@
             // 
             txtDNI.Location = new Point(104, 87);
             txtDNI.Name = "txtDNI";
+            txtDNI.PlaceholderText = "12345678";
             txtDNI.Size = new Size(197, 23);
             txtDNI.TabIndex = 3;
             txtDNI.TextChanged += txtDNI_TextChanged;
@@ -152,7 +156,7 @@
             grpPersonales.Controls.Add(txtNombre);
             grpPersonales.Controls.Add(txtApellido);
             grpPersonales.Controls.Add(lblApellido);
-            grpPersonales.Location = new Point(31, 54);
+            grpPersonales.Location = new Point(31, 91);
             grpPersonales.Name = "grpPersonales";
             grpPersonales.Size = new Size(344, 338);
             grpPersonales.TabIndex = 7;
@@ -240,6 +244,7 @@
             // 
             txtEmail.Location = new Point(104, 145);
             txtEmail.Name = "txtEmail";
+            txtEmail.PlaceholderText = "email@dom.com";
             txtEmail.Size = new Size(197, 23);
             txtEmail.TabIndex = 5;
             txtEmail.TextChanged += txtEmail_TextChanged;
@@ -257,6 +262,7 @@
             // 
             txtTelefono.Location = new Point(104, 116);
             txtTelefono.Name = "txtTelefono";
+            txtTelefono.PlaceholderText = "1234567890";
             txtTelefono.Size = new Size(197, 23);
             txtTelefono.TabIndex = 4;
             txtTelefono.TextChanged += txtTelefono_TextChanged;
@@ -282,9 +288,9 @@
             grpUbicacion.Controls.Add(lblNacionalidad);
             grpUbicacion.Controls.Add(lblProvincia);
             grpUbicacion.Enabled = false;
-            grpUbicacion.Location = new Point(393, 54);
+            grpUbicacion.Location = new Point(393, 91);
             grpUbicacion.Name = "grpUbicacion";
-            grpUbicacion.Size = new Size(344, 289);
+            grpUbicacion.Size = new Size(329, 289);
             grpUbicacion.TabIndex = 17;
             grpUbicacion.TabStop = false;
             grpUbicacion.Text = "Extras";
@@ -447,7 +453,7 @@
             // btnAceptar
             // 
             btnAceptar.Enabled = false;
-            btnAceptar.Location = new Point(391, 349);
+            btnAceptar.Location = new Point(391, 386);
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(138, 41);
             btnAceptar.TabIndex = 19;
@@ -457,7 +463,7 @@
             // 
             // btnLimpiar
             // 
-            btnLimpiar.Location = new Point(561, 349);
+            btnLimpiar.Location = new Point(561, 386);
             btnLimpiar.Name = "btnLimpiar";
             btnLimpiar.Size = new Size(138, 41);
             btnLimpiar.TabIndex = 20;
@@ -467,19 +473,33 @@
             // 
             // btnVolver
             // 
-            btnVolver.Location = new Point(599, 7);
+            btnVolver.Location = new Point(624, 9);
             btnVolver.Name = "btnVolver";
-            btnVolver.Size = new Size(95, 40);
+            btnVolver.Size = new Size(54, 37);
             btnVolver.TabIndex = 21;
-            btnVolver.Text = "Volver al Menu Principal";
+            btnVolver.Text = "Atras";
             btnVolver.UseVisualStyleBackColor = true;
             btnVolver.Click += btnVolver_Click;
+            // 
+            // btnCerrar
+            // 
+            btnCerrar.BackColor = Color.DarkRed;
+            btnCerrar.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            btnCerrar.ForeColor = Color.White;
+            btnCerrar.Location = new Point(684, 10);
+            btnCerrar.Name = "btnCerrar";
+            btnCerrar.Size = new Size(36, 37);
+            btnCerrar.TabIndex = 25;
+            btnCerrar.Text = "X";
+            btnCerrar.UseVisualStyleBackColor = false;
+            btnCerrar.Click += btnCerrar_Click;
             // 
             // frmRegistrarUsuario
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(711, 406);
+            ClientSize = new Size(747, 441);
+            Controls.Add(btnCerrar);
             Controls.Add(btnVolver);
             Controls.Add(btnLimpiar);
             Controls.Add(btnAceptar);
@@ -543,5 +563,6 @@
         private ComboBox cmbProvincia;
         private ComboBox cmbNacionalidad;
         private Button btnVolver;
+        private Button btnCerrar;
     }
 }

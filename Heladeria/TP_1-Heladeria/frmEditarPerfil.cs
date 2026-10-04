@@ -15,6 +15,8 @@ namespace TP_1_Heladeria
         public string[] usuarioEditando;
         public BindingList<string[]> usuarios = new BindingList<string[]>();
         int indiceLogeado;
+        BindingList<string> nombreUsuarios = new BindingList<string>();
+
         public frmEditarPerfil(BindingList<string[]> _usuarios, int _indiceLogeado)
         {
 
@@ -28,7 +30,7 @@ namespace TP_1_Heladeria
 
             string[] permisos = { cmbTipoUsuario.AccessibleDescription, "Administrador", "General" };
             BindingList<string> paises = new BindingList<string> { cmbNacionalidad.AccessibleDescription, "Argentina", "Uruguay" };
-            BindingList<string> nombreUsuarios = new BindingList<string>();
+
 
             foreach (string[] usuarioActual in usuarios) nombreUsuarios.Add(usuarioActual[17]);
 
@@ -38,8 +40,8 @@ namespace TP_1_Heladeria
             cmbNacionalidad.DataSource = paises;
             cmbTipoUsuario.DataSource = permisos;
 
-            //Carga de datos
             {
+                cmbUsuarioEditado.SelectedIndex = indiceLogeado;
 
                 txtNombre.Text = usuarioEditando[0];
                 txtApellido.Text = usuarioEditando[1];
@@ -55,37 +57,38 @@ namespace TP_1_Heladeria
 
                 cmbTipoUsuario.Text = usuarioEditando[6];
                 dtpFecNac.Text = usuarioEditando[7];
+
                 cmbNacionalidad.Text = usuarioEditando[8];
                 cmbProvincia.Text = usuarioEditando[9];
                 cmbPartidoMunicipio.Text = usuarioEditando[10];
                 cmbLocalidad.Text = usuarioEditando[11];
+
                 txtCodPostal.Text = usuarioEditando[12];
                 txtCalle.Text = usuarioEditando[13];
                 txtAltura.Text = usuarioEditando[14];
                 txtPiso.Text = usuarioEditando[15];
                 txtDepartamento.Text = usuarioEditando[16];
-                cmbUsuarioEditado.SelectedIndex = indiceLogeado;
 
 
             }
-            //Me fijo que el campo del que depende 1 campo de la ubicacion, este disponible para habilitarlo
+
             {
-                if (cmbNacionalidad.SelectedValue != "")
+                if (cmbNacionalidad.SelectedValue != null && cmbNacionalidad.SelectedIndex != 0)
                     cmbProvincia.Enabled = true;
                 else
                     cmbProvincia.Enabled = false;
 
-                if (cmbProvincia.SelectedValue != "")
+                if (cmbProvincia.SelectedValue != null && cmbProvincia.SelectedIndex != 0)
                     cmbPartidoMunicipio.Enabled = true;
                 else
                     cmbPartidoMunicipio.Enabled = false;
 
-                if (cmbPartidoMunicipio.SelectedValue != "")
+                if (cmbPartidoMunicipio.SelectedValue != null && cmbPartidoMunicipio.SelectedIndex != 0)
                     cmbLocalidad.Enabled = true;
                 else
                     cmbLocalidad.Enabled = false;
             }
-            //Me aseguro de que todos los items esten cargados con sus longitudes correctas
+
             {
                 if (txtNombre.Text.Length > 0 &&
                    txtApellido.Text.Length > 0 &&
@@ -107,12 +110,16 @@ namespace TP_1_Heladeria
                 }
 
             }
-            //Ahora voy a bloquear los datos que no tienen que modificar los usuarios
+
             if (usuarioLogeado[6].ToLower() != "administrador")
             {
                 cmbTipoUsuario.Enabled = false;
                 txtDNI.Enabled = false;
                 cmbUsuarioEditado.Enabled = false;
+                btnGuardarCambios.Width = 201;
+                btnEliminar.Enabled = false;
+                btnEliminar.Visible = false;
+
             }
 
             dtpFecNac.MaxDate = DateTime.Today.AddYears(-18);
@@ -269,12 +276,8 @@ namespace TP_1_Heladeria
         }
         private void cmbUsuarioEditado_SelectedIndexChanged(object sender, EventArgs e)
         {
-            
-            if (usuarioLogeado[6].ToLower() == "administrador")
-            {
-                usuarioEditando = usuarios[cmbUsuarioEditado.SelectedIndex];
-            }
-            //Carga de datos
+            usuarioEditando = usuarios[cmbUsuarioEditado.SelectedIndex];
+
             {
 
                 txtNombre.Text = usuarioEditando[0];
@@ -305,10 +308,6 @@ namespace TP_1_Heladeria
                     btnEditarContrasena.Enabled = false;
                 else
                     btnEditarContrasena.Enabled = true;
-
-
-
-
             }
 
         }
@@ -426,17 +425,12 @@ namespace TP_1_Heladeria
         {
             frmPrincipal principal = new frmPrincipal(usuarios, indiceLogeado);
             principal.Show();
-            this.Hide();
+            this.Close();
         }
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            //Aca tengo que meter las validaciones.
-            /*
-             * ////Requeridas ////
-             * Nombre y Apellido, 
-             *      no llevan validacion extra. Con lo que puse para que se bloquee el boton, estamos bien.
-             * DNI
-             *      Validar que la longitud sea menor a 8 y que sea numerio*/
+
+            //Validaciones Requeridos            
             int DNI = 0;
             if (!int.TryParse(txtDNI.Text, out DNI))
             {
@@ -447,15 +441,13 @@ namespace TP_1_Heladeria
             }
             if (DNI <= 0 || DNI > 99999999)
             {
-                MessageBox.Show("Valores no soportados en el campo DNI",
+                MessageBox.Show("Valores no soportados en el campo DNI. \nEl Nro de DNI debe ser mayor a 0 y tiene que tener como maximo 8 caracteres de longitud",
                     "Error DNI", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtDNI.Focus();
                 return;
             }
-            /*
-             * Telefono
-             *      Num 10 pos como mucho
-                */
+
+
             long tel = 0;
             if (!long.TryParse(txtTelefono.Text, out tel))
             {
@@ -466,41 +458,23 @@ namespace TP_1_Heladeria
             }
             if (tel <= 0 || tel > 9999999999)
             {
-                MessageBox.Show("Valores no soportados en el campo Telefono",
+                MessageBox.Show("Valores no soportados en el campo Telefono. \\nSe esperaba como mucho 10 caracteres y un numero positivo para el telefono\"",
                     "Error Telefono", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtTelefono.Focus();
                 return;
             }
-            /*
 
-         * Email
-         *   Busca que tenga un arroba y un punto, como hablamos en clase*/
+
             bool esValido = Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
             if (!esValido)
             {
-                MessageBox.Show("Valores no soportados en el campo Email",
+                MessageBox.Show("Valores no soportados en el campo Email. \nDebe tener al menos un @ y un",
                     "Error Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtEmail.Focus();
                 return;
             }
 
-            /*
-         * Genero
-         *      No necesito una validacion extra. 
-         *      Esta seleccionado por defecto masculino
-         * Tipo de Usuario
-         *      Ya esta hecho. Si no pongo un tipo valido, se bloquea el boton
-         * Fecha de Nacimiento
-         *      Solo se van a poder fechas hasta hace 18 años, por lo que no se van a poder poner fechas futuras.
-         *      Tampoco me interesa ver hace 150 años. Es un monton, pero lo voy a frenar ahi.
-         * 
-         *  ////No Requeridas ////
-         * 
-         * Nacionalidad, Provincia, Partido/Municipio y Localidad 
-         *          Si los index son 0 o null, que se guarde ""
-         * Cod Postal
-         *      Hasta 8 caracteres.
-         *      */
+            //Validacion No Requeridos
             if (txtCodPostal.Text.Length > 8)
             {
                 MessageBox.Show("Valores no soportados en el campo Codigo Postal",
@@ -508,9 +482,7 @@ namespace TP_1_Heladeria
                 txtCodPostal.Focus();
                 return;
             }
-            /*
-         * Altura
-         *      Num*/
+
             int altura = 0;
             if (!int.TryParse(txtAltura.Text, out altura) && (txtAltura.Text != ""))
             {
@@ -519,16 +491,14 @@ namespace TP_1_Heladeria
                 txtAltura.Focus();
                 return;
             }
-            if (altura <= 0)
+            if (altura <= 0 && txtAltura.Text != "")
             {
                 MessageBox.Show("Se esperaba un valor positivo para la Altura",
                     "Error Altura", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 txtAltura.Focus();
                 return;
             }
-            /*
-         * Piso
-         *      Text. Valido que no sean 2, porque por lo gral se identifica con 2 caracteres */
+
             if (txtPiso.Text.Length > 2)
             {
                 MessageBox.Show("Valores no soportados en el campo Piso",
@@ -536,10 +506,7 @@ namespace TP_1_Heladeria
                 txtPiso.Focus();
                 return;
             }
-            /*
-             * Departamento
-             *      Text
-             */
+
 
             int guardarEn = usuarios.ToList().FindIndex(nombreCuenta => nombreCuenta[17] == usuarioEditando[17]);
             usuarioEditando[0] = txtNombre.Text;
@@ -553,39 +520,72 @@ namespace TP_1_Heladeria
                 usuarioEditando[5] = "Femenino";
             usuarioEditando[6] = cmbTipoUsuario.SelectedValue.ToString();
             usuarioEditando[7] = dtpFecNac.Text;
-            if (cmbNacionalidad.SelectedIndex > 0)
+            if (cmbNacionalidad.SelectedIndex >= 0)
                 usuarioEditando[8] = cmbNacionalidad.SelectedValue.ToString();
-            if (cmbProvincia.SelectedIndex > 0)
+
+            if (cmbProvincia.SelectedIndex >= 0)
                 usuarioEditando[9] = cmbProvincia.SelectedValue.ToString();
-            if (cmbPartidoMunicipio.SelectedIndex > 0)
+            else
+                usuarioEditando[9] = "";
+            if (cmbPartidoMunicipio.SelectedIndex >= 0)
                 usuarioEditando[10] = cmbPartidoMunicipio.SelectedValue.ToString();
-            usuarioEditando[11] = cmbLocalidad.SelectedIndex > 0 ? cmbLocalidad.SelectedValue.ToString() : "";
+            else
+                usuarioEditando[10] = "";
+            usuarioEditando[11] = cmbLocalidad.SelectedIndex >= 0 ? cmbLocalidad.SelectedValue.ToString() : "";
             usuarioEditando[12] = txtCodPostal.Text;
             usuarioEditando[13] = txtCalle.Text;
             usuarioEditando[14] = txtAltura.Text;
             usuarioEditando[15] = txtPiso.Text;
             usuarioEditando[16] = txtDepartamento.Text;
 
-            //Usuario
-            //No se tocan esos datos
-
             MessageBox.Show("Se edito el usuario exitosamente");
-
 
             usuarios[guardarEn] = usuarioEditando;
             frmPrincipal prin = new frmPrincipal(usuarios, indiceLogeado);
             prin.Show();
-            this.Hide();
+            this.Close();
         }
         private void btnEditarContrasena_Click(object sender, EventArgs e)
         {
 
-            //Solamente la contraseña del logeado porque hay una opcion para recuperar contraseña
-            //frmRecuperarContrasena frm = new frmRecuperarContrasena(usuarios, usuarioLogeado);
-            //frm.ShowDialog();
+            frmCambioContrasena frm = new frmCambioContrasena(usuarios, indiceLogeado);
+            frm.ShowDialog();
 
         }
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if ((usuarioLogeado[6].ToLower() == "administrador") &&
+                (usuarioEditando[17].ToLower() != usuarioLogeado[17].ToLower()))
 
-        
+            {
+                DialogResult respuesta = MessageBox.Show(
+                    "¿Esta seguro que desea eliminar este usuario? Los datos no se van a recuperar",
+                    "Eliminacion de Usuario", MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
+                if (respuesta == DialogResult.Yes)
+                {
+
+                    string[] usuarioABorrar = usuarioEditando;
+                    usuarioEditando = usuarios[indiceLogeado];
+                    int nroIndiceBorrar = cmbUsuarioEditado.SelectedIndex;
+                    cmbUsuarioEditado.SelectedIndex = indiceLogeado;
+
+                    nombreUsuarios.RemoveAt(nroIndiceBorrar);
+                    usuarios.Remove(usuarioABorrar);
+
+
+
+                    MessageBox.Show("Usuario " + usuarioABorrar[17] + " eliminado", "Eliminado con Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                }
+            }
+        }
+        private void btnCerrar_Click(object sender, EventArgs e)
+        {
+            DialogResult deseaCerrar = MessageBox.Show("Desea cerrar la aplicacion?", "Cerrar Sistema",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            if (deseaCerrar == DialogResult.Yes)
+                Application.Exit();
+        }
     }
 }
