@@ -7,31 +7,7 @@ namespace TP_1_Heladeria
 {
     public partial class frmLogin : Form
     {
-        public class Usuario
-        {
-            public int id { get; set; }
-            public string Nombre { get; set; }
-            public string Apellido { get; set; }
-            public int DNI { get; set; }
-            public string Telefono { get; set; }
-            public string Email { get; set; }
-            public int Genero { get; set; }
-            public int TipoUsuario { get; set; }
-            public DateTime FechaNacimiento { get; set; }
-            public int Nacionalidad { get; set; }
-            public int Provincia { get; set; }
-            public int Municipio { get; set; }
-            public int Localidad { get; set; }
-            public string CodigoPostal { get; set; }
-            public string Calle { get; set; }
-            public int Altura { get; set; }
-            public int Piso { get; set; }
-            public string Departamento { get; set; }
-            public string UsuarioBase { get; set; }
-            public string Pass { get; set; }
-            public bool PrimerInicio { get; set; }
-            public string UsuarioCompleto { get; set; }
-        }
+        Usuario usuario = new Usuario();
         public int indiceUsuario;
         public BindingList<string[]> usuarios = new BindingList<string[]>();
         string CadenaConexionAccess = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0; DataBase=Heladeria";
@@ -105,7 +81,7 @@ namespace TP_1_Heladeria
                     //string nombre = reader["Nombre"].ToString();
                     //int primerInicio = Convert.ToInt32(reader["PrimerInicio"]);
                     
-                    Usuario usuario = new Usuario();
+                  ///  Usuario usuario = new Usuario();
 
                     usuario.id = Convert.ToInt32(reader["IdUsuario"]);
                     usuario.Nombre = reader["Nombre"].ToString();
@@ -134,6 +110,7 @@ namespace TP_1_Heladeria
                     usuario.UsuarioCompleto = reader["UsuarioCompleto"].ToString();
 
                     MessageBox.Show($"Inicio de sesión exitoso, {usuario.Nombre}", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 }
                 else
                 {
@@ -145,43 +122,32 @@ namespace TP_1_Heladeria
 
             }
             catch (Exception ex){
+                lblError.Visible = true;
+                lblError.Text = "Error: los datos son incorrectos.";
+                txtUsuario.Focus();
                 MessageBox.Show($"Se ha producido un error: {ex.Message}","Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally{
                 CN.Close();
                 CN.Dispose();
             }
-            /*
-            while (true)
+            if(usuario != null)
             {
-                for (int i = 0; i < usuarios.Count; i++)
+                if (usuario.PrimerInicio)
                 {
-                    if (txtUsuario.Text == usuarios[i][17] && txtContrasenia.Text == usuarios[i][18])
-                    {
-                        indiceUsuario = i;
-
-                        if (usuarios[i][19].ToLower() == "si")
-                        {
-                            frmCambioContrasena frmCambioContrasenia = new frmCambioContrasena(usuarios, indiceUsuario);
-                            this.Hide();
-                            frmCambioContrasenia.ShowDialog();
-
-                            return;
-                        }
-                        else
-                        {
-                            frmPrincipal frmPrincipal = new frmPrincipal(usuarios, indiceUsuario);
-                            this.Hide();
-                            frmPrincipal.Show();
-                            return;
-                        }
-                    }
+                    frmCambioContrasena frmCambioContrasenia = new frmCambioContrasena(usuarios, indiceUsuario);
+                    this.Hide();
+                    frmCambioContrasenia.ShowDialog();
+                    return;
                 }
-                lblError.Visible = true;
-                lblError.Text = "Error: los datos son incorrectos.";
-                txtUsuario.Focus();
-                break;
-            }*/
+                else
+                {
+                    frmPrincipal frmPrincipal = new frmPrincipal(usuarios, indiceUsuario);
+                    this.Hide();
+                    frmPrincipal.Show();
+                    return;
+                }
+            }
 
         }
         private void btnSalir_Click(object sender, EventArgs e)

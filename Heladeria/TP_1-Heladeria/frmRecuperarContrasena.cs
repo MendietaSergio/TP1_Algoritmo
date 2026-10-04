@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -18,6 +19,22 @@ namespace TP_1_Heladeria
             InitializeComponent();
             usuarios = _usuarios;
             lblError.Visible = false;
+        }
+        string CadenaConexionAccess = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0; DataBase=Heladeria";
+        SqlConnection CN;
+        Boolean avanzo = false;
+        void conectar()
+        {
+            try
+            {
+                CN = new SqlConnection(CadenaConexionAccess);
+                CN.Open();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al conectar la DB > " + ex.Message);
+            }
         }
 
         //Eventos Botones
@@ -40,37 +57,109 @@ namespace TP_1_Heladeria
                 txtEmail.Focus();
                 return;
             }
+            try {
+                conectar();
+                string query = "SELECT * FROM Usuarios WHERE Email = @Email";
 
+                SqlCommand cmd = new SqlCommand(query, CN);
+                cmd.Parameters.AddWithValue("@Email", txtEmail.Text);
 
-            while (true)
-            {
-                for (int i = 0; i < usuarios.Count; i++)
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
                 {
-                    if (txtEmail.Text == usuarios[i][4])
-                    {
-                        indiceUsuario = i;
-                        MessageBox.Show("Código enviado a " + txtEmail.Text + "\nEl código es: 1234");
-                        lblError.Visible = false;
+                    MessageBox.Show("Código enviado a " + txtEmail.Text + "\nEl código es: 1234");
+                    lblError.Visible = false;
+                    txtCodigo.Enabled = true;
+                    btnValidarCodigo.Enabled = true;
 
-                        txtCodigo.Enabled = true;
-                        btnValidarCodigo.Enabled = true;
+                    btnEnviarCodigo.Enabled = false;
 
-                        btnEnviarCodigo.Enabled = false;
+                    lblEstado.Text = "Ingresá el código que te llego (1234)";
 
-                        lblEstado.Text = "Ingresá el código que te llego (1234)";
-
-                        txtCodigo.Text = "";
-                        txtCodigo.Focus(); 
-                        return;
-                    }
+                    txtCodigo.Text = "";
+                    txtCodigo.Focus();
+                    avanzo = true;
                 }
-                lblError.Visible = true;
-                lblError.Text = "Error: los datos son incorrectos.";
-                txtEmail.Focus();
-                break;
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al enviar el código: " + ex.Message);
+                avanzo = false;
+                return;
 
+            }
+            finally
+            {
+                CN.Close();
+                CN.Dispose();
+            }
+            //UPDATE envio de codigo
+            if (avanzo)
+            {
+                try
+                {
+                    conectar();
+                    string queryUpdate = "UPDATE Usuarios set cod_Recupero=@cod_Recupero WHERE Email =@Email";
+
+                    SqlCommand cmdUpdateCod = new SqlCommand(queryUpdate, CN);
+
+                    cmdUpdateCod.Parameters.AddWithValue("@Email", txtEmail.Text);
+                    cmdUpdateCod.Parameters.AddWithValue("@cod_Recupero", "1234");
+
+                    //SqlDataReader reader_update = cmdUpdateCod.ExecuteReader();
+                    cmdUpdateCod.ExecuteNonQuery();
+              
+                    MessageBox.Show("Actualizado al cod_recupero");
+                    txtCodigo.Text = "";
+                    txtCodigo.Focus();
+                    avanzo = true;
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al enviar el codigo: " + ex.Message);
+                    avanzo = false;
+                    return;
+                }
+                finally
+                {
+                    CN.Close();
+                    CN.Dispose();
+                }
+            }
+            
         }
+
+            //while (true)
+            //{
+            //    for (int i = 0; i < usuarios.Count; i++)
+            //    {
+            //        if (txtEmail.Text == usuarios[i][4])
+            //        {
+            //            indiceUsuario = i;
+            //            MessageBox.Show("Código enviado a " + txtEmail.Text + "\nEl código es: 1234");
+            //            lblError.Visible = false;
+
+            //            txtCodigo.Enabled = true;
+            //            btnValidarCodigo.Enabled = true;
+
+            //            btnEnviarCodigo.Enabled = false;
+
+            //            lblEstado.Text = "Ingresá el código que te llego (1234)";
+
+            //            txtCodigo.Text = "";
+            //            txtCodigo.Focus(); 
+            //            return;
+            //        }
+            //    }
+            //    lblError.Visible = true;
+            //    lblError.Text = "Error: los datos son incorrectos.";
+            //    txtEmail.Focus();
+            //    break;
+            //}
+
+        //}
         private void btnValidarCodigo_Click(object sender, EventArgs e)
         {
             if (txtCodigo.Text == "")
@@ -80,37 +169,78 @@ namespace TP_1_Heladeria
                 txtCodigo.Focus();
                 return;
             }
-
-            if (txtCodigo.Text == "1234")
+            try
             {
-                MessageBox.Show("¡Código válido! Ahora podés poner tu nueva contraseña.");
+                conectar();
+                string query = "SELECT * FROM Usuarios WHERE Email = @Email AND cod_Recupero = @cod_Recupero";
 
-                txtNuevaContra.Enabled = true;
-                txtConfirmarContra.Enabled = true;
+                SqlCommand cmd = new SqlCommand(query, CN);
+                cmd.Parameters.AddWithValue("@Email", txtEmail.Text);
+                cmd.Parameters.AddWithValue("@cod_Recupero", txtCodigo.Text );
 
-                btnGuardarContra.Enabled = true;
+                SqlDataReader reader = cmd.ExecuteReader();
 
-                btnValidarCodigo.Enabled = false;
+                if (reader.Read())
+                {
+                    //MessageBox.Show("Código enviado a " + txtEmail.Text + "\nEl código es: 1234");
+                    txtNuevaContra.Enabled = true;
+                    txtConfirmarContra.Enabled = true;
 
-                txtCodigo.Text = "";
-                txtCodigo.Enabled = false;
+                    btnGuardarContra.Enabled = true;
 
-                txtNuevaContra.Focus();
-                lblError.Visible = false;
-                lblEstado.Text = "Código válido. Ingresá tu nueva contraseña.";
+                    btnValidarCodigo.Enabled = false;
 
-                imgShow1.Visible = true;
-                imgShow2.Visible = true;
+                    //txtCodigo.Text = "";
+                    txtCodigo.Enabled = false;
+
+                    lblEstado.Text = "Ingresá el código que te llego al mail (o en la base de datos)";
+
+                    //txtCodigo.Text = "";
+                    txtCodigo.Focus();
+                    avanzo = true;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                lblError.Visible = true;
-                lblError.Text = "El código que ingresaste es incorrecto. Intentá de nuevo.";
-                txtCodigo.Focus();
-
-                txtCodigo.Text = "";
-                txtCodigo.Focus();
+                MessageBox.Show("Error al enviar el codigo: " + ex.Message);
+                avanzo = false;
+                return;
             }
+            finally
+            {
+                CN.Close();
+                CN.Dispose();
+            }
+            //if (txtCodigo.Text == "1234")
+            //{
+            //    MessageBox.Show("¡Código válido! Ahora podés poner tu nueva contraseña.");
+
+            //    txtNuevaContra.Enabled = true;
+            //    txtConfirmarContra.Enabled = true;
+
+            //    btnGuardarContra.Enabled = true;
+
+            //    btnValidarCodigo.Enabled = false;
+
+            //    txtCodigo.Text = "";
+            //    txtCodigo.Enabled = false;
+
+            //    txtNuevaContra.Focus();
+            //    lblError.Visible = false;
+            //    lblEstado.Text = "Código válido. Ingresá tu nueva contraseña.";
+
+            //    imgShow1.Visible = true;
+            //    imgShow2.Visible = true;
+            //}
+            //else
+            //{
+            //    lblError.Visible = true;
+            //    lblError.Text = "El código que ingresaste es incorrecto. Intentá de nuevo.";
+            //    txtCodigo.Focus();
+
+            //    txtCodigo.Text = "";
+            //    txtCodigo.Focus();
+            //}
         }
         private void btnGuardarContra_Click(object sender, EventArgs e)
         {
