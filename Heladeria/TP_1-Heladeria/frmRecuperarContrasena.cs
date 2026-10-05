@@ -20,23 +20,11 @@ namespace TP_1_Heladeria
             usuarios = _usuarios;
             lblError.Visible = false;
         }
-        string CadenaConexionAccess = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0; DataBase=Heladeria";
-        SqlConnection CN;
         Boolean avanzo = false;
-        void conectar()
-        {
-            try
-            {
-                CN = new SqlConnection(CadenaConexionAccess);
-                CN.Open();
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al conectar la DB > " + ex.Message);
-            }
-        }
-
+        string codigo = "";
+        // Instancias tu clase de conexión centralizada
+        BD_Conexion db = new BD_Conexion();
+        SqlConnection CN = null;
         //Eventos Botones
         private void btnEnviarCodigo_Click(object sender, EventArgs e)
         {
@@ -57,8 +45,11 @@ namespace TP_1_Heladeria
                 txtEmail.Focus();
                 return;
             }
+            
+            
             try {
-                conectar();
+                
+                CN = db.Conectar_BD();
                 string query = "SELECT * FROM Usuarios WHERE Email = @Email";
 
                 SqlCommand cmd = new SqlCommand(query, CN);
@@ -68,7 +59,8 @@ namespace TP_1_Heladeria
 
                 if (reader.Read())
                 {
-                    MessageBox.Show("Código enviado a " + txtEmail.Text + "\nEl código es: 1234");
+                    codigo = GenerarCodigoAlfanumerico();
+                    MessageBox.Show("Código enviado a " + txtEmail.Text + "\nEl código es: " + codigo);
                     lblError.Visible = false;
                     txtCodigo.Enabled = true;
                     btnValidarCodigo.Enabled = true;
@@ -81,6 +73,13 @@ namespace TP_1_Heladeria
                     txtCodigo.Text = "";
                     txtCodigo.Focus();
                     avanzo = true;
+                }
+                else
+                {
+                    lblError.Visible = true;
+                    lblError.Text = "Email no registrado.";
+                    txtEmail.Focus();
+                    avanzo = false;
                 }
             }
             catch (Exception ex)
@@ -100,28 +99,30 @@ namespace TP_1_Heladeria
             {
                 try
                 {
-                    conectar();
+
+                    CN = db.Conectar_BD();
+                    
                     //Actualizo el codigo en la bse de datos, porque no tenemos envio de mail por ahora.
                     string queryUpdate = "UPDATE Usuarios set cod_Recupero=@cod_Recupero WHERE Email =@Email";
 
                     SqlCommand cmdUpdateCod = new SqlCommand(queryUpdate, CN);
 
                     cmdUpdateCod.Parameters.AddWithValue("@Email", txtEmail.Text);
-                    cmdUpdateCod.Parameters.AddWithValue("@cod_Recupero", "1234");
+                    cmdUpdateCod.Parameters.AddWithValue("@cod_Recupero", codigo);
 
                     //SqlDataReader reader_update = cmdUpdateCod.ExecuteReader();
                     cmdUpdateCod.ExecuteNonQuery();
-              
+
                     txtCodigo.Text = "";
+                    codigo= "";
                     txtCodigo.Focus();
                     avanzo = true;
-
+                    
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Error al enviar el codigo: " + ex.Message);
                     avanzo = false;
-                    return;
                 }
                 finally
                 {
@@ -142,7 +143,7 @@ namespace TP_1_Heladeria
             }
             try
             {
-                conectar();
+                CN = db.Conectar_BD();
                 string query = "SELECT * FROM Usuarios WHERE Email = @Email AND cod_Recupero = @cod_Recupero";
 
                 SqlCommand cmd = new SqlCommand(query, CN);
@@ -214,7 +215,7 @@ namespace TP_1_Heladeria
             }
             try
             {
-                conectar();
+                CN = db.Conectar_BD();
                 string queryUpdate = "UPDATE Usuarios set pass=@pass, cod_recupero='' WHERE Email =@Email";
 
                 SqlCommand cmdUpdateCod = new SqlCommand(queryUpdate, CN);
@@ -273,6 +274,20 @@ namespace TP_1_Heladeria
             txtConfirmarContra.PasswordChar = '*';
             imgShow2.Visible = true;
             imgHide2.Visible = false;
+        }
+        public string GenerarCodigoAlfanumerico()
+        {
+            const string caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            Random random = new Random();
+            char[] resultado = new char[4];
+
+            for (int i = 0; i < 4; i++)
+            {
+                // Elige un índice al azar entre 0 y la longitud de la cadena 'caracteres'
+                resultado[i] = caracteres[random.Next(caracteres.Length)];
+            }
+
+            return new string(resultado);
         }
     }
 }

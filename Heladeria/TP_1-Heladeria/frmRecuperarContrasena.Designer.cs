@@ -200,13 +200,14 @@
             // 
             // btnAtras
             // 
-            btnAtras.BackColor = Color.DarkRed;
+            btnAtras.BackColor = Color.DimGray;
+            btnAtras.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnAtras.ForeColor = Color.White;
-            btnAtras.Location = new Point(511, 12);
+            btnAtras.Location = new Point(484, 12);
             btnAtras.Name = "btnAtras";
-            btnAtras.Size = new Size(36, 37);
+            btnAtras.Size = new Size(63, 37);
             btnAtras.TabIndex = 23;
-            btnAtras.Text = "X";
+            btnAtras.Text = "Atras";
             btnAtras.UseVisualStyleBackColor = false;
             btnAtras.Click += btnAtras_Click;
             // 
@@ -281,7 +282,7 @@
             Controls.Add(lblEmail);
             Controls.Add(lblEstado);
             Controls.Add(lblTituloRecuperacion);
-            FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.Fixed3D;
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "frmRecuperarContrasena";
