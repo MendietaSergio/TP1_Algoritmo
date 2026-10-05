@@ -72,10 +72,11 @@ namespace TP_1_Heladeria
                     lblError.Visible = false;
                     txtCodigo.Enabled = true;
                     btnValidarCodigo.Enabled = true;
+                    txtEmail.Enabled = false;
 
                     btnEnviarCodigo.Enabled = false;
 
-                    lblEstado.Text = "Ingresá el código que te llego (1234)";
+                    lblEstado.Text = "Ingresá el código que te llegó por mail (el que esta en la base de datos)";
 
                     txtCodigo.Text = "";
                     txtCodigo.Focus();
@@ -100,6 +101,7 @@ namespace TP_1_Heladeria
                 try
                 {
                     conectar();
+                    //Actualizo el codigo en la bse de datos, porque no tenemos envio de mail por ahora.
                     string queryUpdate = "UPDATE Usuarios set cod_Recupero=@cod_Recupero WHERE Email =@Email";
 
                     SqlCommand cmdUpdateCod = new SqlCommand(queryUpdate, CN);
@@ -110,7 +112,6 @@ namespace TP_1_Heladeria
                     //SqlDataReader reader_update = cmdUpdateCod.ExecuteReader();
                     cmdUpdateCod.ExecuteNonQuery();
               
-                    MessageBox.Show("Actualizado al cod_recupero");
                     txtCodigo.Text = "";
                     txtCodigo.Focus();
                     avanzo = true;
@@ -130,36 +131,6 @@ namespace TP_1_Heladeria
             }
             
         }
-
-            //while (true)
-            //{
-            //    for (int i = 0; i < usuarios.Count; i++)
-            //    {
-            //        if (txtEmail.Text == usuarios[i][4])
-            //        {
-            //            indiceUsuario = i;
-            //            MessageBox.Show("Código enviado a " + txtEmail.Text + "\nEl código es: 1234");
-            //            lblError.Visible = false;
-
-            //            txtCodigo.Enabled = true;
-            //            btnValidarCodigo.Enabled = true;
-
-            //            btnEnviarCodigo.Enabled = false;
-
-            //            lblEstado.Text = "Ingresá el código que te llego (1234)";
-
-            //            txtCodigo.Text = "";
-            //            txtCodigo.Focus(); 
-            //            return;
-            //        }
-            //    }
-            //    lblError.Visible = true;
-            //    lblError.Text = "Error: los datos son incorrectos.";
-            //    txtEmail.Focus();
-            //    break;
-            //}
-
-        //}
         private void btnValidarCodigo_Click(object sender, EventArgs e)
         {
             if (txtCodigo.Text == "")
@@ -182,7 +153,6 @@ namespace TP_1_Heladeria
 
                 if (reader.Read())
                 {
-                    //MessageBox.Show("Código enviado a " + txtEmail.Text + "\nEl código es: 1234");
                     txtNuevaContra.Enabled = true;
                     txtConfirmarContra.Enabled = true;
 
@@ -193,16 +163,21 @@ namespace TP_1_Heladeria
                     //txtCodigo.Text = "";
                     txtCodigo.Enabled = false;
 
-                    lblEstado.Text = "Ingresá el código que te llego al mail (o en la base de datos)";
-
                     //txtCodigo.Text = "";
                     txtCodigo.Focus();
                     avanzo = true;
+                    lblError.Visible = true;
+                    lblError.Text = "";
+                } else
+                {
+                    lblError.Visible = true;
+                    lblError.Text = "Código incorrecto.";
+                    txtCodigo.Focus();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al enviar el codigo: " + ex.Message);
+                MessageBox.Show("Error al validar el codigo: " + ex.Message);
                 avanzo = false;
                 return;
             }
@@ -211,36 +186,6 @@ namespace TP_1_Heladeria
                 CN.Close();
                 CN.Dispose();
             }
-            //if (txtCodigo.Text == "1234")
-            //{
-            //    MessageBox.Show("¡Código válido! Ahora podés poner tu nueva contraseña.");
-
-            //    txtNuevaContra.Enabled = true;
-            //    txtConfirmarContra.Enabled = true;
-
-            //    btnGuardarContra.Enabled = true;
-
-            //    btnValidarCodigo.Enabled = false;
-
-            //    txtCodigo.Text = "";
-            //    txtCodigo.Enabled = false;
-
-            //    txtNuevaContra.Focus();
-            //    lblError.Visible = false;
-            //    lblEstado.Text = "Código válido. Ingresá tu nueva contraseña.";
-
-            //    imgShow1.Visible = true;
-            //    imgShow2.Visible = true;
-            //}
-            //else
-            //{
-            //    lblError.Visible = true;
-            //    lblError.Text = "El código que ingresaste es incorrecto. Intentá de nuevo.";
-            //    txtCodigo.Focus();
-
-            //    txtCodigo.Text = "";
-            //    txtCodigo.Focus();
-            //}
         }
         private void btnGuardarContra_Click(object sender, EventArgs e)
         {
@@ -267,14 +212,35 @@ namespace TP_1_Heladeria
                 txtConfirmarContra.Focus();
                 return;
             }
+            try
+            {
+                conectar();
+                string queryUpdate = "UPDATE Usuarios set pass=@pass, cod_recupero='' WHERE Email =@Email";
 
-            usuarios[indiceUsuario][18] = txtNuevaContra.Text;
-            lblError.Visible = false;
-            MessageBox.Show("¡Éxito! Contraseña cambiada.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                SqlCommand cmdUpdateCod = new SqlCommand(queryUpdate, CN);
 
-            this.Close();
-            frmLogin login = new frmLogin(usuarios);
-            login.Show();
+                cmdUpdateCod.Parameters.AddWithValue("@Email", txtEmail.Text);
+                cmdUpdateCod.Parameters.AddWithValue("@pass", txtConfirmarContra.Text);
+
+                //SqlDataReader reader_update = cmdUpdateCod.ExecuteReader();
+                cmdUpdateCod.ExecuteNonQuery();
+
+                lblError.Visible = false;
+                MessageBox.Show("¡Éxito! Contraseña cambiada.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+                frmLogin login = new frmLogin(usuarios);
+                login.Show();
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al guardar la contraseña: " + ex.Message);
+            }
+            finally
+            {
+                CN.Close();
+                CN.Dispose();
+            }
         }
         private void btnAtras_Click(object sender, EventArgs e)
         {
