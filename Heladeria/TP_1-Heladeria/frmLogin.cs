@@ -51,14 +51,21 @@ namespace TP_1_Heladeria
             }
         }
 
-        
-        
+        void verificarVacios(TextBox[] cajasDeTexto)
+        {
+            foreach (TextBox cajaDeTexto in cajasDeTexto)
+            {
+                if ((string.IsNullOrWhiteSpace(cajaDeTexto.Text)))
+                {
 
-        
-        
-            
+                    lblError.Visible = true;
+                    lblError.Text = $"Error: El campo {(cajaDeTexto.AccessibleDescription)} esta vacio";
+                    cajaDeTexto.Focus();
+                    return;
+                }
+            }
+        }
 
-        
         public frmLogin(BindingList<string[]> _usuarios)
         {
             InitializeComponent();
@@ -68,28 +75,16 @@ namespace TP_1_Heladeria
             usuarios = _usuarios;
 
         }
+        
 
         //Eventos Botones
         private void btnInicioSesion_Click(object sender, EventArgs e)
         {
             try{
 
-                lblError.Visible = false;
-                if (txtUsuario.Text == "")
-                {
-                    lblError.Visible = true;
-                    lblError.Text = "Error: Campo vacio, revisalos.";
-                    txtUsuario.Focus();
-                    return;
-                }
-                if (txtContrasenia.Text == "")
-                {
-                    lblError.Visible = true;
-                    lblError.Text = "Error: Campo vacio, revisalos.";
-                    txtContrasenia.Focus();
-                    return;
-                }
-
+                TextBox[] textBoxes = new TextBox[2] {txtUsuario, txtContrasenia};
+                verificarVacios(textBoxes);
+                
 
                 conectar();
                 string query = "SELECT * FROM Usuarios WHERE UsuarioCompleto = @UsuarioCompleto AND Pass = @Pass";
@@ -134,12 +129,28 @@ namespace TP_1_Heladeria
                     usuario.UsuarioCompleto = reader["UsuarioCompleto"].ToString();
 
                     MessageBox.Show($"Inicio de sesión exitoso, {usuario.Nombre}", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    if(usuario.PrimerInicio)
+                    {
+                        frmCambioContrasena frmCambioContrasenia = new frmCambioContrasena(usuarios, usuario.id);
+                        this.Hide();
+                        frmCambioContrasenia.ShowDialog();
+
+                        return;
+                    }
+                    else
+                    {
+                        frmPrincipal frmPrincipal = new frmPrincipal(usuarios, indiceUsuario);
+                        this.Hide();
+                        frmPrincipal.Show();
+                        return;
+                    }
+
                 }
                 else
                 {
                     MessageBox.Show("Usuario o contraseña incorrectos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                
 
                 reader.Close();
 

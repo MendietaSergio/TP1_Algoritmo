@@ -115,6 +115,7 @@
             // 
             // txtContrasenia
             // 
+            txtContrasenia.AccessibleDescription = "Contrasenia";
             txtContrasenia.Font = new Font("Arial", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtContrasenia.Location = new Point(151, 176);
             txtContrasenia.Name = "txtContrasenia";
@@ -124,6 +125,8 @@
             // 
             // txtUsuario
             // 
+            txtUsuario.AccessibleDescription = "Usuario";
+            txtUsuario.AccessibleName = "";
             txtUsuario.Font = new Font("Arial", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtUsuario.Location = new Point(151, 127);
             txtUsuario.Name = "txtUsuario";
@@ -156,6 +159,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(410, 367);
+            ControlBox = false;
             Controls.Add(lblError);
             Controls.Add(linkOldPass);
             Controls.Add(imgShow1);
@@ -167,7 +171,7 @@
             Controls.Add(lblLogin);
             Controls.Add(lblContrasenia);
             Controls.Add(lblUsuario);
-            FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.Fixed3D;
             Name = "frmLogin";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Login";
