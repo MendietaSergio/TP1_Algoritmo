@@ -96,6 +96,7 @@
             // 
             // txtNombre
             // 
+            txtNombre.AccessibleName = "Nombre";
             txtNombre.Location = new Point(104, 29);
             txtNombre.Name = "txtNombre";
             txtNombre.PlaceholderText = "Ingrese su nombre";
@@ -105,6 +106,7 @@
             // 
             // txtApellido
             // 
+            txtApellido.AccessibleName = "Apellido";
             txtApellido.Location = new Point(104, 58);
             txtApellido.Name = "txtApellido";
             txtApellido.PlaceholderText = "Ingrese su apellido";
@@ -123,6 +125,7 @@
             // 
             // txtDNI
             // 
+            txtDNI.AccessibleName = "DNI";
             txtDNI.Location = new Point(104, 87);
             txtDNI.Name = "txtDNI";
             txtDNI.PlaceholderText = "12345678";
@@ -242,6 +245,7 @@
             // 
             // txtEmail
             // 
+            txtEmail.AccessibleName = "Email";
             txtEmail.Location = new Point(104, 145);
             txtEmail.Name = "txtEmail";
             txtEmail.PlaceholderText = "email@dom.com";
@@ -260,6 +264,7 @@
             // 
             // txtTelefono
             // 
+            txtTelefono.AccessibleName = "Telefono";
             txtTelefono.Location = new Point(104, 116);
             txtTelefono.Name = "txtTelefono";
             txtTelefono.PlaceholderText = "1234567890";
@@ -506,7 +511,8 @@
             Controls.Add(grpUbicacion);
             Controls.Add(grpPersonales);
             Controls.Add(lblTitulo);
-            FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
+            MaximizeBox = false;
             Name = "frmRegistrarUsuario";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Registrar Usuario";

@@ -13,14 +13,18 @@ namespace TP_1_Heladeria
         public int indiceUsuario;
         public BindingList<string[]> usuarios = new BindingList<string[]>();
 
-        public frmCambioContrasena(BindingList<string[]> _usuarios, int _indiceUsuario)
+        Usuario usuario = new Usuario();
+        public frmCambioContrasena(Usuario _usuario)
         {
             InitializeComponent();
-            lblError.Visible = false;
-            usuarios = _usuarios;
-            indiceUsuario = _indiceUsuario;
 
-            if (usuarios[indiceUsuario][19].ToLower() == "no")
+            lblError.Visible = false;
+
+            //usuarios = _usuarios;
+            usuario = _usuario;
+            //indiceUsuario = _indiceUsuario;
+
+            if (!usuario.PrimerInicio)
             {
                 lblTitulo.Text = "Cambio de Contraseña";
                 lblTitulo.Location = new Point(106, 60);
@@ -85,7 +89,7 @@ namespace TP_1_Heladeria
 
             if (usuarios[indiceUsuario][19].ToLower() == "si")
             {
-                frmPrincipal frmPrincipal = new frmPrincipal(usuarios, indiceUsuario);
+                frmPrincipal frmPrincipal = new frmPrincipal(usuario);
                 frmPrincipal.Show();
                 usuarios[indiceUsuario][19] = "no";
             }

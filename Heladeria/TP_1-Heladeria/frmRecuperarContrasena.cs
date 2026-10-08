@@ -13,10 +13,10 @@ namespace TP_1_Heladeria
     {
         BindingList<string[]> usuarios = new BindingList<string[]>();
         int indiceUsuario;
-        public frmRecuperarContrasena(BindingList<string[]> _usuarios)
+        public frmRecuperarContrasena()
         {
             InitializeComponent();
-            usuarios = _usuarios;
+           // usuarios = _usuarios;
             lblError.Visible = false;
         }
 
@@ -143,12 +143,12 @@ namespace TP_1_Heladeria
             MessageBox.Show("¡Éxito! Contraseña cambiada.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             this.Close();
-            frmLogin login = new frmLogin(usuarios);
+            frmLogin login = new frmLogin();
             login.Show();
         }
         private void btnAtras_Click(object sender, EventArgs e)
         {
-            frmLogin login = new frmLogin(usuarios);
+            frmLogin login = new frmLogin();
             login.Show();
             this.Close();
         }

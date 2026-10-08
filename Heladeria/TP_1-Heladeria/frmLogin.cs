@@ -7,34 +7,13 @@ namespace TP_1_Heladeria
 {
     public partial class frmLogin : Form
     {
-        public class Usuario
-        {
-            public int id { get; set; }
-            public string Nombre { get; set; }
-            public string Apellido { get; set; }
-            public int DNI { get; set; }
-            public string Telefono { get; set; }
-            public string Email { get; set; }
-            public int Genero { get; set; }
-            public int TipoUsuario { get; set; }
-            public DateTime FechaNacimiento { get; set; }
-            public int Nacionalidad { get; set; }
-            public int Provincia { get; set; }
-            public int Municipio { get; set; }
-            public int Localidad { get; set; }
-            public string CodigoPostal { get; set; }
-            public string Calle { get; set; }
-            public int Altura { get; set; }
-            public int Piso { get; set; }
-            public string Departamento { get; set; }
-            public string UsuarioBase { get; set; }
-            public string Pass { get; set; }
-            public bool PrimerInicio { get; set; }
-            public string UsuarioCompleto { get; set; }
-        }
+       
         public int indiceUsuario;
+
+        DB_Conexion CN = new DB_Conexion();
+        ValidacionDeCampos Validaciones = new ValidacionDeCampos();
         public BindingList<string[]> usuarios = new BindingList<string[]>();
-        string CadenaConexionAccess = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0; DataBase=Heladeria";
+      /*  string CadenaConexionAccess = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0; DataBase=Heladeria";
         SqlConnection CN; 
 
         void conectar()
@@ -49,8 +28,8 @@ namespace TP_1_Heladeria
             {
                 throw new Exception("Error al conectar la DB > " + ex.Message);
             }
-        }
-
+        }*/
+      /*
         void verificarVacios(TextBox[] cajasDeTexto)
         {
             foreach (TextBox cajaDeTexto in cajasDeTexto)
@@ -65,14 +44,15 @@ namespace TP_1_Heladeria
                 }
             }
         }
-
-        public frmLogin(BindingList<string[]> _usuarios)
+      */
+        //public frmLogin(BindingList<string[]> _usuarios)
+        public frmLogin()
         {
             InitializeComponent();
             imgShow1.Visible = true;
             imgHide1.Visible = false;
             lblError.Visible = false;
-            usuarios = _usuarios;
+            //usuarios = _usuarios;
 
         }
         
@@ -80,16 +60,23 @@ namespace TP_1_Heladeria
         //Eventos Botones
         private void btnInicioSesion_Click(object sender, EventArgs e)
         {
-            try{
+            try
+            {
 
-                TextBox[] textBoxes = new TextBox[2] {txtUsuario, txtContrasenia};
-                verificarVacios(textBoxes);
+                TextBox[] txtBoxes = new TextBox[] {txtUsuario, txtContrasenia};
+                Validaciones.TextoVacio(txtBoxes);
+               
+
+                
                 
 
-                conectar();
+                //conectar();
+                
+                CN.Conectar_BD();
+
                 string query = "SELECT * FROM Usuarios WHERE UsuarioCompleto = @UsuarioCompleto AND Pass = @Pass";
 
-                SqlCommand cmd = new SqlCommand(query, CN);
+                SqlCommand cmd = new SqlCommand(query, CN.MostrarConexion());
                 cmd.Parameters.AddWithValue("@UsuarioCompleto", txtUsuario.Text);
                 cmd.Parameters.AddWithValue("@Pass", txtContrasenia.Text);
 
@@ -100,17 +87,17 @@ namespace TP_1_Heladeria
                     //string nombre = reader["Nombre"].ToString();
                     //int primerInicio = Convert.ToInt32(reader["PrimerInicio"]);
                     
-                    Usuario usuario = new Usuario();
+                    Usuario usuarioLogeado = new Usuario();
 
-                    usuario.id = Convert.ToInt32(reader["IdUsuario"]);
-                    usuario.Nombre = reader["Nombre"].ToString();
-                    usuario.Apellido = reader["Apellido"].ToString();
-                    usuario.DNI = Convert.ToInt32(reader["DNI"]);
-                    usuario.Telefono = reader["Telefono"].ToString();
-                    usuario.Email = reader["Email"].ToString(); 
-                    usuario.Genero = Convert.ToInt32(reader["IdGenero"]);
-                    usuario.TipoUsuario = Convert.ToInt32(reader["IdTipoUsuario"]);
-                    usuario.FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"]);
+                    usuarioLogeado.id = Convert.ToInt32(reader["IdUsuario"]);
+                    usuarioLogeado.Nombre = reader["Nombre"].ToString();
+                    usuarioLogeado.Apellido = reader["Apellido"].ToString();
+                    usuarioLogeado.DNI = Convert.ToInt32(reader["DNI"]);
+                    usuarioLogeado.Telefono = reader["Telefono"].ToString();
+                    usuarioLogeado.Email = reader["Email"].ToString(); 
+                    usuarioLogeado.Genero = Convert.ToInt32(reader["IdGenero"]);
+                    usuarioLogeado.TipoUsuario = Convert.ToInt32(reader["IdTipoUsuario"]);
+                    usuarioLogeado.FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"]);
                     /* 
                         --- Voy a obviar los datos que sean opcionales ---
                     usuario.Nacionalidad = Convert.ToInt32(reader["IdNacionalidad"]);
@@ -123,16 +110,16 @@ namespace TP_1_Heladeria
                     usuario.Piso = Convert.ToInt32(reader["Piso"]);
                     usuario.Departamento = reader["Departamento"].ToString();
                     */
-                    usuario.UsuarioBase = reader["UsuarioBase"].ToString();
-                    usuario.Pass = reader["Pass"].ToString();
-                    usuario.PrimerInicio = reader["PrimerInicio"].ToString() == "1"? true : false;
-                    usuario.UsuarioCompleto = reader["UsuarioCompleto"].ToString();
+                    usuarioLogeado.UsuarioBase = reader["UsuarioBase"].ToString();
+                    usuarioLogeado.Pass = reader["Pass"].ToString();
+                    usuarioLogeado.PrimerInicio = Convert.ToBoolean(reader["PrimerInicio"]);
+                    usuarioLogeado.UsuarioCompleto = reader["UsuarioCompleto"].ToString();
 
-                    MessageBox.Show($"Inicio de sesión exitoso, {usuario.Nombre}", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show($"Inicio de sesión exitoso, {usuarioLogeado.Nombre}", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    if(usuario.PrimerInicio)
+                    if(usuarioLogeado.PrimerInicio)
                     {
-                        frmCambioContrasena frmCambioContrasenia = new frmCambioContrasena(usuarios, usuario.id);
+                        frmCambioContrasena frmCambioContrasenia = new frmCambioContrasena(usuarioLogeado);
                         this.Hide();
                         frmCambioContrasenia.ShowDialog();
 
@@ -140,7 +127,7 @@ namespace TP_1_Heladeria
                     }
                     else
                     {
-                        frmPrincipal frmPrincipal = new frmPrincipal(usuarios, indiceUsuario);
+                        frmPrincipal frmPrincipal = new frmPrincipal(usuarioLogeado);
                         this.Hide();
                         frmPrincipal.Show();
                         return;
@@ -159,8 +146,7 @@ namespace TP_1_Heladeria
                 MessageBox.Show($"Se ha producido un error: {ex.Message}","Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally{
-                CN.Close();
-                CN.Dispose();
+                CN.Desconectar();
             }
             /*
             while (true)
@@ -218,7 +204,7 @@ namespace TP_1_Heladeria
         //Eventos LinkdLbl
         private void linkOldPass_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            frmRecuperarContrasena frmRecuperarContrasena = new frmRecuperarContrasena(usuarios);
+            frmRecuperarContrasena frmRecuperarContrasena = new frmRecuperarContrasena();
             this.Hide();
 
             frmRecuperarContrasena.ShowDialog();

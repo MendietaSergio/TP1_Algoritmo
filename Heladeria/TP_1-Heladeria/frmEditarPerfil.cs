@@ -17,12 +17,17 @@ namespace TP_1_Heladeria
         int indiceLogeado;
         BindingList<string> nombreUsuarios = new BindingList<string>();
 
-        public frmEditarPerfil(BindingList<string[]> _usuarios, int _indiceLogeado)
+        Usuario usuario;
+
+
+        //public frmEditarPerfil(BindingList<string[]> _usuarios, int _indiceLogeado)
+        public frmEditarPerfil(Usuario _usuario, int _indiceLogeado)
         {
 
             InitializeComponent();
 
-            usuarios = _usuarios;
+            //usuarios = _usuarios;
+            usuario = _usuario;
             indiceLogeado = _indiceLogeado;
 
             usuarioLogeado = usuarios[indiceLogeado];
@@ -423,7 +428,7 @@ namespace TP_1_Heladeria
         //Eventos Botones
         private void btnVolver_Click(object sender, EventArgs e)
         {
-            frmPrincipal principal = new frmPrincipal(usuarios, indiceLogeado);
+            frmPrincipal principal = new frmPrincipal(usuario);
             principal.Show();
             this.Close();
         }
@@ -541,14 +546,14 @@ namespace TP_1_Heladeria
             MessageBox.Show("Se edito el usuario exitosamente");
 
             usuarios[guardarEn] = usuarioEditando;
-            frmPrincipal prin = new frmPrincipal(usuarios, indiceLogeado);
+            frmPrincipal prin = new frmPrincipal(usuario);
             prin.Show();
             this.Close();
         }
         private void btnEditarContrasena_Click(object sender, EventArgs e)
         {
 
-            frmCambioContrasena frm = new frmCambioContrasena(usuarios, indiceLogeado);
+            frmCambioContrasena frm = new frmCambioContrasena(usuario);
             frm.ShowDialog();
 
         }

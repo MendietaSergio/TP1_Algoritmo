@@ -12,18 +12,21 @@ namespace TP_1_Heladeria
     public partial class frmPrincipal : Form
     {
 
-        public string[] usuario;
+        //public string[] usuario;
         public BindingList<string[]> usuarios = new BindingList<string[]>();
         int indiceLogeado;
-        public frmPrincipal(BindingList<string[]> _usuarios, int _indiceLogeado)
+        Usuario usuario = new Usuario();
+        public frmPrincipal(Usuario _usuario)
+            //public frmPrincipal(Usuario _usuario, int _indiceLogeado)
         {
             InitializeComponent();
+            /*
             usuarios = _usuarios;
-            indiceLogeado = _indiceLogeado;
-            usuario = usuarios[indiceLogeado];
+            indiceLogeado = _indiceLogeado;*/
+            usuario = _usuario;
 
-            lblUsuario.Text = usuario[0];
-            if (usuario[6].ToLower() == "administrador")
+            lblUsuario.Text = usuario.Nombre;
+            if (usuario.TipoUsuario == 1)
             {
                 btnRegistrarUsuario.Visible = true;
                 btnEditarPerfil.Text = "Editar Perfiles";
@@ -35,14 +38,14 @@ namespace TP_1_Heladeria
 
         private void btnRegistrarUsuario_Click(object sender, EventArgs e)
         {
-            Form RegistrarUsuario = new frmRegistrarUsuario(usuarios, indiceLogeado);
+            Form RegistrarUsuario = new frmRegistrarUsuario(usuario, indiceLogeado);
             RegistrarUsuario.Show();
             this.Close();
         }
 
         private void btnEditarPerfil_Click(object sender, EventArgs e)
         {
-            frmEditarPerfil frm = new frmEditarPerfil(usuarios, indiceLogeado);
+            frmEditarPerfil frm = new frmEditarPerfil(usuario, indiceLogeado);
             frm.Show();
             this.Close();
         }
@@ -57,7 +60,7 @@ namespace TP_1_Heladeria
 
         private void btnCerrarSesion_Click(object sender, EventArgs e)
         {
-            Form login = new frmLogin(usuarios);
+            Form login = new frmLogin();
             login.Show();
             this.Close();
         }

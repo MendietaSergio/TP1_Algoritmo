@@ -116,6 +116,7 @@
             // txtContrasenia
             // 
             txtContrasenia.AccessibleDescription = "Contrasenia";
+            txtContrasenia.AccessibleName = "Contrasenia";
             txtContrasenia.Font = new Font("Arial", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtContrasenia.Location = new Point(151, 176);
             txtContrasenia.Name = "txtContrasenia";
@@ -126,7 +127,7 @@
             // txtUsuario
             // 
             txtUsuario.AccessibleDescription = "Usuario";
-            txtUsuario.AccessibleName = "";
+            txtUsuario.AccessibleName = "Usuario";
             txtUsuario.Font = new Font("Arial", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtUsuario.Location = new Point(151, 127);
             txtUsuario.Name = "txtUsuario";
@@ -172,6 +173,7 @@
             Controls.Add(lblContrasenia);
             Controls.Add(lblUsuario);
             FormBorderStyle = FormBorderStyle.Fixed3D;
+            MaximizeBox = false;
             Name = "frmLogin";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Login";
