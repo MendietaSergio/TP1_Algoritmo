@@ -15,6 +15,7 @@ namespace TP_1_Heladeria
                 {
                     txtBox.Focus();
                     throw new Exception($"El campo {txtBox.AccessibleName} esta vacio");
+                    
                 }    
 
         }
@@ -52,14 +53,22 @@ namespace TP_1_Heladeria
             if ((txtBox.Text.Length < longitudMinima) || (txtBox.Text.Length > longitudMaxima))
             {
                 txtBox.Focus();
-                throw new Exception($"Valores no soportados en el campo Email. \nDebe entre {longitudMinima} y {longitudMaxima} caracteres de longitud");
+                throw new Exception($"Valores no soportados en el campo. \nDebe entre {longitudMinima} y {longitudMaxima} caracteres de longitud");
             }
         }
         public void LimitesNumero(TextBox txtBox, int valorMinimoAlcanzado, int valorMaximoAlcanzado) {
             if ((Convert.ToInt64(txtBox.Text) < valorMinimoAlcanzado)|| (Convert.ToInt64(txtBox.Text) > valorMaximoAlcanzado))
             {
                 txtBox.Focus();
-                throw new Exception($"Valores no soportados en el campo Email. \nDebe entre \n{valorMinimoAlcanzado} y {valorMaximoAlcanzado} \ncaracteres de longitud");
+                throw new Exception($"Valores no soportados en el campo. \nDebe entre \n{valorMinimoAlcanzado} y {valorMaximoAlcanzado} \ncaracteres de longitud");
+            }
+        }
+        public void compararContrasenias(TextBox txtBox1, TextBox txtBox2)
+        {
+            if (txtBox1.Text != txtBox2.Text)
+            {
+                txtBox1.Focus();
+                throw new Exception($"Las contraseñas no coinciden");
             }
         }
     }

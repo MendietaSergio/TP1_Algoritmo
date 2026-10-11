@@ -12,47 +12,33 @@ namespace TP_1_Heladeria
 {
     public partial class frmRecuperarContrasena : Form
     {
-        BindingList<string[]> usuarios = new BindingList<string[]>();
         int indiceUsuario;
-        public frmRecuperarContrasena(BindingList<string[]> _usuarios)
+             public frmRecuperarContrasena()
         {
             InitializeComponent();
-            usuarios = _usuarios;
             lblError.Visible = false;
         }
         Boolean avanzo = false;
         string codigo = "";
         // Instancias tu clase de conexión centralizada
-        BD_Conexion db = new BD_Conexion();
-        SqlConnection CN = null;
+        DB_Conexion CN = new DB_Conexion();
+        //SqlConnection CN = null;
+        //
+        ValidacionDeCampos Validaciones = new ValidacionDeCampos();
+
+
         //Eventos Botones
         private void btnEnviarCodigo_Click(object sender, EventArgs e)
         {
-            if (txtEmail.Text == "")
-            {
-                lblError.Visible = true;
-                lblError.Text = "Complete el campo.";
-                txtEmail.Focus();
-                return;
-            }
-
-            bool esValido = Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
-
-            if (!esValido)
-            {
-                lblError.Visible = true;
-                lblError.Text = "Email invalido.";
-                txtEmail.Focus();
-                return;
-            }
-            
-            
+                  
             try {
-                
-                CN = db.Conectar_BD();
+                TextBox[] textBoxes = new TextBox[] { txtEmail };
+                Validaciones.TextoVacio(textBoxes);
+                Validaciones.EMail(txtEmail);
+                CN.Conectar_BD();
                 string query = "SELECT * FROM Usuarios WHERE Email = @Email";
 
-                SqlCommand cmd = new SqlCommand(query, CN);
+                SqlCommand cmd = new SqlCommand(query, CN.MostrarConexion());
                 cmd.Parameters.AddWithValue("@Email", txtEmail.Text);
 
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -86,13 +72,11 @@ namespace TP_1_Heladeria
             {
                 MessageBox.Show("Error al enviar el código: " + ex.Message);
                 avanzo = false;
-                return;
-
             }
             finally
             {
-                CN.Close();
-                CN.Dispose();
+                CN.Desconectar();
+
             }
             //UPDATE envio de codigo
             if (avanzo)
@@ -100,17 +84,16 @@ namespace TP_1_Heladeria
                 try
                 {
 
-                    CN = db.Conectar_BD();
+                    CN.Conectar_BD();
                     
                     //Actualizo el codigo en la bse de datos, porque no tenemos envio de mail por ahora.
                     string queryUpdate = "UPDATE Usuarios set cod_Recupero=@cod_Recupero WHERE Email =@Email";
 
-                    SqlCommand cmdUpdateCod = new SqlCommand(queryUpdate, CN);
+                    SqlCommand cmdUpdateCod = new SqlCommand(queryUpdate, CN.MostrarConexion());
 
                     cmdUpdateCod.Parameters.AddWithValue("@Email", txtEmail.Text);
                     cmdUpdateCod.Parameters.AddWithValue("@cod_Recupero", codigo);
 
-                    //SqlDataReader reader_update = cmdUpdateCod.ExecuteReader();
                     cmdUpdateCod.ExecuteNonQuery();
 
                     txtCodigo.Text = "";
@@ -121,32 +104,27 @@ namespace TP_1_Heladeria
                 }
                 catch (Exception ex)
                 {
+                MessageBox.Show($"Se ha producido un error: {ex.Message}","Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
                     MessageBox.Show("Error al enviar el codigo: " + ex.Message);
                     avanzo = false;
                 }
                 finally
                 {
-                    CN.Close();
-                    CN.Dispose();
+                    CN.Desconectar();
                 }
             }
             
         }
         private void btnValidarCodigo_Click(object sender, EventArgs e)
         {
-            if (txtCodigo.Text == "")
-            {
-                lblError.Visible = true;
-                lblError.Text = "Falta poner el codigo.";
-                txtCodigo.Focus();
-                return;
-            }
             try
             {
-                CN = db.Conectar_BD();
+                TextBox[] textBoxes = new TextBox[] { txtCodigo };
+                Validaciones.TextoVacio(textBoxes);
+                CN.Conectar_BD();
                 string query = "SELECT * FROM Usuarios WHERE Email = @Email AND cod_Recupero = @cod_Recupero";
 
-                SqlCommand cmd = new SqlCommand(query, CN);
+                SqlCommand cmd = new SqlCommand(query, CN.MostrarConexion());
                 cmd.Parameters.AddWithValue("@Email", txtEmail.Text);
                 cmd.Parameters.AddWithValue("@cod_Recupero", txtCodigo.Text );
 
@@ -178,58 +156,39 @@ namespace TP_1_Heladeria
             }
             catch (Exception ex)
             {
+                MessageBox.Show($"Se ha producido un error: {ex.Message}","Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
                 MessageBox.Show("Error al validar el codigo: " + ex.Message);
                 avanzo = false;
-                return;
+                
             }
             finally
             {
-                CN.Close();
-                CN.Dispose();
+                CN.Desconectar();
             }
         }
         private void btnGuardarContra_Click(object sender, EventArgs e)
-        {
-            if (txtNuevaContra.Text == "" || txtConfirmarContra.Text == "")
-            {
-                lblError.Visible = true;
-                lblError.Text = "¡Falta completar las contraseñas!.";
-                txtNuevaContra.Focus();
-                return;
-            }
-
-            if (txtNuevaContra.Text.Length < 8)
-            {
-                lblError.Visible = true;
-                lblError.Text = "La contraseña debe tener al menos 8 caracteres.";
-                txtNuevaContra.Focus();
-                return;
-            }
-
-            if (txtNuevaContra.Text != txtConfirmarContra.Text)
-            {
-                lblError.Visible = true;
-                lblError.Text = "Las contraseñas no coinciden.";
-                txtConfirmarContra.Focus();
-                return;
-            }
+        {   
             try
             {
-                CN = db.Conectar_BD();
+                TextBox[] textBoxes = new TextBox[] { txtNuevaContra, txtConfirmarContra };
+                Validaciones.TextoVacio(textBoxes);
+                Validaciones.LongitudTexto(txtNuevaContra, 8, 20);
+                Validaciones.LongitudTexto(txtConfirmarContra, 8, 20);
+                Validaciones.compararContrasenias(txtNuevaContra, txtConfirmarContra);
+                CN.Conectar_BD();
                 string queryUpdate = "UPDATE Usuarios set pass=@pass, cod_recupero='' WHERE Email =@Email";
 
-                SqlCommand cmdUpdateCod = new SqlCommand(queryUpdate, CN);
+                SqlCommand cmdUpdateCod = new SqlCommand(queryUpdate, CN.MostrarConexion());
 
                 cmdUpdateCod.Parameters.AddWithValue("@Email", txtEmail.Text);
                 cmdUpdateCod.Parameters.AddWithValue("@pass", txtConfirmarContra.Text);
 
-                //SqlDataReader reader_update = cmdUpdateCod.ExecuteReader();
                 cmdUpdateCod.ExecuteNonQuery();
 
                 lblError.Visible = false;
                 MessageBox.Show("¡Éxito! Contraseña cambiada.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
-                frmLogin login = new frmLogin(usuarios);
+                frmLogin login = new frmLogin();
                 login.Show();
 
             }
@@ -239,13 +198,12 @@ namespace TP_1_Heladeria
             }
             finally
             {
-                CN.Close();
-                CN.Dispose();
+                CN.Desconectar();
             }
         }
         private void btnAtras_Click(object sender, EventArgs e)
         {
-            frmLogin login = new frmLogin(usuarios);
+            frmLogin login = new frmLogin();
             login.Show();
             this.Close();
         }
