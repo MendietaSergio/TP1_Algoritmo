@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Text.RegularExpressions;
+using TP_1_Heladeria;
 /*
  
             {
@@ -33,11 +34,13 @@ using System.Text.RegularExpressions;
 
 
 
+
 namespace TP_1_Heladeria
 {
     public partial class frmRegistrarUsuario : Form
     {
 
+        ValidacionDeCampos validacion = new ValidacionDeCampos();
         public void Limpiar()
         {
             TextBox[] txtCampos =
@@ -62,15 +65,19 @@ namespace TP_1_Heladeria
 
         public BindingList<string[]> usuarios = new BindingList<string[]>();
         int indice;
+        Usuario usuario = new Usuario();
+        
 
-        public frmRegistrarUsuario(BindingList<string[]> _usuarios, int _indice)
+        public frmRegistrarUsuario(Usuario _usuario, int _indice)
         {
             InitializeComponent();
-            usuarios = _usuarios;
+            //usuarios = _usuarios;
+            usuario = _usuario;
             indice = _indice;
 
             string[] permisos = { cmbTipoUsuario.AccessibleDescription, "Administrador", "General" };
             BindingList<string> paises = new BindingList<string> { cmbNacionalidad.AccessibleDescription, "Argentina", "Uruguay" };
+
 
             cmbNacionalidad.DataSource = paises;
             cmbTipoUsuario.DataSource = permisos;
@@ -88,11 +95,16 @@ namespace TP_1_Heladeria
         //Eventos de los txt
         private void txtNombre_TextChanged(object sender, EventArgs e)
         {
-            if (txtNombre.Text.Length > 0 &&
+            if (/*(txtNombre.Text.Length > 0 &&
                txtApellido.Text.Length > 0 &&
                txtDNI.Text.Length > 0 &&
                txtTelefono.Text.Length > 0 &&
-               txtEmail.Text.Length > 0 &&
+               txtEmail.Text.Length > 0 &&*/
+                !string.IsNullOrWhiteSpace(txtNombre.Text) &&
+                !string.IsNullOrWhiteSpace(txtApellido.Text) &&
+                !string.IsNullOrWhiteSpace(txtDNI.Text) &&
+                !string.IsNullOrWhiteSpace(txtTelefono.Text) &&
+                !string.IsNullOrWhiteSpace(txtEmail.Text) &&
                (cmbTipoUsuario.SelectedIndex == 1
                ||
                cmbTipoUsuario.SelectedIndex == 2))
@@ -109,11 +121,16 @@ namespace TP_1_Heladeria
         }
         private void txtApellido_TextChanged(object sender, EventArgs e)
         {
-            if (txtNombre.Text.Length > 0 &&
+            if (/*(txtNombre.Text.Length > 0 &&
                txtApellido.Text.Length > 0 &&
                txtDNI.Text.Length > 0 &&
                txtTelefono.Text.Length > 0 &&
-               txtEmail.Text.Length > 0 &&
+               txtEmail.Text.Length > 0 &&*/
+                !string.IsNullOrWhiteSpace(txtNombre.Text) &&
+                !string.IsNullOrWhiteSpace(txtApellido.Text) &&
+                !string.IsNullOrWhiteSpace(txtDNI.Text) &&
+                !string.IsNullOrWhiteSpace(txtTelefono.Text) &&
+                !string.IsNullOrWhiteSpace(txtEmail.Text) &&
                (cmbTipoUsuario.SelectedIndex == 1
                ||
                cmbTipoUsuario.SelectedIndex == 2))
@@ -130,11 +147,16 @@ namespace TP_1_Heladeria
         }
         private void txtDNI_TextChanged(object sender, EventArgs e)
         {
-            if (txtNombre.Text.Length > 0 &&
+            if (/*(txtNombre.Text.Length > 0 &&
                txtApellido.Text.Length > 0 &&
                txtDNI.Text.Length > 0 &&
                txtTelefono.Text.Length > 0 &&
-               txtEmail.Text.Length > 0 &&
+               txtEmail.Text.Length > 0 &&*/
+                !string.IsNullOrWhiteSpace(txtNombre.Text) &&
+                !string.IsNullOrWhiteSpace(txtApellido.Text) &&
+                !string.IsNullOrWhiteSpace(txtDNI.Text) &&
+                !string.IsNullOrWhiteSpace(txtTelefono.Text) &&
+                !string.IsNullOrWhiteSpace(txtEmail.Text) &&
                (cmbTipoUsuario.SelectedIndex == 1
                ||
                cmbTipoUsuario.SelectedIndex == 2))
@@ -151,11 +173,16 @@ namespace TP_1_Heladeria
         }
         private void txtTelefono_TextChanged(object sender, EventArgs e)
         {
-            if (txtNombre.Text.Length > 0 &&
+            if (/*(txtNombre.Text.Length > 0 &&
                txtApellido.Text.Length > 0 &&
                txtDNI.Text.Length > 0 &&
                txtTelefono.Text.Length > 0 &&
-               txtEmail.Text.Length > 0 &&
+               txtEmail.Text.Length > 0 &&*/
+                !string.IsNullOrWhiteSpace(txtNombre.Text) &&
+                !string.IsNullOrWhiteSpace(txtApellido.Text) &&
+                !string.IsNullOrWhiteSpace(txtDNI.Text) &&
+                !string.IsNullOrWhiteSpace(txtTelefono.Text) &&
+                !string.IsNullOrWhiteSpace(txtEmail.Text) &&
                (cmbTipoUsuario.SelectedIndex == 1
                ||
                cmbTipoUsuario.SelectedIndex == 2))
@@ -172,11 +199,16 @@ namespace TP_1_Heladeria
         }
         private void txtEmail_TextChanged(object sender, EventArgs e)
         {
-            if (txtNombre.Text.Length > 0 &&
+            if (/*(txtNombre.Text.Length > 0 &&
                txtApellido.Text.Length > 0 &&
                txtDNI.Text.Length > 0 &&
                txtTelefono.Text.Length > 0 &&
-               txtEmail.Text.Length > 0 &&
+               txtEmail.Text.Length > 0 &&*/
+                !string.IsNullOrWhiteSpace(txtNombre.Text) &&
+                !string.IsNullOrWhiteSpace(txtApellido.Text) &&
+                !string.IsNullOrWhiteSpace(txtDNI.Text) &&
+                !string.IsNullOrWhiteSpace(txtTelefono.Text) &&
+                !string.IsNullOrWhiteSpace(txtEmail.Text) &&
                (cmbTipoUsuario.SelectedIndex == 1
                ||
                cmbTipoUsuario.SelectedIndex == 2))
@@ -201,84 +233,33 @@ namespace TP_1_Heladeria
         private void btnAceptar_Click(object sender, EventArgs e)
         {
             ////Requeridas ////
+            try
+            {
+                //Requeridas
+                validacion.TextoVacio([txtNombre, txtApellido, txtDNI, txtTelefono, txtEmail]);
+                validacion.TipoEntero([txtTelefono, txtDNI]);
+                validacion.NroEnteroEntre(txtTelefono, 1000000000, 9999999999);
+                validacion.NroEnteroEntre(txtDNI, 3000000, 99999999);
+                validacion.EMail(txtEmail);
 
-            int DNI = 0;
-            if (!int.TryParse(txtDNI.Text, out DNI))
-            {
-                MessageBox.Show("Se esperaba un valor numerico para el DNI",
-                    "Error DNI", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtDNI.Focus();
-                return;
+                
+                
             }
-            if (DNI <= 0 || DNI > 99999999)
-            {
-                MessageBox.Show("Valores no soportados en el campo DNI. \nEl Nro de DNI debe ser mayor a 0 y tiene que tener como maximo 8 caracteres de longitud",
-                    "Error DNI", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtDNI.Focus();
-                return;
-            }
-
-            long tel = 0;
-            if (!long.TryParse(txtTelefono.Text, out tel))
-            {
-                MessageBox.Show("Se esperaba un valor numerico para el Telefono",
-                    "Error Telefono", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtTelefono.Focus();
-                return;
-            }
-            if (tel <= 0 || tel > 9999999999)
-            {
-                MessageBox.Show("Valores no soportados en el campo Telefono. \nSe esperaba como mucho 10 caracteres y un numero positivo para el telefono",
-                    "Error Telefono", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtTelefono.Focus();
-                return;
+            catch (Exception ex) {
+                MessageBox.Show($"Error - {ex.Message}", "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
-            bool esValido = Regex.IsMatch(txtEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
-            if (!esValido)
+            //No Requeridas
+
+            validacion.LongitudTexto(txtCodPostal, 0, 8);
+            validacion.LongitudTexto(txtPiso, 0, 2);
+            if(!(string.IsNullOrWhiteSpace(txtAltura.Text)))
             {
-                MessageBox.Show("Valores no soportados en el campo Email. \nDebe tener al menos un @ y un .",
-                    "Error Email", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtEmail.Focus();
-                return;
+                validacion.TipoEntero([txtAltura]);
+                validacion.LimitesNumero(txtAltura, 0, int.MaxValue);
             }
 
-            ////No Requeridas ////
-
-
-
-            if (txtCodPostal.Text.Length > 8)
-            {
-                MessageBox.Show("Valores no soportados en el campo Codigo Postal",
-                        "Error CP", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtCodPostal.Focus();
-                return;
-            }
-
-            int altura = 0;
-            if (!int.TryParse(txtAltura.Text, out altura) && (txtAltura.Text != ""))
-            {
-                MessageBox.Show("Se esperaba un valor numerico para la Altura",
-                    "Error Altura", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtAltura.Focus();
-                return;
-            }
-            if (altura <= 0 && txtAltura.Text != "")
-            {
-                MessageBox.Show("Se esperaba un valor positivo para la Altura",
-                    "Error Altura", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtAltura.Focus();
-                return;
-            }
-
-            if (txtPiso.Text.Length > 2)
-            {
-                MessageBox.Show("Valores no soportados en el campo Piso",
-                        "Error Piso", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtPiso.Focus();
-                return;
-            }
-
+            //Hasta aca llegue
             string[] usuarioNuevo = new string[21];
 
             for (int i = 0; i < usuarioNuevo.Length; i++) usuarioNuevo[i] = "";
@@ -292,7 +273,7 @@ namespace TP_1_Heladeria
                 usuarioNuevo[5] = "Masculino";
             else
                 usuarioNuevo[5] = "Femenino";
-            usuarioNuevo[6] = cmbTipoUsuario.SelectedValue.ToString();
+            usuarioNuevo[6] = cmbTipoUsuario.SelectedValue.ToString(); //Acordate que lo estas manejando con un array
             usuarioNuevo[7] = dtpFecNac.Text;
             if (cmbNacionalidad.SelectedIndex > 0)
                 usuarioNuevo[8] = cmbNacionalidad.SelectedValue.ToString();
@@ -340,11 +321,11 @@ namespace TP_1_Heladeria
             usuarios.Add(usuarioNuevo);
 
             MessageBox.Show("Usuario registrado con exito. La contraseña es " + usuarioNuevo[18]);
-            Limpiar();
+            //  Limpiar();
         }
         private void btnVolver_Click(object sender, EventArgs e)
         {
-            Form principal = new frmPrincipal(usuarios, indice);
+            Form principal = new frmPrincipal(usuario);
             principal.Show();
             this.Close();
         }
@@ -361,11 +342,16 @@ namespace TP_1_Heladeria
         //Eventos ComboBox
         private void cmbTipoUsuario_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (txtNombre.Text.Length > 0 &&
+            if (/*(txtNombre.Text.Length > 0 &&
                txtApellido.Text.Length > 0 &&
                txtDNI.Text.Length > 0 &&
                txtTelefono.Text.Length > 0 &&
-               txtEmail.Text.Length > 0 &&
+               txtEmail.Text.Length > 0 &&*/
+                !string.IsNullOrWhiteSpace(txtNombre.Text) &&
+                !string.IsNullOrWhiteSpace(txtApellido.Text) &&
+                !string.IsNullOrWhiteSpace(txtDNI.Text) &&
+                !string.IsNullOrWhiteSpace(txtTelefono.Text)&&
+                !string.IsNullOrWhiteSpace(txtEmail.Text) &&
                (cmbTipoUsuario.SelectedIndex == 1
                ||
                cmbTipoUsuario.SelectedIndex == 2))
