@@ -19,6 +19,7 @@ namespace TP_1_Heladeria
         {
             InitializeComponent();
             usuarios = _usuarios;
+
             indiceLogeado = _indiceLogeado;
             usuario = usuarios[indiceLogeado];
 
@@ -51,7 +52,7 @@ namespace TP_1_Heladeria
         {
             DialogResult deseaCerrar = MessageBox.Show("Desea cerrar la aplicacion?", "Cerrar Sistema",
                 MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-            if (deseaCerrar == DialogResult.Yes) 
+            if (deseaCerrar == DialogResult.Yes)
                 Application.Exit();
         }
 
@@ -61,5 +62,15 @@ namespace TP_1_Heladeria
             login.Show();
             this.Close();
         }
+
+        private void btnCambiarContraseña_Click(object sender, EventArgs e)
+        {
+            frmCambioContrasena frm = new frmCambioContrasena(usuarios, indiceLogeado);
+            frm.ShowDialog();
+        }
     }
 }
+
+
+
+
