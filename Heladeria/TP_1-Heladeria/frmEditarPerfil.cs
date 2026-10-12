@@ -6,11 +6,47 @@ using System.Drawing;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Microsoft.Data.SqlClient;
+using System.Data.SqlClient;
 
 namespace TP_1_Heladeria
 {
     public partial class frmEditarPerfil : Form
     {
+        string CadenaConexionAccess = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0";
+        SqlConnection CN;
+
+        void conectar()
+        {
+            try
+            {
+                CN = new SqlConnection(CadenaConexionAccess);
+                CN.Open();
+                MessageBox.Show("Cargo la DB");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al conectar la DB > " + ex.Message);
+            }
+        }
+        public void CargarUsuariosBD()
+        {
+            using (SqlConnection CN = new SqlConnection(CadenaConexionAccess))
+            {
+                string query = "SELECT Username FROM Usuarios";
+                SqlCommand cmd = new SqlCommand(query, CN);
+                CN.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                List<string> listaUsuarios = new List<string>();
+                while (reader.Read())
+                {
+                    listaUsuarios.Add(reader["Username"].ToString());
+                }
+
+                cmbUsuarioEditado.DataSource = listaUsuarios;
+            }
+        }
         public string[] usuarioLogeado;
         public string[] usuarioEditando;
         public BindingList<string[]> usuarios = new BindingList<string[]>();
@@ -21,7 +57,7 @@ namespace TP_1_Heladeria
         {
 
             InitializeComponent();
-
+            conectar();
             usuarios = _usuarios;
             indiceLogeado = _indiceLogeado;
 
@@ -508,42 +544,40 @@ namespace TP_1_Heladeria
             }
 
 
-            int guardarEn = usuarios.ToList().FindIndex(nombreCuenta => nombreCuenta[17] == usuarioEditando[17]);
-            usuarioEditando[0] = txtNombre.Text;
-            usuarioEditando[1] = txtApellido.Text;
-            usuarioEditando[2] = txtDNI.Text;
-            usuarioEditando[3] = txtTelefono.Text;
-            usuarioEditando[4] = txtEmail.Text;
-            if (rdbMasculino.Checked)
-                usuarioEditando[5] = "Masculino";
-            else
-                usuarioEditando[5] = "Femenino";
-            usuarioEditando[6] = cmbTipoUsuario.SelectedValue.ToString();
-            usuarioEditando[7] = dtpFecNac.Text;
-            if (cmbNacionalidad.SelectedIndex >= 0)
-                usuarioEditando[8] = cmbNacionalidad.SelectedValue.ToString();
+            // 🟢 CÓDIGO NUEVO CON CONEXIÓN A BASE DE DATOS:
+            try
+            {
+                using (SqlConnection CN = new SqlConnection(CadenaConexionAccess))
+                {
+                    string query = @"UPDATE Usuarios SET 
+                            Nombre = @Nombre, 
+                            Apellido = @Apellido, 
+                            DNI = @DNI, 
+                            Telefono = @Telefono, 
+                            Email = @Email,
+                            Rol = @Rol 
+                         WHERE Username = @Username";
 
-            if (cmbProvincia.SelectedIndex >= 0)
-                usuarioEditando[9] = cmbProvincia.SelectedValue.ToString();
-            else
-                usuarioEditando[9] = "";
-            if (cmbPartidoMunicipio.SelectedIndex >= 0)
-                usuarioEditando[10] = cmbPartidoMunicipio.SelectedValue.ToString();
-            else
-                usuarioEditando[10] = "";
-            usuarioEditando[11] = cmbLocalidad.SelectedIndex >= 0 ? cmbLocalidad.SelectedValue.ToString() : "";
-            usuarioEditando[12] = txtCodPostal.Text;
-            usuarioEditando[13] = txtCalle.Text;
-            usuarioEditando[14] = txtAltura.Text;
-            usuarioEditando[15] = txtPiso.Text;
-            usuarioEditando[16] = txtDepartamento.Text;
+                    SqlCommand cmd = new SqlCommand(query, CN);
+                    cmd.Parameters.AddWithValue("@Nombre", txtNombre.Text);
+                    cmd.Parameters.AddWithValue("@Apellido", txtApellido.Text);
+                    cmd.Parameters.AddWithValue("@DNI", txtDNI.Text);
+                    cmd.Parameters.AddWithValue("@Telefono", txtTelefono.Text);
+                    cmd.Parameters.AddWithValue("@Email", txtEmail.Text);
+                    cmd.Parameters.AddWithValue("@Rol", cmbTipoUsuario.Text);
+                    cmd.Parameters.AddWithValue("@Username", cmbUsuarioEditado.Text);
 
-            MessageBox.Show("Se edito el usuario exitosamente");
+                    CN.Open();
+                    cmd.ExecuteNonQuery();
 
-            usuarios[guardarEn] = usuarioEditando;
-            frmPrincipal prin = new frmPrincipal(usuarios, indiceLogeado);
-            prin.Show();
-            this.Close();
+                    MessageBox.Show("Usuario actualizado en la Base de Datos con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al guardar en la Base de Datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
         private void btnEditarContrasena_Click(object sender, EventArgs e)
         {

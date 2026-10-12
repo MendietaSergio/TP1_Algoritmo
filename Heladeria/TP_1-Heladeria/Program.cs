@@ -63,7 +63,7 @@ namespace TP_1_Heladeria
 
             BindingList<string[]> usuarios = new BindingList<string[]>{ usuarioAdmin, usuario };
             
-            Application.Run(new frmLogin(usuarios));
+            Application.Run(new frmEditarPerfil(usuarios,0));
         }
     }
 }
