@@ -13,38 +13,46 @@ namespace TP_1_Heladeria
 {
     public partial class frmEditarPerfil : Form
     {
-        string CadenaConexionAccess = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0";
-        SqlConnection CN;
-
-        void conectar()
+        DB_Conexion CN = new DB_Conexion();
+        ValidacionDeCampos Validaciones = new ValidacionDeCampos();
+        // public List<string> listaUsuarios = new List<string>();
+        // public BindingList<string[]> listaUsuarios = new BindingList<string[]>();
+        //Usuario usuario = new Usuario();
+        public void CargarUsuariosBD()
         {
             try
             {
-                CN = new SqlConnection(CadenaConexionAccess);
-                CN.Open();
-                MessageBox.Show("Cargo la DB");
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al conectar la DB > " + ex.Message);
-            }
-        }
-        public void CargarUsuariosBD()
-        {
-            using (SqlConnection CN = new SqlConnection(CadenaConexionAccess))
-            {
-                string query = "SELECT Username FROM Usuarios";
-                SqlCommand cmd = new SqlCommand(query, CN);
-                CN.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
+                List<Usuario> listaUsuarios = new List<Usuario>();
+                CN.Conectar_BD();
+                Usuario usuarios = new Usuario();
 
-                List<string> listaUsuarios = new List<string>();
+                string query = "SELECT * FROM Usuarios";
+                SqlCommand cmd = new SqlCommand(query, CN.MostrarConexion());    
+                SqlDataReader reader = cmd.ExecuteReader();
                 while (reader.Read())
                 {
-                    listaUsuarios.Add(reader["Username"].ToString());
-                }
+                    // 🟢 ¡CLAVE! Crear un objeto nuevo en CADA vuelta del bucle
+                    Usuario usuario = new Usuario();
+                    usuario.id = Convert.ToInt32(reader["IdUsuario"]);
+                    usuario.UsuarioCompleto = reader["UsuarioCompleto"].ToString();
 
+                    // Guardar el objeto en la lista
+                    listaUsuarios.Add(usuario);
+                }
+                reader.Close(); // Cerrar el lector al terminar
+
+                // 3. Cargar la lista en el ComboBox
                 cmbUsuarioEditado.DataSource = listaUsuarios;
+                cmbUsuarioEditado.DisplayMember = "UsuarioCompleto"; 
+                cmbUsuarioEditado.ValueMember = "id";             
+
+            } catch (Exception ex)
+            {
+                MessageBox.Show($"Se ha producido un error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+             finally
+            {
+                CN.Desconectar();
             }
         }
         public string[] usuarioLogeado;
@@ -57,56 +65,57 @@ namespace TP_1_Heladeria
         {
 
             InitializeComponent();
-            conectar();
-            usuarios = _usuarios;
+            //conectar();
+            CargarUsuariosBD();
+            //usuarios = _usuarios;
             indiceLogeado = _indiceLogeado;
 
-            usuarioLogeado = usuarios[indiceLogeado];
-            usuarioEditando = usuarioLogeado;
+            //usuarioLogeado = usuarios[indiceLogeado];
+            //usuarioEditando = usuarioLogeado;
 
             string[] permisos = { cmbTipoUsuario.AccessibleDescription, "Administrador", "General" };
             BindingList<string> paises = new BindingList<string> { cmbNacionalidad.AccessibleDescription, "Argentina", "Uruguay" };
 
 
-            foreach (string[] usuarioActual in usuarios) nombreUsuarios.Add(usuarioActual[17]);
+            //foreach (string[] usuarioActual in usuarios) nombreUsuarios.Add(usuarioActual[17]);
 
 
 
-            cmbUsuarioEditado.DataSource = nombreUsuarios;
+           // cmbUsuarioEditado.DataSource = nombreUsuarios;
             cmbNacionalidad.DataSource = paises;
             cmbTipoUsuario.DataSource = permisos;
 
-            {
-                cmbUsuarioEditado.SelectedIndex = indiceLogeado;
+            //{
+            //    cmbUsuarioEditado.SelectedIndex = indiceLogeado;
 
-                txtNombre.Text = usuarioEditando[0];
-                txtApellido.Text = usuarioEditando[1];
-                txtDNI.Text = usuarioEditando[2];
-                txtTelefono.Text = usuarioEditando[3];
-                txtEmail.Text = usuarioEditando[4];
+            //    txtNombre.Text = usuarioEditando[0];
+            //    txtApellido.Text = usuarioEditando[1];
+            //    txtDNI.Text = usuarioEditando[2];
+            //    txtTelefono.Text = usuarioEditando[3];
+            //    txtEmail.Text = usuarioEditando[4];
 
-                if (usuarioEditando[5].ToLower() == "masculino")
-                    rdbMasculino.Checked = true;
-                else
-                    rdbFemenino.Checked = true;
-
-
-                cmbTipoUsuario.Text = usuarioEditando[6];
-                dtpFecNac.Text = usuarioEditando[7];
-
-                cmbNacionalidad.Text = usuarioEditando[8];
-                cmbProvincia.Text = usuarioEditando[9];
-                cmbPartidoMunicipio.Text = usuarioEditando[10];
-                cmbLocalidad.Text = usuarioEditando[11];
-
-                txtCodPostal.Text = usuarioEditando[12];
-                txtCalle.Text = usuarioEditando[13];
-                txtAltura.Text = usuarioEditando[14];
-                txtPiso.Text = usuarioEditando[15];
-                txtDepartamento.Text = usuarioEditando[16];
+            //    if (usuarioEditando[5].ToLower() == "masculino")
+            //        rdbMasculino.Checked = true;
+            //    else
+            //        rdbFemenino.Checked = true;
 
 
-            }
+            //    cmbTipoUsuario.Text = usuarioEditando[6];
+            //    dtpFecNac.Text = usuarioEditando[7];
+
+            //    cmbNacionalidad.Text = usuarioEditando[8];
+            //    cmbProvincia.Text = usuarioEditando[9];
+            //    cmbPartidoMunicipio.Text = usuarioEditando[10];
+            //    cmbLocalidad.Text = usuarioEditando[11];
+
+            //    txtCodPostal.Text = usuarioEditando[12];
+            //    txtCalle.Text = usuarioEditando[13];
+            //    txtAltura.Text = usuarioEditando[14];
+            //    txtPiso.Text = usuarioEditando[15];
+            //    txtDepartamento.Text = usuarioEditando[16];
+
+
+            //}
 
             {
                 if (cmbNacionalidad.SelectedValue != null && cmbNacionalidad.SelectedIndex != 0)
@@ -147,16 +156,16 @@ namespace TP_1_Heladeria
 
             }
 
-            if (usuarioLogeado[6].ToLower() != "administrador")
-            {
-                cmbTipoUsuario.Enabled = false;
-                txtDNI.Enabled = false;
-                cmbUsuarioEditado.Enabled = false;
-                btnGuardarCambios.Width = 201;
-                btnEliminar.Enabled = false;
-                btnEliminar.Visible = false;
+            //if (usuarioLogeado[6].ToLower() != "administrador")
+            //{
+            //    cmbTipoUsuario.Enabled = false;
+            //    txtDNI.Enabled = false;
+            //    cmbUsuarioEditado.Enabled = false;
+            //    btnGuardarCambios.Width = 201;
+            //    btnEliminar.Enabled = false;
+            //    btnEliminar.Visible = false;
 
-            }
+            //}
 
             dtpFecNac.MaxDate = DateTime.Today.AddYears(-18);
             dtpFecNac.MinDate = DateTime.Today.AddYears(-150);
@@ -312,38 +321,82 @@ namespace TP_1_Heladeria
         }
         private void cmbUsuarioEditado_SelectedIndexChanged(object sender, EventArgs e)
         {
-            usuarioEditando = usuarios[cmbUsuarioEditado.SelectedIndex];
-
+            if (cmbUsuarioEditado.SelectedIndex!=0)
             {
+                try
+                {
 
-                txtNombre.Text = usuarioEditando[0];
-                txtApellido.Text = usuarioEditando[1];
-                txtDNI.Text = usuarioEditando[2];
-                txtTelefono.Text = usuarioEditando[3];
-                txtEmail.Text = usuarioEditando[4];
+                    //usuarioEditando = cmbUsuarioEditado.SelectedIndex;
+                    CN.Conectar_BD();
+                    //Usuario usuarios = new Usuario();
+                    //int idUser = Convert.ToInt32(cmbUsuarioEditado.ValueMember);
+                    string query = "SELECT * FROM Usuarios WHERE idUsuario=@idUsuario;";
+                    SqlCommand cmd = new SqlCommand(query, CN.MostrarConexion());
+                    cmd.Parameters.AddWithValue("@idUsuario", Convert.ToInt32(cmbUsuarioEditado.SelectedValue));
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        //usuarioLogeado.id = Convert.ToInt32(reader["IdUsuario"]);
+                        txtNombre.Text = reader["Nombre"].ToString();
+                        txtApellido.Text = reader["Apellido"].ToString();
+                        txtDNI.Text = (reader["DNI"].ToString());
+                        txtTelefono.Text = reader["Telefono"].ToString();
+                        txtEmail.Text = reader["Email"].ToString();
+                        //usuarioLogeado.Genero = Convert.ToInt32(reader["IdGenero"]);
+                        if (Convert.ToInt32(reader["IdGenero"]) == 2){
+                            rdbMasculino.Checked = true;
+                        }
+                        else
+                            {
+                                rdbFemenino.Checked = true;
+                        }
+                        cmbTipoUsuario.Text = (reader["IdTipoUsuario"].ToString());
+                        dtpFecNac.Text = (reader["FechaNacimiento"].ToString());
+                        //no quiero cargar todo u,u
+                        //    txtNombre.Text = usuarioEditando[0];
+                        //    txtApellido.Text = usuarioEditando[1];
+                        //    txtDNI.Text = usuarioEditando[2];
+                        //    txtTelefono.Text = usuarioEditando[3];
+                        //    txtEmail.Text = usuarioEditando[4];
+                        //    if (usuarioEditando[5].ToLower() == "masculino")
+                        //        rdbMasculino.Checked = true;
+                        //    else
+                        //        rdbFemenino.Checked = true;
+                        //    cmbTipoUsuario.Text = usuarioEditando[6];
+                        //    dtpFecNac.Text = usuarioEditando[7];
+                        //    cmbNacionalidad.Text = usuarioEditando[8];
+                        //    cmbProvincia.Text = usuarioEditando[9];
+                        //    cmbPartidoMunicipio.Text = usuarioEditando[10];
+                        //    cmbLocalidad.Text = usuarioEditando[11];
+                        //    txtCodPostal.Text = usuarioEditando[12];
+                        //    txtCalle.Text = usuarioEditando[13];
+                        //    txtAltura.Text = usuarioEditando[14];
+                        //    txtPiso.Text = usuarioEditando[15];
+                        //    txtDepartamento.Text = usuarioEditando[16];
+                        //    if (indiceLogeado != usuarios.IndexOf(usuarioEditando))
+                        //        btnEditarContrasena.Enabled = false;
+                        //    else
+                        //        btnEditarContrasena.Enabled = true;
+                        //}
+                    }
+                    else
+                    {
+                        MessageBox.Show("Usuario o contraseña incorrectos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
 
-                if (usuarioEditando[5].ToLower() == "masculino")
-                    rdbMasculino.Checked = true;
-                else
-                    rdbFemenino.Checked = true;
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Se ha producido un error: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    CN.Desconectar();
+                }
+                //{
 
-
-                cmbTipoUsuario.Text = usuarioEditando[6];
-                dtpFecNac.Text = usuarioEditando[7];
-                cmbNacionalidad.Text = usuarioEditando[8];
-                cmbProvincia.Text = usuarioEditando[9];
-                cmbPartidoMunicipio.Text = usuarioEditando[10];
-                cmbLocalidad.Text = usuarioEditando[11];
-                txtCodPostal.Text = usuarioEditando[12];
-                txtCalle.Text = usuarioEditando[13];
-                txtAltura.Text = usuarioEditando[14];
-                txtPiso.Text = usuarioEditando[15];
-                txtDepartamento.Text = usuarioEditando[16];
-
-                if (indiceLogeado != usuarios.IndexOf(usuarioEditando))
-                    btnEditarContrasena.Enabled = false;
-                else
-                    btnEditarContrasena.Enabled = true;
+                
             }
 
         }
@@ -459,8 +512,8 @@ namespace TP_1_Heladeria
         //Eventos Botones
         private void btnVolver_Click(object sender, EventArgs e)
         {
-            frmPrincipal principal = new frmPrincipal(usuarios, indiceLogeado);
-            principal.Show();
+            //frmPrincipal principal = new frmPrincipal(usuarios, indiceLogeado);//
+           // principal.Show();
             this.Close();
         }
         private void btnAceptar_Click(object sender, EventArgs e)
@@ -547,32 +600,32 @@ namespace TP_1_Heladeria
             // 🟢 CÓDIGO NUEVO CON CONEXIÓN A BASE DE DATOS:
             try
             {
-                using (SqlConnection CN = new SqlConnection(CadenaConexionAccess))
-                {
-                    string query = @"UPDATE Usuarios SET 
-                            Nombre = @Nombre, 
-                            Apellido = @Apellido, 
-                            DNI = @DNI, 
-                            Telefono = @Telefono, 
-                            Email = @Email,
-                            Rol = @Rol 
-                         WHERE Username = @Username";
+               // using (SqlConnection CN = new SqlConnection(CadenaConexionAccess))
+                //{
+                //    string query = @"UPDATE Usuarios SET 
+                //            Nombre = @Nombre, 
+                //            Apellido = @Apellido, 
+                //            DNI = @DNI, 
+                //            Telefono = @Telefono, 
+                //            Email = @Email,
+                //            Rol = @Rol 
+                //         WHERE Username = @Username";
 
-                    SqlCommand cmd = new SqlCommand(query, CN);
-                    cmd.Parameters.AddWithValue("@Nombre", txtNombre.Text);
-                    cmd.Parameters.AddWithValue("@Apellido", txtApellido.Text);
-                    cmd.Parameters.AddWithValue("@DNI", txtDNI.Text);
-                    cmd.Parameters.AddWithValue("@Telefono", txtTelefono.Text);
-                    cmd.Parameters.AddWithValue("@Email", txtEmail.Text);
-                    cmd.Parameters.AddWithValue("@Rol", cmbTipoUsuario.Text);
-                    cmd.Parameters.AddWithValue("@Username", cmbUsuarioEditado.Text);
+                //    SqlCommand cmd = new SqlCommand(query, CN);
+                //    cmd.Parameters.AddWithValue("@Nombre", txtNombre.Text);
+                //    cmd.Parameters.AddWithValue("@Apellido", txtApellido.Text);
+                //    cmd.Parameters.AddWithValue("@DNI", txtDNI.Text);
+                //    cmd.Parameters.AddWithValue("@Telefono", txtTelefono.Text);
+                //    cmd.Parameters.AddWithValue("@Email", txtEmail.Text);
+                //    cmd.Parameters.AddWithValue("@Rol", cmbTipoUsuario.Text);
+                //    cmd.Parameters.AddWithValue("@Username", cmbUsuarioEditado.Text);
 
-                    CN.Open();
-                    cmd.ExecuteNonQuery();
+                //    CN.Open();
+                //    cmd.ExecuteNonQuery();
 
-                    MessageBox.Show("Usuario actualizado en la Base de Datos con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    this.Close();
-                }
+                //    MessageBox.Show("Usuario actualizado en la Base de Datos con éxito.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                //    this.Close();
+                //}
             }
             catch (Exception ex)
             {
@@ -582,8 +635,8 @@ namespace TP_1_Heladeria
         private void btnEditarContrasena_Click(object sender, EventArgs e)
         {
 
-            frmCambioContrasena frm = new frmCambioContrasena(usuarios, indiceLogeado);
-            frm.ShowDialog();
+            //frmCambioContrasena frm = new frmCambioContrasena(usuarios, indiceLogeado);
+            //frm.ShowDialog();
 
         }
         private void btnEliminar_Click(object sender, EventArgs e)

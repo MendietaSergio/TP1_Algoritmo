@@ -45,8 +45,8 @@ namespace TP_1_Heladeria
 
         private void btnEditarPerfil_Click(object sender, EventArgs e)
         {
-            frmEditarPerfil frm = new frmEditarPerfil(usuario, indiceLogeado);
-            frm.Show();
+            //frmEditarPerfil frm = new frmEditarPerfil(usuario, indiceLogeado);
+            //frm.Show();
             this.Close();
         }
 
