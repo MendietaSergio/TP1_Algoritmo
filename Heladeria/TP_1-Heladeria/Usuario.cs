@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TP_1_Heladeria
 {
-    public class Usuario
+    internal class Usuario
     {
         public int id { get; set; }
         public string Nombre { get; set; }
@@ -28,5 +28,9 @@ namespace TP_1_Heladeria
         public string Pass { get; set; }
         public bool PrimerInicio { get; set; }
         public string UsuarioCompleto { get; set; }
+
+        //------------------------------------------------
+
+
     }
 }
