@@ -257,7 +257,7 @@
             Controls.Add(label4);
             Controls.Add(lblInfo);
             Controls.Add(lblTitulo);
-            FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.Fixed3D;
             Name = "frmCambioContrasena";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Cambio Contrasenia";

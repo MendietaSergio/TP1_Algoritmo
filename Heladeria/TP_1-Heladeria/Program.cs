@@ -62,8 +62,15 @@ namespace TP_1_Heladeria
                     "jperez123"};
 
             BindingList<string[]> usuarios = new BindingList<string[]>{ usuarioAdmin, usuario };
+<<<<<<< Updated upstream
             
             Application.Run(new frmLogin(usuarios));
+=======
+            Usuario usuarioTemporal = new Usuario();
+
+            Application.Run(new frmLogin());
+            //Application.Run(new frmRegistrarUsuario(usuarioTemporal, 0));
+>>>>>>> Stashed changes
         }
     }
 }
