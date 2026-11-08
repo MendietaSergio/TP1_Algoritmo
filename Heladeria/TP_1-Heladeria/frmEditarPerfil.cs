@@ -6,73 +6,108 @@ using System.Drawing;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-
+using Microsoft.Data.SqlClient;
 namespace TP_1_Heladeria
 {
     public partial class frmEditarPerfil : Form
     {
         public string[] usuarioLogeado;
         public string[] usuarioEditando;
-        public BindingList<string[]> usuarios = new BindingList<string[]>();
+        // public BindingList<string[]> usuarios = new BindingList<string[]>();
         int indiceLogeado;
-        BindingList<string> nombreUsuarios = new BindingList<string>();
-
+        // BindingList<string> nombreUsuarios = new BindingList<string>();
+        DB_Conexion CN = new DB_Conexion();
+        ValidacionDeCampos validacion = new ValidacionDeCampos();
         Usuario usuario;
-
+        int idUsuarioEditando;
+        bool esModoAdmin;
 
         //public frmEditarPerfil(BindingList<string[]> _usuarios, int _indiceLogeado)
-        public frmEditarPerfil(Usuario _usuario, int _indiceLogeado)
+        public frmEditarPerfil(Usuario _usuario, int _indiceLogeado = 1, bool _esModoAdmin = true)
         {
 
             InitializeComponent();
 
-            //usuarios = _usuarios;
             usuario = _usuario;
             indiceLogeado = _indiceLogeado;
-
-            usuarioLogeado = usuarios[indiceLogeado];
-            usuarioEditando = usuarioLogeado;
-
+            esModoAdmin = _esModoAdmin;
+            idUsuarioEditando = usuario.id;
             string[] permisos = { cmbTipoUsuario.AccessibleDescription, "Administrador", "General" };
             BindingList<string> paises = new BindingList<string> { cmbNacionalidad.AccessibleDescription, "Argentina", "Uruguay" };
 
 
-            foreach (string[] usuarioActual in usuarios) nombreUsuarios.Add(usuarioActual[17]);
+            // foreach (string[] usuarioActual in usuarios) nombreUsuarios.Add(usuarioActual[17]);
 
 
 
-            cmbUsuarioEditado.DataSource = nombreUsuarios;
+            // cmbUsuarioEditado.DataSource = nombreUsuarios;
+            cmbUsuarioEditado.Items.Clear();
+            if (esModoAdmin) // Modo Editar Usuarios (Admin)
+            {
+                lblTitulo.Text = "Gestión de Usuarios"; // O el label de título que tengas
+                try
+                {
+                    CN.Conectar_BD();
+                    string query = "SELECT UsuarioCompleto FROM Usuarios ORDER BY UsuarioCompleto";
+                    SqlCommand cmd = new SqlCommand(query, CN.MostrarConexion());
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        cmbUsuarioEditado.Items.Add(reader["UsuarioCompleto"].ToString());
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al cargar la lista de usuarios: " + ex.Message);
+                }
+                finally
+                {
+                    CN.Desconectar();
+                }
+                // Seleccionamos al usuario actual en la lista por defecto
+                int pos = cmbUsuarioEditado.Items.IndexOf(usuario.UsuarioCompleto);
+                cmbUsuarioEditado.SelectedIndex = (pos >= 0) ? pos : 0;
+            }
+            else // Modo Mi Perfil
+            {
+                lblTitulo.Text = "Editar Mi Perfil";
+                cmbUsuarioEditado.Items.Add(usuario.UsuarioCompleto);
+                cmbUsuarioEditado.SelectedIndex = 0;
+            }
             cmbNacionalidad.DataSource = paises;
             cmbTipoUsuario.DataSource = permisos;
 
             {
-                cmbUsuarioEditado.SelectedIndex = indiceLogeado;
+                // cmbUsuarioEditado.SelectedIndex = indiceLogeado;
 
-                txtNombre.Text = usuarioEditando[0];
-                txtApellido.Text = usuarioEditando[1];
-                txtDNI.Text = usuarioEditando[2];
-                txtTelefono.Text = usuarioEditando[3];
-                txtEmail.Text = usuarioEditando[4];
+                txtNombre.Text = usuario.Nombre;
+                txtApellido.Text = usuario.Apellido;
+                txtDNI.Text = usuario.DNI.ToString();
+                txtTelefono.Text = usuario.Telefono;
+                txtEmail.Text = usuario.Email;
 
-                if (usuarioEditando[5].ToLower() == "masculino")
+                if (usuario.Genero == 1)
                     rdbMasculino.Checked = true;
                 else
                     rdbFemenino.Checked = true;
 
 
-                cmbTipoUsuario.Text = usuarioEditando[6];
-                dtpFecNac.Text = usuarioEditando[7];
+                // cmbTipoUsuario.Text = usuario.TipoUsuario;
+                cmbTipoUsuario.Text = (usuario.TipoUsuario == 1) ? "Administrador" : "General";
+                // dtpFecNac.Text = usuario.FechaNacimiento;
+                if (usuario.FechaNacimiento != DateTime.MinValue){
+                    dtpFecNac.Value = usuario.FechaNacimiento;
+            }
+                cmbNacionalidad.Text = usuario.Nacionalidad;
+                cmbProvincia.Text = usuario.Provincia;
+                cmbPartidoMunicipio.Text = usuario.Municipio;
+                cmbLocalidad.Text = usuario.Localidad;
 
-                cmbNacionalidad.Text = usuarioEditando[8];
-                cmbProvincia.Text = usuarioEditando[9];
-                cmbPartidoMunicipio.Text = usuarioEditando[10];
-                cmbLocalidad.Text = usuarioEditando[11];
-
-                txtCodPostal.Text = usuarioEditando[12];
-                txtCalle.Text = usuarioEditando[13];
-                txtAltura.Text = usuarioEditando[14];
-                txtPiso.Text = usuarioEditando[15];
-                txtDepartamento.Text = usuarioEditando[16];
+                txtCodPostal.Text = usuario.CodigoPostal;
+                txtCalle.Text = usuario.Calle;
+                txtAltura.Text = usuario.Altura > 0 ? usuario.Altura.ToString():"";
+                txtPiso.Text = usuario.Piso > 0 ? usuario.Piso.ToString(): "";
+                txtDepartamento.Text = usuario.Departamento;
 
 
             }
@@ -116,16 +151,23 @@ namespace TP_1_Heladeria
 
             }
 
-            if (usuarioLogeado[6].ToLower() != "administrador")
-            {
-                cmbTipoUsuario.Enabled = false;
-                txtDNI.Enabled = false;
-                cmbUsuarioEditado.Enabled = false;
-                btnGuardarCambios.Width = 201;
-                btnEliminar.Enabled = false;
-                btnEliminar.Visible = false;
-
-            }
+            if (!esModoAdmin)
+                {
+                    cmbTipoUsuario.Enabled = false;
+                    txtDNI.Enabled = false;
+                    cmbUsuarioEditado.Enabled = false;
+                    btnGuardarCambios.Width = 201;
+                    btnEliminar.Enabled = false;
+                    btnEliminar.Visible = false;
+                }
+                else
+                {
+                    cmbTipoUsuario.Enabled = true;
+                    txtDNI.Enabled = false; // El DNI suele ser fijo/identificador único
+                    cmbUsuarioEditado.Enabled = true;
+                    btnEliminar.Enabled = true;
+                    btnEliminar.Visible = true;
+                }
 
             dtpFecNac.MaxDate = DateTime.Today.AddYears(-18);
             dtpFecNac.MinDate = DateTime.Today.AddYears(-150);
@@ -281,40 +323,70 @@ namespace TP_1_Heladeria
         }
         private void cmbUsuarioEditado_SelectedIndexChanged(object sender, EventArgs e)
         {
-            usuarioEditando = usuarios[cmbUsuarioEditado.SelectedIndex];
+            // Solo actuamos si estamos en modo Admin y hay un usuario seleccionado
+            if (!esModoAdmin || cmbUsuarioEditado.SelectedItem == null)
+                return;
 
+            string usuarioSeleccionado = cmbUsuarioEditado.SelectedItem.ToString();
+
+            try
             {
+                CN.Conectar_BD();
+                string query = "SELECT * FROM Usuarios WHERE UsuarioCompleto = @UsuarioCompleto";
+                SqlCommand cmd = new SqlCommand(query, CN.MostrarConexion());
+                cmd.Parameters.AddWithValue("@UsuarioCompleto", usuarioSeleccionado);
 
-                txtNombre.Text = usuarioEditando[0];
-                txtApellido.Text = usuarioEditando[1];
-                txtDNI.Text = usuarioEditando[2];
-                txtTelefono.Text = usuarioEditando[3];
-                txtEmail.Text = usuarioEditando[4];
+                SqlDataReader reader = cmd.ExecuteReader();
 
-                if (usuarioEditando[5].ToLower() == "masculino")
-                    rdbMasculino.Checked = true;
-                else
-                    rdbFemenino.Checked = true;
+                if (reader.Read())
+                {
+                    // Guardamos el ID del usuario que estamos editando actualmente
+                    idUsuarioEditando = Convert.ToInt32(reader["IdUsuario"]);
 
+                    // Cargamos sus datos en las cajas de texto
+                    txtNombre.Text = reader["Nombre"].ToString();
+                    txtApellido.Text = reader["Apellido"].ToString();
+                    txtDNI.Text = reader["DNI"].ToString();
+                    txtTelefono.Text = reader["Telefono"].ToString();
+                    txtEmail.Text = reader["Email"].ToString();
 
-                cmbTipoUsuario.Text = usuarioEditando[6];
-                dtpFecNac.Text = usuarioEditando[7];
-                cmbNacionalidad.Text = usuarioEditando[8];
-                cmbProvincia.Text = usuarioEditando[9];
-                cmbPartidoMunicipio.Text = usuarioEditando[10];
-                cmbLocalidad.Text = usuarioEditando[11];
-                txtCodPostal.Text = usuarioEditando[12];
-                txtCalle.Text = usuarioEditando[13];
-                txtAltura.Text = usuarioEditando[14];
-                txtPiso.Text = usuarioEditando[15];
-                txtDepartamento.Text = usuarioEditando[16];
+                    // Género
+                    string genero = reader["Genero"]?.ToString() ?? "";
+                    if (genero.ToLower() == "masculino" || genero == "1")
+                        rdbMasculino.Checked = true;
+                    else
+                        rdbFemenino.Checked = true;
 
-                if (indiceLogeado != usuarios.IndexOf(usuarioEditando))
-                    btnEditarContrasena.Enabled = false;
-                else
-                    btnEditarContrasena.Enabled = true;
+                    // Tipo de Usuario (Rol)
+                    string tipo = reader["TipoUsuario"]?.ToString() ?? "";
+                    if (tipo.ToLower() == "administrador" || tipo == "1")
+                        cmbTipoUsuario.Text = "Administrador";
+                    else
+                        cmbTipoUsuario.Text = "General";
+
+                    // Fecha de Nacimiento
+                    if (reader["FechaNacimiento"] != DBNull.Value)
+                        dtpFecNac.Value = Convert.ToDateTime(reader["FechaNacimiento"]);
+
+                    // Domicilio
+                    txtCalle.Text = reader["Calle"]?.ToString();
+                    txtAltura.Text = reader["Altura"]?.ToString();
+                    txtPiso.Text = reader["Piso"]?.ToString();
+                    txtDepartamento.Text = reader["Departamento"]?.ToString();
+                    txtCodPostal.Text = reader["CodigoPostal"]?.ToString();
+
+                    // Seguridad: Un Admin NO puede eliminarse a sí mismo
+                    btnEliminar.Enabled = (idUsuarioEditando != usuario.id);
+                }
             }
-
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar los datos del usuario: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                CN.Desconectar();
+            }
         }
 
         //Eventos txt
@@ -511,44 +583,108 @@ namespace TP_1_Heladeria
                 txtPiso.Focus();
                 return;
             }
+            try
+            {
+                CN.Conectar_BD();
 
+                string query = @"UPDATE Usuarios SET 
+                                    Nombre = @Nombre, 
+                                    Apellido = @Apellido, 
+                                    Telefono = @Telefono, 
+                                    Email = @Email, 
+                                    Genero = @Genero, 
+                                    FechaNacimiento = @FechaNacimiento,
+                                    Calle = @Calle,
+                                    Altura = @Altura,
+                                    Piso = @Piso,
+                                    Departamento = @Departamento,
+                                    CodigoPostal = @CodigoPostal,
+                                    TipoUsuario = @TipoUsuario
+                                WHERE IdUsuario = @IdUsuario";
 
-            int guardarEn = usuarios.ToList().FindIndex(nombreCuenta => nombreCuenta[17] == usuarioEditando[17]);
-            usuarioEditando[0] = txtNombre.Text;
-            usuarioEditando[1] = txtApellido.Text;
-            usuarioEditando[2] = txtDNI.Text;
-            usuarioEditando[3] = txtTelefono.Text;
-            usuarioEditando[4] = txtEmail.Text;
-            if (rdbMasculino.Checked)
-                usuarioEditando[5] = "Masculino";
-            else
-                usuarioEditando[5] = "Femenino";
-            usuarioEditando[6] = cmbTipoUsuario.SelectedValue.ToString();
-            usuarioEditando[7] = dtpFecNac.Text;
-            if (cmbNacionalidad.SelectedIndex >= 0)
-                usuarioEditando[8] = cmbNacionalidad.SelectedValue.ToString();
+                SqlCommand cmd = new SqlCommand(query, CN.MostrarConexion());
+                cmd.Parameters.AddWithValue("@Nombre", txtNombre.Text.Trim());
+                cmd.Parameters.AddWithValue("@Apellido", txtApellido.Text.Trim());
+                cmd.Parameters.AddWithValue("@Telefono", txtTelefono.Text.Trim());
+                cmd.Parameters.AddWithValue("@Email", txtEmail.Text.Trim());
+                cmd.Parameters.AddWithValue("@Genero", rdbMasculino.Checked ? "Masculino" : "Femenino");
+                cmd.Parameters.AddWithValue("@FechaNacimiento", dtpFecNac.Value);   
+                cmd.Parameters.AddWithValue("@Calle", txtCalle.Text.Trim());
+                cmd.Parameters.AddWithValue("@Altura", string.IsNullOrWhiteSpace(txtAltura.Text) ? (object)DBNull.Value : Convert.ToInt32(txtAltura.Text));
+                cmd.Parameters.AddWithValue("@Piso", string.IsNullOrWhiteSpace(txtPiso.Text) ? (object)DBNull.Value : Convert.ToInt32(txtPiso.Text));
+                cmd.Parameters.AddWithValue("@Departamento", txtDepartamento.Text.Trim());
+                cmd.Parameters.AddWithValue("@CodigoPostal", txtCodPostal.Text.Trim());
+                cmd.Parameters.AddWithValue("@TipoUsuario", (cmbTipoUsuario.Text == "Administrador") ? "Administrador" : "Usuario");                    cmd.Parameters.AddWithValue("@IdUsuario", idUsuarioEditando);   
 
-            if (cmbProvincia.SelectedIndex >= 0)
-                usuarioEditando[9] = cmbProvincia.SelectedValue.ToString();
-            else
-                usuarioEditando[9] = "";
-            if (cmbPartidoMunicipio.SelectedIndex >= 0)
-                usuarioEditando[10] = cmbPartidoMunicipio.SelectedValue.ToString();
-            else
-                usuarioEditando[10] = "";
-            usuarioEditando[11] = cmbLocalidad.SelectedIndex >= 0 ? cmbLocalidad.SelectedValue.ToString() : "";
-            usuarioEditando[12] = txtCodPostal.Text;
-            usuarioEditando[13] = txtCalle.Text;
-            usuarioEditando[14] = txtAltura.Text;
-            usuarioEditando[15] = txtPiso.Text;
-            usuarioEditando[16] = txtDepartamento.Text;
+                int filasAfectadas = cmd.ExecuteNonQuery();
 
-            MessageBox.Show("Se edito el usuario exitosamente");
+                if (filasAfectadas > 0)
+                {
+                    // Actualizamos el objeto en memoria para que el menú principal tenga los datos nuevos
+                    usuario.Nombre = txtNombre.Text.Trim();
+                    usuario.Apellido = txtApellido.Text.Trim();
+                    usuario.Telefono = txtTelefono.Text.Trim();
+                    usuario.Email = txtEmail.Text.Trim();
+                    usuario.Genero = rdbMasculino.Checked ? 1 : 2;
+                    usuario.FechaNacimiento = dtpFecNac.Value;
+                    usuario.Calle = txtCalle.Text.Trim();
+                    usuario.CodigoPostal = txtCodPostal.Text.Trim();
+                    if (int.TryParse(txtAltura.Text, out int alt)) usuario.Altura = alt;
+                    if (int.TryParse(txtPiso.Text, out int piso)) usuario.Piso = piso;
+                    usuario.Departamento = txtDepartamento.Text.Trim();
 
-            usuarios[guardarEn] = usuarioEditando;
-            frmPrincipal prin = new frmPrincipal(usuario);
-            prin.Show();
-            this.Close();
+                    MessageBox.Show("Perfil actualizado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    frmPrincipal prin = new frmPrincipal(usuario);
+                    prin.Show();
+                    this.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al guardar los cambios: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                CN.Desconectar();
+            }
+
+            // int guardarEn = usuarios.ToList().FindIndex(nombreCuenta => nombreCuenta[17] == usuarioEditando[17]);
+            // usuarioEditando[0] = txtNombre.Text;
+            // usuarioEditando[1] = txtApellido.Text;
+            // usuarioEditando[2] = txtDNI.Text;
+            // usuarioEditando[3] = txtTelefono.Text;
+            // usuarioEditando[4] = txtEmail.Text;
+            // if (rdbMasculino.Checked)
+            //     usuarioEditando[5] = "Masculino";
+            // else
+            //     usuarioEditando[5] = "Femenino";
+            // usuarioEditando[6] = cmbTipoUsuario.SelectedValue.ToString();
+            // usuarioEditando[7] = dtpFecNac.Text;
+            // if (cmbNacionalidad.SelectedIndex >= 0)
+            //     usuarioEditando[8] = cmbNacionalidad.SelectedValue.ToString();
+
+            // if (cmbProvincia.SelectedIndex >= 0)
+            //     usuarioEditando[9] = cmbProvincia.SelectedValue.ToString();
+            // else
+            //     usuarioEditando[9] = "";
+            // if (cmbPartidoMunicipio.SelectedIndex >= 0)
+            //     usuarioEditando[10] = cmbPartidoMunicipio.SelectedValue.ToString();
+            // else
+            //     usuarioEditando[10] = "";
+            // usuarioEditando[11] = cmbLocalidad.SelectedIndex >= 0 ? cmbLocalidad.SelectedValue.ToString() : "";
+            // usuarioEditando[12] = txtCodPostal.Text;
+            // usuarioEditando[13] = txtCalle.Text;
+            // usuarioEditando[14] = txtAltura.Text;
+            // usuarioEditando[15] = txtPiso.Text;
+            // usuarioEditando[16] = txtDepartamento.Text;
+
+            // MessageBox.Show("Se edito el usuario exitosamente");
+
+            // usuarios[guardarEn] = usuarioEditando;
+            // frmPrincipal prin = new frmPrincipal(usuario);
+            // prin.Show();
+            // this.Close();
         }
         private void btnEditarContrasena_Click(object sender, EventArgs e)
         {
@@ -559,38 +695,53 @@ namespace TP_1_Heladeria
         }
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            if ((usuarioLogeado[6].ToLower() == "administrador") &&
-                (usuarioEditando[17].ToLower() != usuarioLogeado[17].ToLower()))
-
+            if (idUsuarioEditando == usuario.id)
             {
-                DialogResult respuesta = MessageBox.Show(
-                    "¿Esta seguro que desea eliminar este usuario? Los datos no se van a recuperar",
-                    "Eliminacion de Usuario", MessageBoxButtons.YesNo,
-                    MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button2);
-                if (respuesta == DialogResult.Yes)
+                MessageBox.Show("No podés eliminar tu propia cuenta de Administrador.", "Acción denegada", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            DialogResult respuesta = MessageBox.Show(
+                "¿Estás seguro de que deseás eliminar este usuario? Los datos no se podrán recuperar.",
+                "Eliminar Usuario",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning,
+                MessageBoxDefaultButton.Button2);
+
+            if (respuesta == DialogResult.Yes)
+            {
+                try
                 {
+                    CN.Conectar_BD();
+                    string query = "DELETE FROM Usuarios WHERE IdUsuario = @IdUsuario";
+                    SqlCommand cmd = new SqlCommand(query, CN.MostrarConexion());
+                    cmd.Parameters.AddWithValue("@IdUsuario", idUsuarioEditando);
 
-                    string[] usuarioABorrar = usuarioEditando;
-                    usuarioEditando = usuarios[indiceLogeado];
-                    int nroIndiceBorrar = cmbUsuarioEditado.SelectedIndex;
-                    cmbUsuarioEditado.SelectedIndex = indiceLogeado;
+                    cmd.ExecuteNonQuery();
 
-                    nombreUsuarios.RemoveAt(nroIndiceBorrar);
-                    usuarios.Remove(usuarioABorrar);
+                    MessageBox.Show("Usuario eliminado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-
-
-                    MessageBox.Show("Usuario " + usuarioABorrar[17] + " eliminado", "Eliminado con Exito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
+                    // Refrescamos la pantalla para actualizar la lista de usuarios
+                    frmEditarPerfil recargar = new frmEditarPerfil(usuario, 0, true);
+                    recargar.Show();
+                    this.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error al eliminar el usuario: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    CN.Desconectar();
                 }
             }
         }
         private void btnCerrar_Click(object sender, EventArgs e)
         {
-            DialogResult deseaCerrar = MessageBox.Show("Desea cerrar la aplicacion?", "Cerrar Sistema",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-            if (deseaCerrar == DialogResult.Yes)
-                Application.Exit();
+            // DialogResult deseaCerrar = MessageBox.Show("Desea cerrar la aplicacion?", "Cerrar Sistema",
+            //     MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            // if (deseaCerrar == DialogResult.Yes)
+            //     Application.Exit();
         }
     }
 }
