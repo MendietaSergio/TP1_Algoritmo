@@ -350,6 +350,7 @@
             // 
             // txtDepartamento
             // 
+            txtDepartamento.AccessibleName = "Departamento";
             txtDepartamento.Location = new Point(142, 261);
             txtDepartamento.Name = "txtDepartamento";
             txtDepartamento.Size = new Size(159, 23);
@@ -366,6 +367,7 @@
             // 
             // txtPiso
             // 
+            txtPiso.AccessibleName = "Piso";
             txtPiso.Location = new Point(142, 232);
             txtPiso.Name = "txtPiso";
             txtPiso.Size = new Size(159, 23);
@@ -382,6 +384,7 @@
             // 
             // txtAltura
             // 
+            txtAltura.AccessibleName = "Altura";
             txtAltura.Location = new Point(142, 203);
             txtAltura.Name = "txtAltura";
             txtAltura.Size = new Size(159, 23);
@@ -398,6 +401,7 @@
             // 
             // txtCalle
             // 
+            txtCalle.AccessibleName = "Calle";
             txtCalle.Location = new Point(142, 174);
             txtCalle.Name = "txtCalle";
             txtCalle.Size = new Size(159, 23);
@@ -414,6 +418,7 @@
             // 
             // txtCodPostal
             // 
+            txtCodPostal.AccessibleName = "Codigo Postal";
             txtCodPostal.Location = new Point(142, 145);
             txtCodPostal.Name = "txtCodPostal";
             txtCodPostal.Size = new Size(159, 23);

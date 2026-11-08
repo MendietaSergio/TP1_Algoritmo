@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Text.RegularExpressions;
 using TP_1_Heladeria;
+using System.Dynamic;
 /*
  
             {
@@ -88,6 +89,16 @@ namespace TP_1_Heladeria
             cmbProvincia.Enabled = false;
             cmbPartidoMunicipio.Enabled = false;
             cmbLocalidad.Enabled = false;
+
+
+            //PARA LAS PRUEBAS!!
+            //SACAR
+            txtNombre.Text = "asd";
+            txtApellido.Text = "asd";
+            txtDNI.Text = "12312312";
+            txtTelefono.Text = "1231231231";
+            txtEmail.Text = "asd@asd.asd";
+            cmbTipoUsuario.SelectedIndex = 1;
 
         }
 
@@ -235,31 +246,54 @@ namespace TP_1_Heladeria
             ////Requeridas ////
             try
             {
-                //Requeridas
+                
                 validacion.TextoVacio([txtNombre, txtApellido, txtDNI, txtTelefono, txtEmail]);
-                validacion.TipoEntero([txtTelefono, txtDNI]);
+                validacion.TipoEnteroPositivo([txtTelefono, txtDNI]);
                 validacion.NroEnteroEntre(txtTelefono, 1000000000, 9999999999);
                 validacion.NroEnteroEntre(txtDNI, 3000000, 99999999);
                 validacion.EMail(txtEmail);
-
-                
-                
             }
             catch (Exception ex) {
-                MessageBox.Show($"Error - {ex.Message}", "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show($"Error - {ex.Message}", "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
             //No Requeridas
-
-            validacion.LongitudTexto(txtCodPostal, 0, 8);
-            validacion.LongitudTexto(txtPiso, 0, 2);
-            if(!(string.IsNullOrWhiteSpace(txtAltura.Text)))
+            //////////////////////////////
+            //Validacion Longitudes de las no requeridas
+            TextBox[] txtCamposOpcionales = [txtCodPostal, txtPiso, txtAltura];
+            int[] longitudes = [0, 8, 0, 2, 0, int.MaxValue];
+                
+            foreach (TextBox campo in txtCamposOpcionales)
             {
-                validacion.TipoEntero([txtAltura]);
-                validacion.LimitesNumero(txtAltura, 0, int.MaxValue);
+                try
+                {
+                    //Primera Longitud Asignada
+                    int pLongitudA = txtCamposOpcionales.IndexOf(campo) * 2;
+                    validacion.LongitudTexto(campo, longitudes[pLongitudA], longitudes[pLongitudA + 1]);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error - {ex.Message}\n\nEste campo es opcional, por lo que podria simplemente borrarlo", "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
             }
+            try
+            {
+                if (!(string.IsNullOrEmpty(txtAltura.Text)))
+                    validacion.TipoEnteroPositivo([txtAltura]);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error - {ex.Message}\n\nEste campo es opcional, por lo que podria simplemente borrarlo", "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            
 
             //Hasta aca llegue
+            //Ya estan hechas todas las validaciones. Si no esta correcto algo, corta el funcionamiento.
+            //Ahora tengo que hacer que si llego a este punto, guarde todo lo que hay en los campos
+            
             string[] usuarioNuevo = new string[21];
 
             for (int i = 0; i < usuarioNuevo.Length; i++) usuarioNuevo[i] = "";
@@ -368,7 +402,7 @@ namespace TP_1_Heladeria
         }
         private void cmbNacionalidad_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            /*
             BindingList<string> provincias = new BindingList<string> { cmbProvincia.AccessibleDescription };
 
 
@@ -392,7 +426,9 @@ namespace TP_1_Heladeria
                     cmbProvincia.Enabled = false;
                 }
 
-            }
+            }*/
+
+            //No estaba relacionado con nada, pero tenia que dar 2 opciones que trae de la DB
 
         }
         private void cmbProvincia_SelectedIndexChanged(object sender, EventArgs e)
