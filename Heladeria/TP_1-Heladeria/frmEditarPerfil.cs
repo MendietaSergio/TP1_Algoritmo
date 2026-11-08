@@ -21,14 +21,14 @@ namespace TP_1_Heladeria
 
 
         //public frmEditarPerfil(BindingList<string[]> _usuarios, int _indiceLogeado)
-        public frmEditarPerfil(Usuario _usuario, int _indiceLogeado)
+        public frmEditarPerfil(Usuario _usuario)
         {
 
             InitializeComponent();
 
             //usuarios = _usuarios;
             usuario = _usuario;
-            indiceLogeado = _indiceLogeado;
+            //indiceLogeado = _indiceLogeado;
 
             usuarioLogeado = usuarios[indiceLogeado];
             usuarioEditando = usuarioLogeado;

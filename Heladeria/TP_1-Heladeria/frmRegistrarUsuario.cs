@@ -10,6 +10,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Text.RegularExpressions;
 using TP_1_Heladeria;
 using System.Dynamic;
+using Microsoft.Data.SqlClient;
 /*
  
             {
@@ -65,16 +66,16 @@ namespace TP_1_Heladeria
         }
 
         public BindingList<string[]> usuarios = new BindingList<string[]>();
-        int indice;
+        //int indice;
         Usuario usuario = new Usuario();
         
 
-        public frmRegistrarUsuario(Usuario _usuario, int _indice)
+        public frmRegistrarUsuario(Usuario _usuario)
         {
             InitializeComponent();
             //usuarios = _usuarios;
             usuario = _usuario;
-            indice = _indice;
+            //indice = _indice;
 
             string[] permisos = { cmbTipoUsuario.AccessibleDescription, "Administrador", "General" };
             BindingList<string> paises = new BindingList<string> { cmbNacionalidad.AccessibleDescription, "Argentina", "Uruguay" };
@@ -268,9 +269,9 @@ namespace TP_1_Heladeria
             {
                 try
                 {
-                    //Primera Longitud Asignada
-                    int pLongitudA = txtCamposOpcionales.IndexOf(campo) * 2;
-                    validacion.LongitudTexto(campo, longitudes[pLongitudA], longitudes[pLongitudA + 1]);
+                    //Primera Longitud Correspondiente
+                    int pLongitudC = txtCamposOpcionales.IndexOf(campo) * 2;
+                    validacion.LongitudTexto(campo, longitudes[pLongitudC], longitudes[pLongitudC + 1]);
                 }
                 catch (Exception ex)
                 {
@@ -288,14 +289,92 @@ namespace TP_1_Heladeria
                 MessageBox.Show($"Error - {ex.Message}\n\nEste campo es opcional, por lo que podria simplemente borrarlo", "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-            
+
 
             //Hasta aca llegue
             //Ya estan hechas todas las validaciones. Si no esta correcto algo, corta el funcionamiento.
             //Ahora tengo que hacer que si llego a este punto, guarde todo lo que hay en los campos
+
+
+
+
+
+            //DB_Conexion CN = new DB_Conexion();
+            string CadenaConexion = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0; DataBase=Heladeria";
+
+            SqlConnection CN = new SqlConnection(CadenaConexion);
+            try
+            {
+
+                string inicial = "";
+                string apellido = "";
+                string nros = "";
+                string nombreUsuarioConstruido = "";
+                inicial = txtNombre.Text.Substring(0, 1).ToLower();
+                apellido = txtApellido.Text.ToLower();
+                nros = txtDNI.Text.Substring(txtDNI.Text.Length - 3, 3);
+
+                nombreUsuarioConstruido = inicial + apellido + nros;
+
+                int cantVeces = 1;
+                string qry = "SELECT COUNT(*) FROM Usuarios WHERE UsuarioBase = @UsuarioBase";
+
+                SqlCommand cmd = new SqlCommand(qry, CN);
+
+                cmd.Parameters.AddWithValue("@UsuarioBase", nombreUsuarioConstruido);
+
+                CN.Open();
+
+                cantVeces += (int)cmd.ExecuteScalar();
+
+                if (cantVeces > 1)
+                    nombreUsuarioConstruido = nombreUsuarioConstruido + "_" + cantVeces;
+
+                //Ya tengo el usuario armado, falta cargar los datos
+
+
+                //CN.Conectar_BD();
+                //Por ahora sin opcionales
+
+
+                /*string qry = 
+                    @"INSERT INTO usuarios 
+                    (nombre, apellido, dni, telefono, email, idGenero, idTipoUsuario, fechaNacimiento) 
+                    VALUES 
+                    (@nombre, @apellido, @dni, @telefono, @email, @idGenero, @idTipoUsuario, @fechaNacimiento)";
+                
+                SqlCommand cmd = new SqlCommand(qry, CN);
+                
+                cmd.Parameters.AddWithValue("@nombre", txtNombre.Text);
+                cmd.Parameters.AddWithValue("@apellido", txtApellido.Text);
+                cmd.Parameters.AddWithValue("@dni", txtDNI.Text);
+                cmd.Parameters.AddWithValue("@telefono", txtTelefono.Text);
+                cmd.Parameters.AddWithValue("@email", txtEmail.Text);
+                cmd.Parameters.AddWithValue("@idGenero", 1);
+                cmd.Parameters.AddWithValue("@idTipoUsuario", 1);
+                cmd.Parameters.AddWithValue("@fechaNacimiento", dtpFecNac.Value);
+
+                //CN.Conectar_BD();
+                CN.Open();
+                int filas = cmd.ExecuteNonQuery();*/
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al conectar la DB \n{ex.Message}", "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            finally
+            {
+                if(CN.State == System.Data.ConnectionState.Open)
+                {
+                    CN.Close();
+                    CN.Dispose();
+                }
+            }
             
             string[] usuarioNuevo = new string[21];
-
+            /*
             for (int i = 0; i < usuarioNuevo.Length; i++) usuarioNuevo[i] = "";
 
             usuarioNuevo[0] = txtNombre.Text;
@@ -321,8 +400,8 @@ namespace TP_1_Heladeria
             usuarioNuevo[14] = txtAltura.Text;
             usuarioNuevo[15] = txtPiso.Text;
             usuarioNuevo[16] = txtDepartamento.Text;
-
-            string inicial = "";
+            */
+            /*string inicial = "";
             string apellido = "";
             string nros = "";
             string nombreUsuarioConstruido = "";
@@ -333,7 +412,7 @@ namespace TP_1_Heladeria
             nombreUsuarioConstruido = inicial + apellido + nros;
 
             int cantVeces = 1;
-
+            */
             foreach (string[] usuario in usuarios)
                 if (usuario[20] == nombreUsuarioConstruido)
                     cantVeces++;
@@ -353,7 +432,7 @@ namespace TP_1_Heladeria
             usuarioNuevo[19] = "si";
 
             usuarios.Add(usuarioNuevo);
-
+            
             MessageBox.Show("Usuario registrado con exito. La contraseña es " + usuarioNuevo[18]);
             //  Limpiar();
         }

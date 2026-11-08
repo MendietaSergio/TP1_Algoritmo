@@ -38,14 +38,14 @@ namespace TP_1_Heladeria
 
         private void btnRegistrarUsuario_Click(object sender, EventArgs e)
         {
-            Form RegistrarUsuario = new frmRegistrarUsuario(usuario, indiceLogeado);
+            Form RegistrarUsuario = new frmRegistrarUsuario(usuario);
             RegistrarUsuario.Show();
             this.Close();
         }
 
         private void btnEditarPerfil_Click(object sender, EventArgs e)
         {
-            frmEditarPerfil frm = new frmEditarPerfil(usuario, indiceLogeado);
+            frmEditarPerfil frm = new frmEditarPerfil(usuario);
             frm.Show();
             this.Close();
         }

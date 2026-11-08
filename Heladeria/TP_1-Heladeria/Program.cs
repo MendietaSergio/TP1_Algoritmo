@@ -65,7 +65,7 @@ namespace TP_1_Heladeria
             Usuario usuarioTemporal = new Usuario();
 
             //Application.Run(new frmLogin());
-            Application.Run(new frmRegistrarUsuario(usuarioTemporal, 0));
+            Application.Run(new frmRegistrarUsuario(usuarioTemporal));
         }
     }
 }

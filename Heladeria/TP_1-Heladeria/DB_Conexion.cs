@@ -26,6 +26,10 @@ namespace TP_1_Heladeria
         {
             return CN;
         }
+        public bool ComprobarConexionActiva()
+        {
+            return (CN.State == System.Data.ConnectionState.Open);
+        }
 
         public void Desconectar()
         {
