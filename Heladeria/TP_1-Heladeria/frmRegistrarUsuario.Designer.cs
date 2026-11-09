@@ -68,6 +68,7 @@
             lblProvincia = new Label();
             btnAceptar = new Button();
             btnLimpiar = new Button();
+            btnVolver = new Button();
             grpPersonales.SuspendLayout();
             grpGenero.SuspendLayout();
             grpUbicacion.SuspendLayout();
@@ -478,11 +479,22 @@
             btnLimpiar.UseVisualStyleBackColor = true;
             btnLimpiar.Click += btnLimpiar_Click;
             // 
+            // btnVolver
+            // 
+            btnVolver.Location = new Point(585, 12);
+            btnVolver.Name = "btnVolver";
+            btnVolver.Size = new Size(137, 31);
+            btnVolver.TabIndex = 21;
+            btnVolver.Text = "Atras";
+            btnVolver.UseVisualStyleBackColor = true;
+            btnVolver.Click += btnVolver_Click;
+            // 
             // frmRegistrarUsuario
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(747, 441);
+            Controls.Add(btnVolver);
             Controls.Add(btnLimpiar);
             Controls.Add(btnAceptar);
             Controls.Add(grpUbicacion);
@@ -493,6 +505,7 @@
             Name = "frmRegistrarUsuario";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Registrar Usuario";
+            FormClosing += frmRegistrarUsuario_FormClosing;
             grpPersonales.ResumeLayout(false);
             grpPersonales.PerformLayout();
             grpGenero.ResumeLayout(false);
@@ -545,5 +558,6 @@
         private ComboBox cmbPartidoMunicipio;
         private ComboBox cmbProvincia;
         private ComboBox cmbNacionalidad;
+        private Button btnVolver;
     }
 }

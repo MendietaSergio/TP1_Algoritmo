@@ -44,8 +44,8 @@ namespace TP_1_Heladeria
         }
 
         Usuario usuario = new Usuario();
-        
-        
+
+
 
         public frmRegistrarUsuario(Usuario _usuario)
         {
@@ -101,10 +101,11 @@ namespace TP_1_Heladeria
                     cmbTipoUsuario.DataSource = permisos;
                 }
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 MessageBox.Show($"Error al conectar la DB \n{ex.Message}", "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
-            finally 
+            finally
             {
                 if (CN.State == System.Data.ConnectionState.Open)
                 {
@@ -278,7 +279,8 @@ namespace TP_1_Heladeria
                 validacion.NroEnteroEntre(txtDNI, 3000000, 99999999);
                 validacion.EMail(txtEmail);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 MessageBox.Show($"Error - {ex.Message}", "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -287,7 +289,7 @@ namespace TP_1_Heladeria
             //////////////////////////////
             TextBox[] txtCamposOpcionales = [txtCodPostal, txtPiso, txtAltura];
             int[] longitudes = [0, 8, 0, 2, 0, int.MaxValue];
-                
+
             foreach (TextBox campo in txtCamposOpcionales)
             {
                 try
@@ -313,7 +315,7 @@ namespace TP_1_Heladeria
                 return;
             }
 
-            
+
             try
             {
                 //Preparo el nombre de usuario
@@ -343,8 +345,8 @@ namespace TP_1_Heladeria
 
                 Random random = new Random();
                 long password = random.Next(10000000, 999999999);
-               
-              //Cargo los datos
+
+                //Cargo los datos
                 qry =
                     @"INSERT INTO usuarios 
                     (nombre, apellido, dni, telefono, email, idGenero, idTipoUsuario, fechaNacimiento,
@@ -363,8 +365,8 @@ namespace TP_1_Heladeria
                 cmd.Parameters.AddWithValue("@dni", txtDNI.Text);
                 cmd.Parameters.AddWithValue("@telefono", txtTelefono.Text);
                 cmd.Parameters.AddWithValue("@email", txtEmail.Text);
-                cmd.Parameters.AddWithValue("@idGenero", rdbMasculino.Checked == true? 1 : 2 );
-                cmd.Parameters.AddWithValue("@idTipoUsuario", cmbTipoUsuario.SelectedIndex+1);
+                cmd.Parameters.AddWithValue("@idGenero", rdbMasculino.Checked == true ? 1 : 2);
+                cmd.Parameters.AddWithValue("@idTipoUsuario", cmbTipoUsuario.SelectedIndex + 1);
                 cmd.Parameters.AddWithValue("@fechaNacimiento", dtpFecNac.Value);
                 cmd.Parameters.AddWithValue("@pass", password.ToString());
                 cmd.Parameters.AddWithValue("@usuarioBase", usuarioBase);
@@ -372,13 +374,13 @@ namespace TP_1_Heladeria
                 cmd.Parameters.AddWithValue("@usuarioCompleto", nombreUsuarioConstruido);
                 //No requeridos
                 //Estos tienen la opcion de estar vacios y la base de datos lo reconoceria
-                cmd.Parameters.AddWithValue("@idNacionalidad", cmbNacionalidad.SelectedIndex <= 0? DBNull.Value : cmbNacionalidad.SelectedIndex);
+                cmd.Parameters.AddWithValue("@idNacionalidad", cmbNacionalidad.SelectedIndex <= 0 ? DBNull.Value : cmbNacionalidad.SelectedIndex);
                 cmd.Parameters.AddWithValue("@idProvincia", cmbProvincia.SelectedIndex <= 0 ? DBNull.Value : cmbProvincia.SelectedIndex);
                 cmd.Parameters.AddWithValue("@idPartidoMunicipio", cmbPartidoMunicipio.SelectedIndex <= 0 ? DBNull.Value : cmbPartidoMunicipio.SelectedIndex);
                 cmd.Parameters.AddWithValue("@idLocalidad", cmbLocalidad.SelectedIndex <= 0 ? DBNull.Value : cmbLocalidad.SelectedIndex);
-                cmd.Parameters.AddWithValue("@CodigoPostal", string.IsNullOrEmpty(txtCodPostal.Text)? DBNull.Value : txtCodPostal.Text );
-                cmd.Parameters.AddWithValue("@Calle", string.IsNullOrEmpty(txtCalle.Text)? DBNull.Value : txtCalle.Text);
-                cmd.Parameters.AddWithValue("@Altura", string.IsNullOrEmpty(txtAltura.Text)? DBNull.Value : txtAltura.Text);
+                cmd.Parameters.AddWithValue("@CodigoPostal", string.IsNullOrEmpty(txtCodPostal.Text) ? DBNull.Value : txtCodPostal.Text);
+                cmd.Parameters.AddWithValue("@Calle", string.IsNullOrEmpty(txtCalle.Text) ? DBNull.Value : txtCalle.Text);
+                cmd.Parameters.AddWithValue("@Altura", string.IsNullOrEmpty(txtAltura.Text) ? DBNull.Value : txtAltura.Text);
                 cmd.Parameters.AddWithValue("@Piso", string.IsNullOrEmpty(txtPiso.Text) ? DBNull.Value : txtPiso.Text);
                 cmd.Parameters.AddWithValue("@Departamento", string.IsNullOrEmpty(txtDepartamento.Text) ? DBNull.Value : txtDepartamento.Text);
 
@@ -395,26 +397,19 @@ namespace TP_1_Heladeria
             }
             finally
             {
-                if(CN.State == System.Data.ConnectionState.Open)
+                if (CN.State == System.Data.ConnectionState.Open)
                 {
                     CN.Close();
                     CN.Dispose();
                 }
             }
-            
+
         }
         private void btnVolver_Click(object sender, EventArgs e)
         {
-            Form principal = new frmPrincipal(usuario);
+            frmPrincipal principal = new frmPrincipal(usuario);
             principal.Show();
             this.Close();
-        }
-        private void btnCerrar_Click(object sender, EventArgs e)
-        {
-            DialogResult deseaCerrar = MessageBox.Show("Desea cerrar la aplicacion?", "Cerrar Sistema",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-            if (deseaCerrar == DialogResult.Yes)
-                Application.Exit();
         }
 
 
@@ -426,7 +421,7 @@ namespace TP_1_Heladeria
                 !string.IsNullOrWhiteSpace(txtNombre.Text) &&
                 !string.IsNullOrWhiteSpace(txtApellido.Text) &&
                 !string.IsNullOrWhiteSpace(txtDNI.Text) &&
-                !string.IsNullOrWhiteSpace(txtTelefono.Text)&&
+                !string.IsNullOrWhiteSpace(txtTelefono.Text) &&
                 !string.IsNullOrWhiteSpace(txtEmail.Text) &&
                (cmbTipoUsuario.SelectedIndex == 1
                ||
@@ -442,7 +437,7 @@ namespace TP_1_Heladeria
                 grpUbicacion.Enabled = false;
             }
         }
-        
+
         private void cmbProvincia_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbProvincia.SelectedValue != null && (cmbProvincia.SelectedIndex > 0))
@@ -491,7 +486,7 @@ namespace TP_1_Heladeria
                     }
                 }
             }
-                
+
 
         }
         private void cmbPartidoMunicipio_SelectedIndexChanged(object sender, EventArgs e)
@@ -544,6 +539,15 @@ namespace TP_1_Heladeria
             }
         }
 
-       
+        //Salir
+        private void frmRegistrarUsuario_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult deseaCerrar = MessageBox.Show("Desea cerrar la aplicacion?", "Cerrar Sistema",
+                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+            if (deseaCerrar == DialogResult.Yes)
+                Application.ExitThread();
+            //Sino, cancela el evento
+            else e.Cancel=true;
+        }
     }
 }
