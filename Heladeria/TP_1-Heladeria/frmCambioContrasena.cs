@@ -5,15 +5,15 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using Microsoft.Data.SqlClient;
+
 
 namespace TP_1_Heladeria
 {
     public partial class frmCambioContrasena : Form
     {
-        public int indiceUsuario;
-        public BindingList<string[]> usuarios = new BindingList<string[]>();
-
         Usuario usuario = new Usuario();
+        ValidacionDeCampos Validaciones = new ValidacionDeCampos();
         public frmCambioContrasena(Usuario _usuario)
         {
             InitializeComponent();
@@ -41,62 +41,122 @@ namespace TP_1_Heladeria
             txtPass2.Text = "";
         }
         private void btnContinuar_Click(object sender, EventArgs e)
-        {
+        { 
+
+
+            //if (txtPass.Text == "")
+            //{
+            //    lblError.Visible = true;
+            //    lblError.Text = lblError.Text + "Campo vacio, revisalos.";
+            //    txtPass.Focus();
+            //    return;
+            //}
+            //if (txtPass2.Text == "")
+            //{
+            //    lblError.Visible = true;
+            //    lblError.Text = lblError.Text + "Campo vacio, revisalos.";
+            //    txtPass2.Focus();
+            //    return;
+            //}
+            //if (txtPass.MaxLength <= 8)
+            //{
+            //    lblError.Visible = true;
+            //    lblError.Text = lblError.Text + "Contraseña menor a 8 caracteres.";
+            //    txtPass.Focus();
+            //    return;
+            //}
+            //if (txtPass2.MaxLength <= 8)
+            //{
+            //    lblError.Visible = true;
+            //    lblError.Text = lblError.Text + "Contraseña menor a 8 caracteres.";
+            //    txtPass2.Focus();
+            //    return;
+            //}
+
+            //if (txtPass.Text != txtPass2.Text)
+            //{
+            //    lblError.Visible = true;
+            //    lblError.Text = lblError.Text + "Contraseñas no coinciden.";
+            //    txtPass.Focus();
+
+            //    return;
+            //}
+
+
+        
             lblError.Visible = false;
-            lblError.Text = "Error: ";
-            if (txtPass.Text == "")
+
+            if (string.IsNullOrWhiteSpace(txtPass.Text) ||
+                string.IsNullOrWhiteSpace(txtPass2.Text))
             {
                 lblError.Visible = true;
-                lblError.Text = lblError.Text + "Campo vacio, revisalos.";
-                txtPass.Focus();
-                return;
-            }
-            if (txtPass2.Text == "")
-            {
-                lblError.Visible = true;
-                lblError.Text = lblError.Text + "Campo vacio, revisalos.";
-                txtPass2.Focus();
-                return;
-            }
-            if (txtPass.MaxLength <= 8)
-            {
-                lblError.Visible = true;
-                lblError.Text = lblError.Text + "Contraseña menor a 8 caracteres.";
-                txtPass.Focus();
-                return;
-            }
-            if (txtPass2.MaxLength <= 8)
-            {
-                lblError.Visible = true;
-                lblError.Text = lblError.Text + "Contraseña menor a 8 caracteres.";
-                txtPass2.Focus();
+                lblError.Text = "Error: completá los dos campos.";
                 return;
             }
 
             if (txtPass.Text != txtPass2.Text)
             {
                 lblError.Visible = true;
-                lblError.Text = lblError.Text + "Contraseñas no coinciden.";
-                txtPass.Focus();
-
+                lblError.Text = "Error: las contraseñas no coinciden.";
                 return;
             }
-            usuarios[indiceUsuario][18] = txtPass.Text;
-            MessageBox.Show(
-                "¡La contraseña se generó exitosamente!",
-                    "Cambio guardado", MessageBoxButtons.OK, MessageBoxIcon.Information
-                    );
 
-            if (usuarios[indiceUsuario][19].ToLower() == "si")
+            if (txtPass.Text.Length < 8)
             {
-                frmPrincipal frmPrincipal = new frmPrincipal(usuario);
-                frmPrincipal.Show();
-                usuarios[indiceUsuario][19] = "no";
+                lblError.Visible = true;
+                lblError.Text = "Error: la contraseña debe tener al menos 8 caracteres.";
+                return;
             }
 
-            this.Close();
-            return;
+            DB_Conexion CN = new DB_Conexion();
+
+            try
+            {
+                CN.Conectar_BD();
+
+                string query = @"UPDATE dbo.Usuarios
+                         SET Pass = @Pass,
+                             PrimerInicio = 0
+                         WHERE IdUsuario = @IdUsuario";
+
+                using (SqlCommand cmd =
+                    new SqlCommand(query, CN.MostrarConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@Pass", txtPass.Text);
+                    cmd.Parameters.AddWithValue("@IdUsuario", usuario.id);
+
+                    int filas = cmd.ExecuteNonQuery();
+
+                    if (filas == 0)
+                    {
+                        MessageBox.Show("No se encontró el usuario.");
+                        return;
+                    }
+                }
+
+                usuario.Pass = txtPass.Text;
+                usuario.PrimerInicio = false;
+
+                MessageBox.Show(
+                    "¡La contraseña se cambió correctamente!",
+                    "Cambio guardado",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cambiar la contraseña: " + ex.Message);
+            }
+            finally
+            {
+                CN.Desconectar();
+            }
         }
+
+
+        
         private void btnAtras_Click(object sender, EventArgs e)
         {
             this.Close();
