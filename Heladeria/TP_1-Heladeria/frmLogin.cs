@@ -1,59 +1,20 @@
 using Microsoft.Data.SqlClient;
 using System.ComponentModel;
-using System.Data.SqlClient;
 using System.Security.Cryptography.X509Certificates;
 
 namespace TP_1_Heladeria
 {
     public partial class frmLogin : Form
     {
-       
-        public int indiceUsuario;
+        private DB_Conexion CN = new DB_Conexion();
+        private ValidacionDeCampos Validaciones = new ValidacionDeCampos();
 
-        DB_Conexion CN = new DB_Conexion();
-        ValidacionDeCampos Validaciones = new ValidacionDeCampos();
-        public BindingList<string[]> usuarios = new BindingList<string[]>();
-      /*  string CadenaConexionAccess = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0; DataBase=Heladeria";
-        SqlConnection CN; 
-
-        void conectar()
-        {
-            try
-            {
-                CN = new SqlConnection(CadenaConexionAccess);
-                CN.Open();
-
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error al conectar la DB > " + ex.Message);
-            }
-        }*/
-      /*
-        void verificarVacios(TextBox[] cajasDeTexto)
-        {
-            foreach (TextBox cajaDeTexto in cajasDeTexto)
-            {
-                if ((string.IsNullOrWhiteSpace(cajaDeTexto.Text)))
-                {
-
-                    lblError.Visible = true;
-                    lblError.Text = $"Error: El campo {(cajaDeTexto.AccessibleDescription)} esta vacio";
-                    cajaDeTexto.Focus();
-                    return;
-                }
-            }
-        }
-      */
-        //public frmLogin(BindingList<string[]> _usuarios)
         public frmLogin()
         {
             InitializeComponent();
             imgShow1.Visible = true;
             imgHide1.Visible = false;
             lblError.Visible = false;
-            //usuarios = _usuarios;
-
         }
         
 
@@ -145,41 +106,10 @@ namespace TP_1_Heladeria
             catch (Exception ex){
                 MessageBox.Show($"Se ha producido un error: {ex.Message}","Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            finally{
+            finally
+            {
                 CN.Desconectar();
             }
-            /*
-            while (true)
-            {
-                for (int i = 0; i < usuarios.Count; i++)
-                {
-                    if (txtUsuario.Text == usuarios[i][17] && txtContrasenia.Text == usuarios[i][18])
-                    {
-                        indiceUsuario = i;
-
-                        if (usuarios[i][19].ToLower() == "si")
-                        {
-                            frmCambioContrasena frmCambioContrasenia = new frmCambioContrasena(usuarios, indiceUsuario);
-                            this.Hide();
-                            frmCambioContrasenia.ShowDialog();
-
-                            return;
-                        }
-                        else
-                        {
-                            frmPrincipal frmPrincipal = new frmPrincipal(usuarios, indiceUsuario);
-                            this.Hide();
-                            frmPrincipal.Show();
-                            return;
-                        }
-                    }
-                }
-                lblError.Visible = true;
-                lblError.Text = "Error: los datos son incorrectos.";
-                txtUsuario.Focus();
-                break;
-            }*/
-
         }
         private void btnSalir_Click(object sender, EventArgs e)
         {

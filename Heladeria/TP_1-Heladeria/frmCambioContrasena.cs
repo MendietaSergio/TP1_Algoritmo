@@ -1,28 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
+using System;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
+using Microsoft.Data.SqlClient;
 
 namespace TP_1_Heladeria
 {
     public partial class frmCambioContrasena : Form
     {
-        public int indiceUsuario;
-        public BindingList<string[]> usuarios = new BindingList<string[]>();
+        private Usuario usuario;
+        private DB_Conexion CN = new DB_Conexion();
 
-        Usuario usuario = new Usuario();
         public frmCambioContrasena(Usuario _usuario)
         {
             InitializeComponent();
-
             lblError.Visible = false;
-
-            //usuarios = _usuarios;
             usuario = _usuario;
-            //indiceUsuario = _indiceUsuario;
 
             if (!usuario.PrimerInicio)
             {
@@ -30,72 +22,86 @@ namespace TP_1_Heladeria
                 lblTitulo.Location = new Point(106, 60);
                 lblInfo.Visible = false;
                 btnAtras.Visible = true;
-
             }
         }
 
-        //Eventos Botones
+        // Eventos Botones
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             txtPass.Text = "";
             txtPass2.Text = "";
         }
+
         private void btnContinuar_Click(object sender, EventArgs e)
         {
             lblError.Visible = false;
             lblError.Text = "Error: ";
-            if (txtPass.Text == "")
-            {
-                lblError.Visible = true;
-                lblError.Text = lblError.Text + "Campo vacio, revisalos.";
-                txtPass.Focus();
-                return;
-            }
-            if (txtPass2.Text == "")
-            {
-                lblError.Visible = true;
-                lblError.Text = lblError.Text + "Campo vacio, revisalos.";
-                txtPass2.Focus();
-                return;
-            }
-            if (txtPass.MaxLength <= 8)
-            {
-                lblError.Visible = true;
-                lblError.Text = lblError.Text + "Contraseña menor a 8 caracteres.";
-                txtPass.Focus();
-                return;
-            }
-            if (txtPass2.MaxLength <= 8)
-            {
-                lblError.Visible = true;
-                lblError.Text = lblError.Text + "Contraseña menor a 8 caracteres.";
-                txtPass2.Focus();
-                return;
-            }
 
+            if (string.IsNullOrWhiteSpace(txtPass.Text))
+            {
+                lblError.Visible = true;
+                lblError.Text = "Error: Campo vacío, revísalo.";
+                txtPass.Focus();
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(txtPass2.Text))
+            {
+                lblError.Visible = true;
+                lblError.Text = "Error: Campo vacío, revísalo.";
+                txtPass2.Focus();
+                return;
+            }
+            if (txtPass.Text.Length < 8)
+            {
+                lblError.Visible = true;
+                lblError.Text = "Error: La contraseña debe tener al menos 8 caracteres.";
+                txtPass.Focus();
+                return;
+            }
             if (txtPass.Text != txtPass2.Text)
             {
                 lblError.Visible = true;
-                lblError.Text = lblError.Text + "Contraseñas no coinciden.";
+                lblError.Text = "Error: Las contraseñas no coinciden.";
                 txtPass.Focus();
-
                 return;
             }
-            usuarios[indiceUsuario][18] = txtPass.Text;
-            MessageBox.Show(
-                "¡La contraseña se generó exitosamente!",
-                    "Cambio guardado", MessageBoxButtons.OK, MessageBoxIcon.Information
-                    );
 
-            if (usuarios[indiceUsuario][19].ToLower() == "si")
+            try
             {
-                frmPrincipal frmPrincipal = new frmPrincipal(usuario);
-                frmPrincipal.Show();
-                usuarios[indiceUsuario][19] = "no";
-            }
+                CN.Conectar_BD();
+                string query = "UPDATE Usuarios SET Pass = @Pass, PrimerInicio = 0 WHERE IdUsuario = @IdUsuario";
+                SqlCommand cmd = new SqlCommand(query, CN.MostrarConexion());
+                cmd.Parameters.AddWithValue("@Pass", txtPass.Text.Trim());
+                cmd.Parameters.AddWithValue("@IdUsuario", usuario.id);
 
-            this.Close();
-            return;
+                cmd.ExecuteNonQuery();
+
+                usuario.Pass = txtPass.Text.Trim();
+                bool eraPrimerInicio = usuario.PrimerInicio;
+                usuario.PrimerInicio = false;
+
+                MessageBox.Show(
+                    "¡La contraseña se actualizó exitosamente!",
+                    "Cambio guardado",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                if (eraPrimerInicio)
+                {
+                    frmPrincipal frmPrincipal = new frmPrincipal(usuario);
+                    frmPrincipal.Show();
+                }
+
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al actualizar la contraseña: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                CN.Desconectar();
+            }
         }
         private void btnAtras_Click(object sender, EventArgs e)
         {
