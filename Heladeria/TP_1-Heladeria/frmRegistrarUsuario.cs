@@ -44,19 +44,62 @@ namespace TP_1_Heladeria
 
         Usuario usuario = new Usuario();
         
+        
 
         public frmRegistrarUsuario(Usuario _usuario)
         {
             InitializeComponent();
             usuario = _usuario;
-
             string CadenaConexion = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0; DataBase=Heladeria";
             CN = new SqlConnection(CadenaConexion);
 
             //Estoy por aca
-            try {
-                SqlDataAdapter adapter = new SqlDataAdapter();
-               
+            try
+            {
+                SqlCommand cmd;
+                CN.Open();
+                SqlDataReader reader;
+                string qry;
+                {
+                    qry = "SELECT Nacionalidad From Nacionalidades;";
+                    cmd = new SqlCommand(qry, CN);
+                    BindingList<string> paises = new BindingList<string> { cmbNacionalidad.AccessibleDescription };
+
+                    reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                        paises.Add(reader["Nacionalidad"].ToString());
+                    reader.Close();
+
+                    cmbNacionalidad.DataSource = paises;
+
+                }
+                {
+                    qry = "SELECT Provincia FROM Provincias";
+                    cmd = new SqlCommand(qry, CN);
+                    List<string> provincias = new List<string> { cmbProvincia.AccessibleDescription };
+
+                    reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                        provincias.Add(reader["Provincia"].ToString());
+                    reader.Close();
+
+                    cmbProvincia.DataSource = provincias;
+                }
+
+                {
+                    qry = "SELECT TipoDeUsuario FROM TiposUsuario";
+                    cmd = new SqlCommand(qry, CN);
+                    List<string> permisos = new List<string> { cmbTipoUsuario.AccessibleDescription };
+
+                    reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                        permisos.Add(reader["TipoDeUsuario"].ToString());
+                    reader.Close();
+                    cmbTipoUsuario.DataSource = permisos;
+                }
+                
+
+
             }
             catch (Exception ex) {
                 MessageBox.Show($"Error al conectar la DB \n{ex.Message}", "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -70,17 +113,9 @@ namespace TP_1_Heladeria
                 }
             }
 
-            string[] permisos = { cmbTipoUsuario.AccessibleDescription, "Administrador", "General" };
-            BindingList<string> paises = new BindingList<string> { cmbNacionalidad.AccessibleDescription, "Argentina", "Uruguay" };
-
-
-            cmbNacionalidad.DataSource = paises;
-            cmbTipoUsuario.DataSource = permisos;
-
             dtpFecNac.MaxDate = DateTime.Today.AddYears(-18);
             dtpFecNac.MinDate = DateTime.Today.AddYears(-150);
 
-            cmbProvincia.Enabled = false;
             cmbPartidoMunicipio.Enabled = false;
             cmbLocalidad.Enabled = false;
 
@@ -299,7 +334,8 @@ namespace TP_1_Heladeria
 
                 int cantVeces = 1;
                 string qry = "SELECT COUNT(*) FROM Usuarios WHERE UsuarioBase = @UsuarioBase";
-
+                string CadenaConexion = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0; DataBase=Heladeria";
+                CN = new SqlConnection(CadenaConexion);
                 SqlCommand cmd = new SqlCommand(qry, CN);
 
                 cmd.Parameters.AddWithValue("@UsuarioBase", nombreUsuarioConstruido);
@@ -325,7 +361,7 @@ namespace TP_1_Heladeria
                      @idNacionalidad, @idProvincia, @idPartidoMunicipio, @idLocalidad, @CodigoPostal, @Calle, @Altura, @Piso, @Departamento,
                      @pass, @usuarioBase, @primerInicio, @usuarioCompleto)";
                 cmd = new SqlCommand(qry, CN);
-                cmd.Parameters.Clear();
+                //cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("@nombre", txtNombre.Text);
                 cmd.Parameters.AddWithValue("@apellido", txtApellido.Text);
                 cmd.Parameters.AddWithValue("@dni", txtDNI.Text);
@@ -353,7 +389,7 @@ namespace TP_1_Heladeria
 
                 cmd.ExecuteNonQuery();
 
-                MessageBox.Show("Usuario registrado con exito. La contraseña es " + password.ToString());
+                MessageBox.Show($"Usuario registrado con exito.\nUsuario: {nombreUsuarioConstruido}\nContraseña: {password.ToString()}");
                 Limpiar();
 
             }
@@ -410,132 +446,105 @@ namespace TP_1_Heladeria
                 grpUbicacion.Enabled = false;
             }
         }
-        private void cmbNacionalidad_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            /*
-            BindingList<string> provincias = new BindingList<string> { cmbProvincia.AccessibleDescription };
-
-
-            if (cmbNacionalidad.SelectedValue != null && cmbNacionalidad.SelectedIndex != -1)
-            {
-                cmbProvincia.Enabled = true;
-                cmbProvincia.DataSource = provincias;
-                if (cmbNacionalidad.SelectedValue.ToString().ToLower() == "argentina")
-                {
-                    provincias.Add("Buenos Aires");
-                    provincias.Add("Cordoba");
-                }
-                else if (cmbNacionalidad.SelectedValue.ToString().ToLower() == "uruguay")
-                {
-                    provincias.Add("Montevideo");
-                    provincias.Add("Canelones");
-                }
-                else
-                {
-                    cmbProvincia.DataSource = null;
-                    cmbProvincia.Enabled = false;
-                }
-
-            }*/
-
-            //No estaba relacionado con nada, pero tenia que dar 2 opciones que trae de la DB
-
-        }
+        
         private void cmbProvincia_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BindingList<string> municipio = new BindingList<string> { cmbPartidoMunicipio.AccessibleDescription };
-
-            if (cmbProvincia.SelectedValue != null && cmbProvincia.SelectedIndex != -1)
+            if (cmbProvincia.SelectedValue != null && (cmbProvincia.SelectedIndex > 0))
             {
+                try
+                {
+                    string CadenaConexion = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0; DataBase=Heladeria";
+                    CN = new SqlConnection(CadenaConexion);
+                    SqlCommand cmd;
+                    CN.Open();
+                    SqlDataReader reader;
+                    string qry;
+                    {
+                        qry = @"SELECT PartidoMunicipio From Municipios M 
+                                INNER JOIN Provincias P 
+                                ON M.IdProvincia = P.IdProvincia
+                                WHERE P.Provincia = @provincia;";
+                        cmd = new SqlCommand(qry, CN);
+                        cmd.Parameters.AddWithValue("@provincia", cmbProvincia.SelectedValue.ToString());
+                        BindingList<string> municipios = new BindingList<string> { cmbPartidoMunicipio.AccessibleDescription };
 
-                cmbPartidoMunicipio.Enabled = true;
-                cmbPartidoMunicipio.DataSource = municipio;
-                if (cmbProvincia.SelectedValue.ToString().ToLower() == "buenos aires")
-                {
-                    municipio.Add("Lomas de Zamora");
-                    municipio.Add("Lanus");
+                        reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                            municipios.Add(reader["PartidoMunicipio"].ToString());
+                        reader.Close();
+
+                        cmbPartidoMunicipio.Enabled = true;
+                        cmbPartidoMunicipio.DataSource = municipios;
+
+                    }
+
+
                 }
-                else if (cmbProvincia.SelectedValue.ToString().ToLower() == "cordoba")
+                catch (Exception ex)
                 {
-                    municipio.Add("Villa Carlos Paz");
-                    municipio.Add("Cosquin");
-                }
-                else if (cmbProvincia.SelectedValue.ToString().ToLower() == "montevideo")
-                {
-                    municipio.Add("B");
-                    municipio.Add("CH");
-                }
-                else if (cmbProvincia.SelectedValue.ToString().ToLower() == "canelones")
-                {
-                    municipio.Add("18 de Mayo");
-                    municipio.Add("Aguas Corrientes");
-                }
-                else
-                {
-                    cmbPartidoMunicipio.DataSource = null;
+                    MessageBox.Show($"Error al conectar la DB \n{ex.Message}", "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     cmbPartidoMunicipio.Enabled = false;
+                    cmbPartidoMunicipio.DataSource = null;
+                }
+                finally
+                {
+                    if (CN.State == System.Data.ConnectionState.Open)
+                    {
+                        CN.Close();
+                        CN.Dispose();
+                    }
                 }
             }
+                
 
         }
         private void cmbPartidoMunicipio_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-            BindingList<string> localidad = new BindingList<string> { cmbLocalidad.AccessibleDescription };
-
-
-            if (cmbPartidoMunicipio.SelectedValue != null && cmbPartidoMunicipio.SelectedIndex != -1)
+            if (cmbPartidoMunicipio.SelectedValue != null && (cmbPartidoMunicipio.SelectedIndex > 0))
             {
+                try
+                {
+                    string CadenaConexion = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0; DataBase=Heladeria";
+                    CN = new SqlConnection(CadenaConexion);
+                    SqlCommand cmd;
+                    CN.Open();
+                    SqlDataReader reader;
+                    string qry;
+                    {
+                        qry = @"SELECT Localidad From Localidades L 
+                                INNER JOIN Municipios M 
+                                ON L.IdPartidoMunicipio = M.IdPartidoMunicipio
+                                WHERE M.PartidoMunicipio= @Muni;";
+                        cmd = new SqlCommand(qry, CN);
+                        cmd.Parameters.AddWithValue("@Muni", cmbPartidoMunicipio.SelectedValue.ToString());
+                        BindingList<string> localidades = new BindingList<string> { cmbLocalidad.AccessibleDescription };
 
-                cmbLocalidad.Enabled = true;
-                cmbLocalidad.DataSource = localidad;
-                if (cmbPartidoMunicipio.SelectedValue.ToString().ToLower() == "lomas de zamora")
-                {
-                    localidad.Add("Lomas de Zamora");
-                    localidad.Add("Temperley");
-                }
-                else if (cmbPartidoMunicipio.SelectedValue.ToString().ToLower() == "villa carlos paz")
-                {
-                    localidad.Add("Villa Domingues");
-                    localidad.Add("La Quinta");
-                }
-                else if (cmbPartidoMunicipio.SelectedValue.ToString().ToLower() == "lanus")
-                {
-                    localidad.Add("Lanus");
-                    localidad.Add("Valentin Alsina");
-                }
-                else if (cmbPartidoMunicipio.SelectedValue.ToString().ToLower() == "cosquin")
-                {
-                    localidad.Add("Casa Grande");
-                    localidad.Add("Villa Hermoso");
+                        reader = cmd.ExecuteReader();
+                        while (reader.Read())
+                            localidades.Add(reader["Localidad"].ToString());
+                        reader.Close();
+
+                        cmbLocalidad.Enabled = true;
+                        cmbLocalidad.DataSource = localidades;
+
+                    }
+
 
                 }
-                else if (cmbPartidoMunicipio.SelectedValue.ToString().ToLower() == "b")
+                catch (Exception ex)
                 {
-                    localidad.Add("Ciudad Vieja");
-                    localidad.Add("Centro");
-                }
-                else if (cmbPartidoMunicipio.SelectedValue.ToString().ToLower() == "ch")
-                {
-                    localidad.Add("Pocitos");
-                    localidad.Add("Punta Carretas");
-                }
-                else if (cmbPartidoMunicipio.SelectedValue.ToString().ToLower() == "18 de mayo")
-                {
-                    localidad.Add("El Dorado");
-                    localidad.Add("Villa Alegria");
-                }
-                else if (cmbPartidoMunicipio.SelectedValue.ToString().ToLower() == "aguas corrientes")
-                {
-                    localidad.Add("-");
-                    localidad.Add("-");
-                }
-                else
-                {
-                    cmbLocalidad.DataSource = null;
+                    MessageBox.Show($"Error al conectar la DB \n{ex.Message}", "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     cmbLocalidad.Enabled = false;
+                    cmbLocalidad.DataSource = null;
                 }
-
+                finally
+                {
+                    if (CN.State == System.Data.ConnectionState.Open)
+                    {
+                        CN.Close();
+                        CN.Dispose();
+                    }
+                }
             }
         }
 

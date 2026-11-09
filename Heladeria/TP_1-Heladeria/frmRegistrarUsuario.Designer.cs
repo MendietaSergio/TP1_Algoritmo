@@ -68,8 +68,6 @@
             lblProvincia = new Label();
             btnAceptar = new Button();
             btnLimpiar = new Button();
-            btnVolver = new Button();
-            btnCerrar = new Button();
             grpPersonales.SuspendLayout();
             grpGenero.SuspendLayout();
             grpUbicacion.SuspendLayout();
@@ -337,7 +335,6 @@
             cmbNacionalidad.Name = "cmbNacionalidad";
             cmbNacionalidad.Size = new Size(159, 23);
             cmbNacionalidad.TabIndex = 10;
-            cmbNacionalidad.SelectedIndexChanged += cmbNacionalidad_SelectedIndexChanged;
             // 
             // lblDepartamento
             // 
@@ -481,36 +478,11 @@
             btnLimpiar.UseVisualStyleBackColor = true;
             btnLimpiar.Click += btnLimpiar_Click;
             // 
-            // btnVolver
-            // 
-            btnVolver.Location = new Point(624, 9);
-            btnVolver.Name = "btnVolver";
-            btnVolver.Size = new Size(54, 37);
-            btnVolver.TabIndex = 21;
-            btnVolver.Text = "Atras";
-            btnVolver.UseVisualStyleBackColor = true;
-            btnVolver.Click += btnVolver_Click;
-            // 
-            // btnCerrar
-            // 
-            btnCerrar.BackColor = Color.DarkRed;
-            btnCerrar.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnCerrar.ForeColor = Color.White;
-            btnCerrar.Location = new Point(684, 10);
-            btnCerrar.Name = "btnCerrar";
-            btnCerrar.Size = new Size(36, 37);
-            btnCerrar.TabIndex = 25;
-            btnCerrar.Text = "X";
-            btnCerrar.UseVisualStyleBackColor = false;
-            btnCerrar.Click += btnCerrar_Click;
-            // 
             // frmRegistrarUsuario
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(747, 441);
-            Controls.Add(btnCerrar);
-            Controls.Add(btnVolver);
             Controls.Add(btnLimpiar);
             Controls.Add(btnAceptar);
             Controls.Add(grpUbicacion);
@@ -573,7 +545,5 @@
         private ComboBox cmbPartidoMunicipio;
         private ComboBox cmbProvincia;
         private ComboBox cmbNacionalidad;
-        private Button btnVolver;
-        private Button btnCerrar;
     }
 }
