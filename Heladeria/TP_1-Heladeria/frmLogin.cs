@@ -27,6 +27,8 @@ namespace TP_1_Heladeria
         private void btnInicioSesion_Click(object sender, EventArgs e)
         {
             Usuario usuarioLogeado = new Usuario();
+            //Como no se a que formulario voy a necesitar llamar, por el momento voy a crear un formulario generico.
+            //Mas adelante, cuando determine si es la primera vez que ingresa o no, le voy a asignar un tipo
             Form proximoFormulario = null;
             try
             {
@@ -98,7 +100,8 @@ namespace TP_1_Heladeria
                 if (CN.MostrarConexion().State == System.Data.ConnectionState.Open)
                     CN.Desconectar();
             }
-            
+
+            //si tiro error, el formulario puede quedar null. En ese caso no deberia abrir nada
             if(proximoFormulario != null)
             {
                 this.Hide();
