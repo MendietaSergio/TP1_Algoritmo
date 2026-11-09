@@ -98,18 +98,18 @@ namespace TP_1_Heladeria
                     usuarioLogeado.Genero = Convert.ToInt32(reader["IdGenero"]);
                     usuarioLogeado.TipoUsuario = Convert.ToInt32(reader["IdTipoUsuario"]);
                     usuarioLogeado.FechaNacimiento = Convert.ToDateTime(reader["FechaNacimiento"]);
-                    /* 
-                        --- Voy a obviar los datos que sean opcionales ---
-                    usuario.Nacionalidad = Convert.ToInt32(reader["IdNacionalidad"]);
-                    usuario.Provincia = Convert.ToInt32(reader["IdProvincia"]);
-                    usuario.Municipio = Convert.ToInt32(reader["IdPartidoMunicipio"]);
-                    usuario.Localidad= Convert.ToInt32(reader["IdLocalidad"]);
-                    usuario.CodigoPostal = reader["CodigoPostal"].ToString();
-                    usuario.Calle = reader["Calle"].ToString();
-                    usuario.Altura = Convert.ToInt32(reader["Altura"]);
-                    usuario.Piso = Convert.ToInt32(reader["Piso"]);
-                    usuario.Departamento = reader["Departamento"].ToString();
-                    */
+
+                    //    --- Voy a obviar los datos que sean opcionales ---
+                    usuarioLogeado.Nacionalidad = reader["IdNacionalidad"] != DBNull.Value? Convert.ToInt32(reader["IdNacionalidad"]) : 0;
+                    usuarioLogeado.Provincia = reader["IdProvincia"] != DBNull.Value ? Convert.ToInt32(reader["IdProvincia"]) : 0;
+                    usuarioLogeado.Municipio = reader["IdPartidoMunicipio"] != DBNull.Value ? Convert.ToInt32(reader["IdPartidoMunicipio"]) : 0;
+                    usuarioLogeado.Localidad= reader["IdLocalidad"] != DBNull.Value ? Convert.ToInt32(reader["IdLocalidad"]) :0;
+                    usuarioLogeado.CodigoPostal = reader["CodigoPostal"] != DBNull.Value ? reader["CodigoPostal"].ToString() : string.Empty;
+                    usuarioLogeado.Calle = reader["Calle"] != DBNull.Value ? reader["Calle"].ToString() : string.Empty;
+                    usuarioLogeado.Altura = reader["Altura"] != DBNull.Value ? Convert.ToInt32(reader["Altura"]) : 0;
+                    usuarioLogeado.Piso = reader["Piso"] != DBNull.Value ? Convert.ToInt32(reader["Piso"]) : 0;
+                    usuarioLogeado.Departamento = reader["Departamento"] != DBNull.Value ? reader["Departamento"].ToString() : string.Empty;
+                    
                     usuarioLogeado.UsuarioBase = reader["UsuarioBase"].ToString();
                     usuarioLogeado.Pass = reader["Pass"].ToString();
                     usuarioLogeado.PrimerInicio = Convert.ToBoolean(reader["PrimerInicio"]);
@@ -143,7 +143,7 @@ namespace TP_1_Heladeria
 
             }
             catch (Exception ex){
-                MessageBox.Show($"Se ha producido un error: {ex.Message}","Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Se ha producido un error al conectar con la DB\n{ex.Message}","Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally{
                 CN.Desconectar();
