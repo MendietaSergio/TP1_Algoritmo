@@ -11,31 +11,6 @@ using System.Text.RegularExpressions;
 using TP_1_Heladeria;
 using System.Dynamic;
 using Microsoft.Data.SqlClient;
-/*
- 
-            {
-
-                "Argentina",
-                "Buenos Aires", "Cordoba",
-                "Lomas de Zamora", "Villa Carlos Paz", "Lanus", "Cosquin",
-                "Lomas de Zamora",  "Villa Domingues", "Lanus",          "Casa Grande",
-                "Temperley",        "La Quinta",       "Valentin Alsina", "Villa Hermoso",
-
-
-
-
-                "Uruguay",
-                "Montevideo", "Canelones",
-                "B",           "18 de Mayo",   "CH",              "Aguas Corrientes",
-                "Ciudad Vieja","El Dorado",     "Pocitos"      , "-",
-                "Centro",      "Villa Alegria", "Punta Carretas","-"
-
-            }
-
- */
-
-
-
 
 namespace TP_1_Heladeria
 {
@@ -43,6 +18,8 @@ namespace TP_1_Heladeria
     {
 
         ValidacionDeCampos validacion = new ValidacionDeCampos();
+
+        SqlConnection CN;
         public void Limpiar()
         {
             TextBox[] txtCampos =
@@ -65,17 +42,33 @@ namespace TP_1_Heladeria
             txtNombre.Focus();
         }
 
-        public BindingList<string[]> usuarios = new BindingList<string[]>();
-        //int indice;
         Usuario usuario = new Usuario();
         
 
         public frmRegistrarUsuario(Usuario _usuario)
         {
             InitializeComponent();
-            //usuarios = _usuarios;
             usuario = _usuario;
-            //indice = _indice;
+
+            string CadenaConexion = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0; DataBase=Heladeria";
+            CN = new SqlConnection(CadenaConexion);
+
+            //Estoy por aca
+            try {
+                SqlDataAdapter adapter = new SqlDataAdapter();
+               
+            }
+            catch (Exception ex) {
+                MessageBox.Show($"Error al conectar la DB \n{ex.Message}", "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+            finally 
+            {
+                if (CN.State == System.Data.ConnectionState.Open)
+                {
+                    CN.Close();
+                    CN.Dispose();
+                }
+            }
 
             string[] permisos = { cmbTipoUsuario.AccessibleDescription, "Administrador", "General" };
             BindingList<string> paises = new BindingList<string> { cmbNacionalidad.AccessibleDescription, "Argentina", "Uruguay" };
@@ -244,6 +237,7 @@ namespace TP_1_Heladeria
         }
         private void btnAceptar_Click(object sender, EventArgs e)
         {
+            //Validaciones
             ////Requeridas ////
             try
             {
@@ -261,7 +255,6 @@ namespace TP_1_Heladeria
 
             //No Requeridas
             //////////////////////////////
-            //Validacion Longitudes de las no requeridas
             TextBox[] txtCamposOpcionales = [txtCodPostal, txtPiso, txtAltura];
             int[] longitudes = [0, 8, 0, 2, 0, int.MaxValue];
                 
@@ -290,22 +283,10 @@ namespace TP_1_Heladeria
                 return;
             }
 
-
-            //Hasta aca llegue
-            //Ya estan hechas todas las validaciones. Si no esta correcto algo, corta el funcionamiento.
-            //Ahora tengo que hacer que si llego a este punto, guarde todo lo que hay en los campos
-
-
-
-
-
-            //DB_Conexion CN = new DB_Conexion();
-            string CadenaConexion = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0; DataBase=Heladeria";
-
-            SqlConnection CN = new SqlConnection(CadenaConexion);
+            
             try
             {
-
+                //Preparo el nombre de usuario
                 string inicial = "";
                 string apellido = "";
                 string nros = "";
@@ -322,42 +303,58 @@ namespace TP_1_Heladeria
                 SqlCommand cmd = new SqlCommand(qry, CN);
 
                 cmd.Parameters.AddWithValue("@UsuarioBase", nombreUsuarioConstruido);
-
                 CN.Open();
 
                 cantVeces += (int)cmd.ExecuteScalar();
-
+                string usuarioBase = nombreUsuarioConstruido;
                 if (cantVeces > 1)
                     nombreUsuarioConstruido = nombreUsuarioConstruido + "_" + cantVeces;
 
-                //Ya tengo el usuario armado, falta cargar los datos
-
-
-                //CN.Conectar_BD();
-                //Por ahora sin opcionales
-
-
-                /*string qry = 
+                Random random = new Random();
+                long password = random.Next(10000000, 999999999);
+               
+              //Cargo los datos
+                qry =
                     @"INSERT INTO usuarios 
-                    (nombre, apellido, dni, telefono, email, idGenero, idTipoUsuario, fechaNacimiento) 
+                    (nombre, apellido, dni, telefono, email, idGenero, idTipoUsuario, fechaNacimiento,
+                     idNacionalidad, idProvincia, idPartidoMunicipio, idLocalidad, CodigoPostal, Calle, Altura, Piso, Departamento,
+                     pass, usuarioBase, primerInicio, usuarioCompleto
+                     ) 
                     VALUES 
-                    (@nombre, @apellido, @dni, @telefono, @email, @idGenero, @idTipoUsuario, @fechaNacimiento)";
-                
-                SqlCommand cmd = new SqlCommand(qry, CN);
-                
+                    (@nombre, @apellido, @dni, @telefono, @email, @idGenero, @idTipoUsuario, @fechaNacimiento,
+                     @idNacionalidad, @idProvincia, @idPartidoMunicipio, @idLocalidad, @CodigoPostal, @Calle, @Altura, @Piso, @Departamento,
+                     @pass, @usuarioBase, @primerInicio, @usuarioCompleto)";
+                cmd = new SqlCommand(qry, CN);
+                cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("@nombre", txtNombre.Text);
                 cmd.Parameters.AddWithValue("@apellido", txtApellido.Text);
                 cmd.Parameters.AddWithValue("@dni", txtDNI.Text);
                 cmd.Parameters.AddWithValue("@telefono", txtTelefono.Text);
                 cmd.Parameters.AddWithValue("@email", txtEmail.Text);
-                cmd.Parameters.AddWithValue("@idGenero", 1);
-                cmd.Parameters.AddWithValue("@idTipoUsuario", 1);
+                cmd.Parameters.AddWithValue("@idGenero", rdbMasculino.Checked == true? 1 : 2 );
+                cmd.Parameters.AddWithValue("@idTipoUsuario", cmbTipoUsuario.SelectedIndex+1);
                 cmd.Parameters.AddWithValue("@fechaNacimiento", dtpFecNac.Value);
+                cmd.Parameters.AddWithValue("@pass", password.ToString());
+                cmd.Parameters.AddWithValue("@usuarioBase", usuarioBase);
+                cmd.Parameters.AddWithValue("@primerInicio", 1);
+                cmd.Parameters.AddWithValue("@usuarioCompleto", nombreUsuarioConstruido);
 
-                //CN.Conectar_BD();
-                CN.Open();
-                int filas = cmd.ExecuteNonQuery();*/
+                cmd.Parameters.AddWithValue("@idNacionalidad", cmbNacionalidad.SelectedIndex <= 0? DBNull.Value : cmbNacionalidad.SelectedIndex);
+                cmd.Parameters.AddWithValue("@idProvincia", cmbProvincia.SelectedIndex <= 0 ? DBNull.Value : cmbProvincia.SelectedIndex);
+                cmd.Parameters.AddWithValue("@idPartidoMunicipio", cmbPartidoMunicipio.SelectedIndex <= 0 ? DBNull.Value : cmbPartidoMunicipio.SelectedIndex);
+                cmd.Parameters.AddWithValue("@idLocalidad", cmbLocalidad.SelectedIndex <= 0 ? DBNull.Value : cmbLocalidad.SelectedIndex);
+                cmd.Parameters.AddWithValue("@CodigoPostal", string.IsNullOrEmpty(txtCodPostal.Text)? DBNull.Value : txtCodPostal.Text );
+                cmd.Parameters.AddWithValue("@Calle", string.IsNullOrEmpty(txtCalle.Text)? DBNull.Value : txtCalle.Text);
+                cmd.Parameters.AddWithValue("@Altura", string.IsNullOrEmpty(txtAltura.Text)? DBNull.Value : txtAltura.Text);
+                cmd.Parameters.AddWithValue("@Piso", string.IsNullOrEmpty(txtPiso.Text) ? DBNull.Value : txtPiso.Text);
+                cmd.Parameters.AddWithValue("@Departamento", string.IsNullOrEmpty(txtDepartamento.Text) ? DBNull.Value : txtDepartamento.Text);
 
+
+
+                cmd.ExecuteNonQuery();
+
+                MessageBox.Show("Usuario registrado con exito. La contraseña es " + password.ToString());
+                Limpiar();
 
             }
             catch (Exception ex)
@@ -373,68 +370,6 @@ namespace TP_1_Heladeria
                 }
             }
             
-            string[] usuarioNuevo = new string[21];
-            /*
-            for (int i = 0; i < usuarioNuevo.Length; i++) usuarioNuevo[i] = "";
-
-            usuarioNuevo[0] = txtNombre.Text;
-            usuarioNuevo[1] = txtApellido.Text;
-            usuarioNuevo[2] = txtDNI.Text;
-            usuarioNuevo[3] = txtTelefono.Text;
-            usuarioNuevo[4] = txtEmail.Text;
-            if (rdbMasculino.Checked)
-                usuarioNuevo[5] = "Masculino";
-            else
-                usuarioNuevo[5] = "Femenino";
-            usuarioNuevo[6] = cmbTipoUsuario.SelectedValue.ToString(); //Acordate que lo estas manejando con un array
-            usuarioNuevo[7] = dtpFecNac.Text;
-            if (cmbNacionalidad.SelectedIndex > 0)
-                usuarioNuevo[8] = cmbNacionalidad.SelectedValue.ToString();
-            if (cmbProvincia.SelectedIndex > 0)
-                usuarioNuevo[9] = cmbProvincia.SelectedValue.ToString();
-            if (cmbPartidoMunicipio.SelectedIndex > 0)
-                usuarioNuevo[10] = cmbPartidoMunicipio.SelectedValue.ToString();
-            usuarioNuevo[11] = cmbLocalidad.SelectedIndex > 0 ? cmbLocalidad.SelectedValue.ToString() : "";
-            usuarioNuevo[12] = txtCodPostal.Text;
-            usuarioNuevo[13] = txtCalle.Text;
-            usuarioNuevo[14] = txtAltura.Text;
-            usuarioNuevo[15] = txtPiso.Text;
-            usuarioNuevo[16] = txtDepartamento.Text;
-            */
-            /*string inicial = "";
-            string apellido = "";
-            string nros = "";
-            string nombreUsuarioConstruido = "";
-            inicial = txtNombre.Text.Substring(0, 1).ToLower();
-            apellido = txtApellido.Text.ToLower();
-            nros = txtDNI.Text.Substring(txtDNI.Text.Length - 3, 3);
-
-            nombreUsuarioConstruido = inicial + apellido + nros;
-
-            int cantVeces = 1;
-            */
-            foreach (string[] usuario in usuarios)
-                if (usuario[20] == nombreUsuarioConstruido)
-                    cantVeces++;
-
-            usuarioNuevo[20] = nombreUsuarioConstruido;
-
-
-            if (cantVeces > 1)
-                nombreUsuarioConstruido = nombreUsuarioConstruido + "_" + cantVeces;
-
-            usuarioNuevo[17] = nombreUsuarioConstruido;
-
-            Random random = new Random();
-            long password = random.Next(10000000, 999999999);
-            usuarioNuevo[18] = password.ToString();
-
-            usuarioNuevo[19] = "si";
-
-            usuarios.Add(usuarioNuevo);
-            
-            MessageBox.Show("Usuario registrado con exito. La contraseña es " + usuarioNuevo[18]);
-            //  Limpiar();
         }
         private void btnVolver_Click(object sender, EventArgs e)
         {
@@ -455,11 +390,7 @@ namespace TP_1_Heladeria
         //Eventos ComboBox
         private void cmbTipoUsuario_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (/*(txtNombre.Text.Length > 0 &&
-               txtApellido.Text.Length > 0 &&
-               txtDNI.Text.Length > 0 &&
-               txtTelefono.Text.Length > 0 &&
-               txtEmail.Text.Length > 0 &&*/
+            if (
                 !string.IsNullOrWhiteSpace(txtNombre.Text) &&
                 !string.IsNullOrWhiteSpace(txtApellido.Text) &&
                 !string.IsNullOrWhiteSpace(txtDNI.Text) &&
