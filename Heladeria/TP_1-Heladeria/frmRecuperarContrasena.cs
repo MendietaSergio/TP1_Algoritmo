@@ -1,4 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,31 +12,30 @@ namespace TP_1_Heladeria
 {
     public partial class frmRecuperarContrasena : Form
     {
-        int indiceUsuario;
-             public frmRecuperarContrasena()
+        public frmRecuperarContrasena()
         {
             InitializeComponent();
             lblError.Visible = false;
         }
-        Boolean avanzo = false;
-        string codigo = "";
-        // Instancias tu clase de conexión centralizada
-        DB_Conexion CN = new DB_Conexion();
-        //SqlConnection CN = null;
-        //
-        ValidacionDeCampos Validaciones = new ValidacionDeCampos();
+
+        private bool avanzo = false;
+        private string codigo = "";
+        private DB_Conexion CN = new DB_Conexion();
+        private ValidacionDeCampos Validaciones = new ValidacionDeCampos();
 
 
         //Eventos Botones
         private void btnEnviarCodigo_Click(object sender, EventArgs e)
         {
-                  
-            try {
+            try
+            {
+                txtEmail.Text = txtEmail.Text.Trim();
+                txtEmail.AccessibleName = "Email";
                 TextBox[] textBoxes = new TextBox[] { txtEmail };
                 Validaciones.TextoVacio(textBoxes);
                 Validaciones.EMail(txtEmail);
                 CN.Conectar_BD();
-                string query = "SELECT * FROM Usuarios WHERE Email = @Email";
+                string query = "SELECT * FROM Usuarios WHERE LOWER(Email) = LOWER(@Email)";
 
                 SqlCommand cmd = new SqlCommand(query, CN.MostrarConexion());
                 cmd.Parameters.AddWithValue("@Email", txtEmail.Text);
@@ -46,7 +45,7 @@ namespace TP_1_Heladeria
                 if (reader.Read())
                 {
                     codigo = GenerarCodigoAlfanumerico();
-                    MessageBox.Show("Código enviado a " + txtEmail.Text + "\nEl código es: " + codigo);
+                    MessageBox.Show("Código enviado a " + txtEmail.Text + "\nEl código es: " + codigo, "Código de Recuperación", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     lblError.Visible = false;
                     txtCodigo.Enabled = true;
                     btnValidarCodigo.Enabled = true;
@@ -54,7 +53,7 @@ namespace TP_1_Heladeria
 
                     btnEnviarCodigo.Enabled = false;
 
-                    lblEstado.Text = "Ingresá el código que te llegó por mail (el que esta en la base de datos)";
+                    lblEstado.Text = "Ingresá el código que te llegó por mail (el que está en la base de datos)";
 
                     txtCodigo.Text = "";
                     txtCodigo.Focus();
@@ -70,42 +69,38 @@ namespace TP_1_Heladeria
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al enviar el código: " + ex.Message);
+                lblError.Visible = true;
+                lblError.Text = ex.Message;
+                MessageBox.Show("Error al enviar el código: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 avanzo = false;
             }
             finally
             {
                 CN.Desconectar();
-
             }
-            //UPDATE envio de codigo
+
+            // UPDATE envio de codigo
             if (avanzo)
             {
                 try
                 {
-
                     CN.Conectar_BD();
-                    
-                    //Actualizo el codigo en la bse de datos, porque no tenemos envio de mail por ahora.
-                    string queryUpdate = "UPDATE Usuarios set cod_Recupero=@cod_Recupero WHERE Email =@Email";
+                    string queryUpdate = "UPDATE Usuarios SET cod_Recupero = @cod_Recupero WHERE LOWER(Email) = LOWER(@Email)";
 
                     SqlCommand cmdUpdateCod = new SqlCommand(queryUpdate, CN.MostrarConexion());
-
                     cmdUpdateCod.Parameters.AddWithValue("@Email", txtEmail.Text);
                     cmdUpdateCod.Parameters.AddWithValue("@cod_Recupero", codigo);
 
                     cmdUpdateCod.ExecuteNonQuery();
 
                     txtCodigo.Text = "";
-                    codigo= "";
+                    codigo = "";
                     txtCodigo.Focus();
                     avanzo = true;
-                    
                 }
                 catch (Exception ex)
                 {
-                MessageBox.Show($"Se ha producido un error: {ex.Message}","Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    MessageBox.Show("Error al enviar el codigo: " + ex.Message);
+                    MessageBox.Show("Error al guardar el código en la base de datos: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     avanzo = false;
                 }
                 finally
@@ -113,20 +108,22 @@ namespace TP_1_Heladeria
                     CN.Desconectar();
                 }
             }
-            
         }
+
         private void btnValidarCodigo_Click(object sender, EventArgs e)
         {
             try
             {
+                txtCodigo.Text = txtCodigo.Text.Trim();
+                txtCodigo.AccessibleName = "Código";
                 TextBox[] textBoxes = new TextBox[] { txtCodigo };
                 Validaciones.TextoVacio(textBoxes);
                 CN.Conectar_BD();
-                string query = "SELECT * FROM Usuarios WHERE Email = @Email AND cod_Recupero = @cod_Recupero";
+                string query = "SELECT * FROM Usuarios WHERE LOWER(Email) = LOWER(@Email) AND cod_Recupero = @cod_Recupero";
 
                 SqlCommand cmd = new SqlCommand(query, CN.MostrarConexion());
                 cmd.Parameters.AddWithValue("@Email", txtEmail.Text);
-                cmd.Parameters.AddWithValue("@cod_Recupero", txtCodigo.Text );
+                cmd.Parameters.AddWithValue("@cod_Recupero", txtCodigo.Text);
 
                 SqlDataReader reader = cmd.ExecuteReader();
 
@@ -134,20 +131,15 @@ namespace TP_1_Heladeria
                 {
                     txtNuevaContra.Enabled = true;
                     txtConfirmarContra.Enabled = true;
-
                     btnGuardarContra.Enabled = true;
-
                     btnValidarCodigo.Enabled = false;
-
-                    //txtCodigo.Text = "";
                     txtCodigo.Enabled = false;
-
-                    //txtCodigo.Text = "";
-                    txtCodigo.Focus();
+                    txtNuevaContra.Focus();
                     avanzo = true;
-                    lblError.Visible = true;
+                    lblError.Visible = false;
                     lblError.Text = "";
-                } else
+                }
+                else
                 {
                     lblError.Visible = true;
                     lblError.Text = "Código incorrecto.";
@@ -156,45 +148,49 @@ namespace TP_1_Heladeria
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Se ha producido un error: {ex.Message}","Error",MessageBoxButtons.OK, MessageBoxIcon.Error);
-                MessageBox.Show("Error al validar el codigo: " + ex.Message);
+                lblError.Visible = true;
+                lblError.Text = ex.Message;
+                MessageBox.Show("Error al validar el código: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 avanzo = false;
-                
             }
             finally
             {
                 CN.Desconectar();
             }
         }
+
         private void btnGuardarContra_Click(object sender, EventArgs e)
-        {   
+        {
             try
             {
+                txtNuevaContra.AccessibleName = "Nueva Contraseña";
+                txtConfirmarContra.AccessibleName = "Confirmar Contraseña";
                 TextBox[] textBoxes = new TextBox[] { txtNuevaContra, txtConfirmarContra };
                 Validaciones.TextoVacio(textBoxes);
                 Validaciones.LongitudTexto(txtNuevaContra, 8, 20);
                 Validaciones.LongitudTexto(txtConfirmarContra, 8, 20);
                 Validaciones.compararContrasenias(txtNuevaContra, txtConfirmarContra);
+
                 CN.Conectar_BD();
-                string queryUpdate = "UPDATE Usuarios set pass=@pass, cod_recupero='' WHERE Email =@Email";
+                string queryUpdate = "UPDATE Usuarios SET Pass = @pass, cod_Recupero = NULL WHERE LOWER(Email) = LOWER(@Email)";
 
                 SqlCommand cmdUpdateCod = new SqlCommand(queryUpdate, CN.MostrarConexion());
-
                 cmdUpdateCod.Parameters.AddWithValue("@Email", txtEmail.Text);
                 cmdUpdateCod.Parameters.AddWithValue("@pass", txtConfirmarContra.Text);
 
                 cmdUpdateCod.ExecuteNonQuery();
 
                 lblError.Visible = false;
-                MessageBox.Show("¡Éxito! Contraseña cambiada.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("¡Éxito! Contraseña cambiada correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
                 frmLogin login = new frmLogin();
                 login.Show();
-
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al guardar la contraseña: " + ex.Message);
+                lblError.Visible = true;
+                lblError.Text = ex.Message;
+                MessageBox.Show("Error al guardar la contraseña: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             finally
             {
