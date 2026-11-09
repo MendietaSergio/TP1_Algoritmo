@@ -28,12 +28,13 @@ namespace TP_1_Heladeria
                 txtCodPostal, txtCalle,txtAltura,
                 txtPiso,txtPiso,txtDepartamento };
             ComboBox[] cmbCamposParaLimpiar =
-                { cmbProvincia, cmbPartidoMunicipio,
+                { cmbPartidoMunicipio,
                  cmbLocalidad };
 
 
             foreach (TextBox campo in txtCampos) campo.Text = "";
             foreach (ComboBox campo in cmbCamposParaLimpiar) campo.DataSource = null;
+            cmbNacionalidad.SelectedIndex = 0;
             cmbNacionalidad.SelectedIndex = 0;
             cmbTipoUsuario.SelectedIndex = 0;
 
@@ -53,9 +54,10 @@ namespace TP_1_Heladeria
             string CadenaConexion = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0; DataBase=Heladeria";
             CN = new SqlConnection(CadenaConexion);
 
-            //Estoy por aca
+
             try
             {
+                //Cargo el datasource de los paises
                 SqlCommand cmd;
                 CN.Open();
                 SqlDataReader reader;
@@ -73,6 +75,7 @@ namespace TP_1_Heladeria
                     cmbNacionalidad.DataSource = paises;
 
                 }
+                //Cargo el datasource de las provincias
                 {
                     qry = "SELECT Provincia FROM Provincias";
                     cmd = new SqlCommand(qry, CN);
@@ -85,7 +88,7 @@ namespace TP_1_Heladeria
 
                     cmbProvincia.DataSource = provincias;
                 }
-
+                //Cargo el datasource del tipo de usuarios
                 {
                     qry = "SELECT TipoDeUsuario FROM TiposUsuario";
                     cmd = new SqlCommand(qry, CN);
@@ -97,9 +100,6 @@ namespace TP_1_Heladeria
                     reader.Close();
                     cmbTipoUsuario.DataSource = permisos;
                 }
-                
-
-
             }
             catch (Exception ex) {
                 MessageBox.Show($"Error al conectar la DB \n{ex.Message}", "Datos incorrectos", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -120,26 +120,22 @@ namespace TP_1_Heladeria
             cmbLocalidad.Enabled = false;
 
 
-            //PARA LAS PRUEBAS!!
-            //SACAR
+            //Para pruebas
+            /*
             txtNombre.Text = "asd";
             txtApellido.Text = "asd";
             txtDNI.Text = "12312312";
             txtTelefono.Text = "1231231231";
             txtEmail.Text = "asd@asd.asd";
             cmbTipoUsuario.SelectedIndex = 1;
-
+            */
         }
 
 
         //Eventos de los txt
         private void txtNombre_TextChanged(object sender, EventArgs e)
         {
-            if (/*(txtNombre.Text.Length > 0 &&
-               txtApellido.Text.Length > 0 &&
-               txtDNI.Text.Length > 0 &&
-               txtTelefono.Text.Length > 0 &&
-               txtEmail.Text.Length > 0 &&*/
+            if (
                 !string.IsNullOrWhiteSpace(txtNombre.Text) &&
                 !string.IsNullOrWhiteSpace(txtApellido.Text) &&
                 !string.IsNullOrWhiteSpace(txtDNI.Text) &&
@@ -276,7 +272,6 @@ namespace TP_1_Heladeria
             ////Requeridas ////
             try
             {
-                
                 validacion.TextoVacio([txtNombre, txtApellido, txtDNI, txtTelefono, txtEmail]);
                 validacion.TipoEnteroPositivo([txtTelefono, txtDNI]);
                 validacion.NroEnteroEntre(txtTelefono, 1000000000, 9999999999);
@@ -361,7 +356,8 @@ namespace TP_1_Heladeria
                      @idNacionalidad, @idProvincia, @idPartidoMunicipio, @idLocalidad, @CodigoPostal, @Calle, @Altura, @Piso, @Departamento,
                      @pass, @usuarioBase, @primerInicio, @usuarioCompleto)";
                 cmd = new SqlCommand(qry, CN);
-                //cmd.Parameters.Clear();
+                //Tiene un par de parametros la Qry =D
+                //Requeridos
                 cmd.Parameters.AddWithValue("@nombre", txtNombre.Text);
                 cmd.Parameters.AddWithValue("@apellido", txtApellido.Text);
                 cmd.Parameters.AddWithValue("@dni", txtDNI.Text);
@@ -374,7 +370,8 @@ namespace TP_1_Heladeria
                 cmd.Parameters.AddWithValue("@usuarioBase", usuarioBase);
                 cmd.Parameters.AddWithValue("@primerInicio", 1);
                 cmd.Parameters.AddWithValue("@usuarioCompleto", nombreUsuarioConstruido);
-
+                //No requeridos
+                //Estos tienen la opcion de estar vacios y la base de datos lo reconoceria
                 cmd.Parameters.AddWithValue("@idNacionalidad", cmbNacionalidad.SelectedIndex <= 0? DBNull.Value : cmbNacionalidad.SelectedIndex);
                 cmd.Parameters.AddWithValue("@idProvincia", cmbProvincia.SelectedIndex <= 0 ? DBNull.Value : cmbProvincia.SelectedIndex);
                 cmd.Parameters.AddWithValue("@idPartidoMunicipio", cmbPartidoMunicipio.SelectedIndex <= 0 ? DBNull.Value : cmbPartidoMunicipio.SelectedIndex);
@@ -384,7 +381,6 @@ namespace TP_1_Heladeria
                 cmd.Parameters.AddWithValue("@Altura", string.IsNullOrEmpty(txtAltura.Text)? DBNull.Value : txtAltura.Text);
                 cmd.Parameters.AddWithValue("@Piso", string.IsNullOrEmpty(txtPiso.Text) ? DBNull.Value : txtPiso.Text);
                 cmd.Parameters.AddWithValue("@Departamento", string.IsNullOrEmpty(txtDepartamento.Text) ? DBNull.Value : txtDepartamento.Text);
-
 
 
                 cmd.ExecuteNonQuery();
