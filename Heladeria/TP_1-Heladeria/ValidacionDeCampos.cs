@@ -29,13 +29,13 @@ namespace TP_1_Heladeria
             }
         }
 
-        public void TipoEntero(TextBox[] txtBoxes)
+        public void TipoEnteroPositivo(TextBox[] txtBoxes)
         {
             foreach(TextBox txtBox in txtBoxes)
-                if(!int.TryParse(txtBox.Text, out int val))
+                if(!int.TryParse(txtBox.Text, out int val) || val < 1 )
                 {
                     txtBox.Focus();
-                    throw new Exception($"El campo {txtBox.AccessibleName} esperaba un valor numerico");
+                    throw new Exception($"El campo {txtBox.AccessibleName} esperaba un valor numerico entre 1 y {int.MaxValue}");
                 }
         }
 
@@ -53,7 +53,8 @@ namespace TP_1_Heladeria
             if ((txtBox.Text.Length < longitudMinima) || (txtBox.Text.Length > longitudMaxima))
             {
                 txtBox.Focus();
-                throw new Exception($"Valores no soportados en el campo. \nDebe entre {longitudMinima} y {longitudMaxima} caracteres de longitud");
+                string campo = !string.IsNullOrWhiteSpace(txtBox.AccessibleName) ? txtBox.AccessibleName : "especificado";
+                throw new Exception($"Valores no soportados en el campo {campo}. \nDebe tener entre {longitudMinima} y {longitudMaxima} caracteres de longitud");
             }
         }
         public void LimitesNumero(TextBox txtBox, int valorMinimoAlcanzado, int valorMaximoAlcanzado) {

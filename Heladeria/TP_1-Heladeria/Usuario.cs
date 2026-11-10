@@ -15,10 +15,10 @@ namespace TP_1_Heladeria
         public int Genero { get; set; }
         public int TipoUsuario { get; set; }
         public DateTime FechaNacimiento { get; set; }
-        public string Nacionalidad { get; set; }
-        public string Provincia { get; set; }
-        public string Municipio { get; set; }
-        public string Localidad { get; set; }
+        public int Nacionalidad { get; set; }
+        public int Provincia { get; set; }
+        public int Municipio { get; set; }
+        public int Localidad { get; set; }
         public string CodigoPostal { get; set; }
         public string Calle { get; set; }
         public int Altura { get; set; }

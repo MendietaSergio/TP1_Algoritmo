@@ -36,6 +36,10 @@ namespace TP_1_Heladeria
         {
         }
 
+        public frmEditarPerfil(Usuario _usuario) : this(_usuario, 0, _usuario != null && _usuario.TipoUsuario == 1)
+        {
+        }
+
         public frmEditarPerfil(Usuario _usuario, bool _esModoAdmin) : this(_usuario, 0, _esModoAdmin)
         {
         }
@@ -731,10 +735,10 @@ namespace TP_1_Heladeria
                         if (int.TryParse(txtAltura.Text, out int alt)) usuario.Altura = alt;
                         if (int.TryParse(txtPiso.Text, out int piso)) usuario.Piso = piso;
                         usuario.Departamento = txtDepartamento.Text.Trim();
-                        usuario.Nacionalidad = (cmbNacionalidad.SelectedItem is ItemCombo n && n.Id > 0) ? n.Nombre : "";
-                        usuario.Provincia = (cmbProvincia.SelectedItem is ItemCombo pr && pr.Id > 0) ? pr.Nombre : "";
-                        usuario.Municipio = (cmbPartidoMunicipio.SelectedItem is ItemCombo mu && mu.Id > 0) ? mu.Nombre : "";
-                        usuario.Localidad = (cmbLocalidad.SelectedItem is ItemCombo lc && lc.Id > 0) ? lc.Nombre : "";
+                        usuario.Nacionalidad = (cmbNacionalidad.SelectedItem is ItemCombo n && n.Id > 0) ? n.Id : 0;
+                        usuario.Provincia = (cmbProvincia.SelectedItem is ItemCombo pr && pr.Id > 0) ? pr.Id : 0;
+                        usuario.Municipio = (cmbPartidoMunicipio.SelectedItem is ItemCombo mu && mu.Id > 0) ? mu.Id : 0;
+                        usuario.Localidad = (cmbLocalidad.SelectedItem is ItemCombo lc && lc.Id > 0) ? lc.Id : 0;
                     }
 
                     MessageBox.Show("Perfil actualizado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);

@@ -32,7 +32,7 @@ namespace TP_1_Heladeria
 
         private void btnRegistrarUsuario_Click(object sender, EventArgs e)
         {
-            Form RegistrarUsuario = new frmRegistrarUsuario(usuario, 0);
+            Form RegistrarUsuario = new frmRegistrarUsuario(usuario);
             RegistrarUsuario.Show();
             this.Close();
         }
