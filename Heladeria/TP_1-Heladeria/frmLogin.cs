@@ -9,22 +9,12 @@ namespace TP_1_Heladeria
         private DB_Conexion CN = new DB_Conexion();
         private ValidacionDeCampos Validaciones = new ValidacionDeCampos();
 
-<<<<<<< HEAD
-=======
-        DB_Conexion CN = new DB_Conexion();
-        ValidacionDeCampos Validaciones = new ValidacionDeCampos();
-
->>>>>>> origin/Gus
         public frmLogin()
         {
             InitializeComponent();
             imgShow1.Visible = true;
             imgHide1.Visible = false;
             lblError.Visible = false;
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/Gus
         }
         
 
