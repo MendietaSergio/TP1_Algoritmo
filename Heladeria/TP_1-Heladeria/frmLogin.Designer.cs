@@ -1,4 +1,4 @@
-﻿namespace TP_1_Heladeria
+namespace TP_1_Heladeria
 {
     partial class frmLogin
     {
@@ -160,7 +160,6 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(410, 367);
-            ControlBox = false;
             Controls.Add(lblError);
             Controls.Add(linkOldPass);
             Controls.Add(imgShow1);
@@ -172,11 +171,12 @@
             Controls.Add(lblLogin);
             Controls.Add(lblContrasenia);
             Controls.Add(lblUsuario);
-            FormBorderStyle = FormBorderStyle.Fixed3D;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             Name = "frmLogin";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Login";
+            Text = "Inicio de Sesión";
+            FormClosing += frmLogin_FormClosing;
             ((System.ComponentModel.ISupportInitialize)imgShow1).EndInit();
             ((System.ComponentModel.ISupportInitialize)imgHide1).EndInit();
             ResumeLayout(false);

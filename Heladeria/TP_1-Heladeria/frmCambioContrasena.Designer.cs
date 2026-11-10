@@ -1,4 +1,4 @@
-﻿namespace TP_1_Heladeria
+namespace TP_1_Heladeria
 {
     partial class frmCambioContrasena
     {
@@ -257,10 +257,12 @@
             Controls.Add(label4);
             Controls.Add(lblInfo);
             Controls.Add(lblTitulo);
-            FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
             Name = "frmCambioContrasena";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Cambio Contrasenia";
+            Text = "Cambio de Contraseña";
+            FormClosing += frmCambioContrasena_FormClosing;
             ((System.ComponentModel.ISupportInitialize)imgHideConf).EndInit();
             ((System.ComponentModel.ISupportInitialize)imgShowContrasena).EndInit();
             ((System.ComponentModel.ISupportInitialize)imgShowConf).EndInit();

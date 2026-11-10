@@ -9,6 +9,7 @@ namespace TP_1_Heladeria
     {
         private Usuario usuario;
         private DB_Conexion CN = new DB_Conexion();
+        private bool contrasenaActualizada = false;
 
         public frmCambioContrasena(Usuario _usuario)
         {
@@ -90,6 +91,7 @@ namespace TP_1_Heladeria
                 usuario.Pass = txtPass.Text.Trim();
                 bool eraPrimerInicio = usuario.PrimerInicio;
                 usuario.PrimerInicio = false;
+                contrasenaActualizada = true;
 
                 MessageBox.Show(
                     "¡La contraseña se actualizó exitosamente!",
@@ -117,6 +119,15 @@ namespace TP_1_Heladeria
         private void btnAtras_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void frmCambioContrasena_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (usuario != null && usuario.PrimerInicio && !contrasenaActualizada && e.CloseReason == CloseReason.UserClosing)
+            {
+                frmLogin login = new frmLogin();
+                login.Show();
+            }
         }
 
         //Eventos Imagenes

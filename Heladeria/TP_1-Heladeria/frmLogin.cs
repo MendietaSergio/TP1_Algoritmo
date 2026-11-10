@@ -129,10 +129,14 @@ namespace TP_1_Heladeria
         {
             frmRecuperarContrasena frmRecuperarContrasena = new frmRecuperarContrasena();
             this.Hide();
-
             frmRecuperarContrasena.ShowDialog();
+            txtContrasenia.Text = "";
+            this.Show();
         }
 
-    
+        private void frmLogin_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }

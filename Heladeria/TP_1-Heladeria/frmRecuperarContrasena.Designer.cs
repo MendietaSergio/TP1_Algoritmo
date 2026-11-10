@@ -1,4 +1,4 @@
-﻿namespace TP_1_Heladeria
+namespace TP_1_Heladeria
 {
     partial class frmRecuperarContrasena
     {
@@ -282,12 +282,12 @@
             Controls.Add(lblEmail);
             Controls.Add(lblEstado);
             Controls.Add(lblTituloRecuperacion);
-            FormBorderStyle = FormBorderStyle.Fixed3D;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
             MinimizeBox = false;
             Name = "frmRecuperarContrasena";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Recuprar Contrasenia";
+            Text = "Recuperar Contraseña";
             ((System.ComponentModel.ISupportInitialize)imgShow1).EndInit();
             ((System.ComponentModel.ISupportInitialize)imgHide1).EndInit();
             ((System.ComponentModel.ISupportInitialize)imgShow2).EndInit();

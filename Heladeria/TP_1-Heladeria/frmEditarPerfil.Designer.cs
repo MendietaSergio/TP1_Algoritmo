@@ -1,4 +1,4 @@
-﻿namespace TP_1_Heladeria
+namespace TP_1_Heladeria
 {
     partial class frmEditarPerfil
     {
@@ -70,7 +70,6 @@
             btnVolver = new Button();
             cmbUsuarioEditado = new ComboBox();
             btnEliminar = new Button();
-            btnCerrar = new Button();
             grpPersonales.SuspendLayout();
             grpGenero.SuspendLayout();
             grpUbicacion.SuspendLayout();
@@ -486,26 +485,12 @@
             btnEliminar.UseVisualStyleBackColor = false;
             btnEliminar.Click += btnEliminar_Click;
             // 
-            // btnCerrar
-            // 
-            btnCerrar.BackColor = Color.DarkRed;
-            btnCerrar.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnCerrar.ForeColor = Color.White;
-            btnCerrar.Location = new Point(684, 9);
-            btnCerrar.Name = "btnCerrar";
-            btnCerrar.Size = new Size(36, 37);
-            btnCerrar.TabIndex = 24;
-            btnCerrar.Text = "X";
-            btnCerrar.UseVisualStyleBackColor = false;
-            btnCerrar.Click += btnCerrar_Click;
-            // 
             // frmEditarPerfil
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightSteelBlue;
             ClientSize = new Size(747, 406);
-            Controls.Add(btnCerrar);
             Controls.Add(btnEliminar);
             Controls.Add(cmbUsuarioEditado);
             Controls.Add(btnVolver);
@@ -513,10 +498,12 @@
             Controls.Add(grpUbicacion);
             Controls.Add(grpPersonales);
             Controls.Add(lblTitulo);
-            FormBorderStyle = FormBorderStyle.None;
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
             Name = "frmEditarPerfil";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Registrar Usuario";
+            Text = "Editar Perfil";
+            FormClosing += frmEditarPerfil_FormClosing;
             grpPersonales.ResumeLayout(false);
             grpPersonales.PerformLayout();
             grpGenero.ResumeLayout(false);
@@ -571,6 +558,5 @@
         private Button btnVolver;
         private ComboBox cmbUsuarioEditado;
         private Button btnEliminar;
-        private Button btnCerrar;
     }
 }

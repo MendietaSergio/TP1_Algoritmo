@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -405,8 +405,11 @@ namespace TP_1_Heladeria
             }
 
         }
+        private bool volviendo = false;
+
         private void btnVolver_Click(object sender, EventArgs e)
         {
+            volviendo = true;
             frmPrincipal principal = new frmPrincipal(usuario);
             principal.Show();
             this.Close();
@@ -539,15 +542,15 @@ namespace TP_1_Heladeria
             }
         }
 
-        //Salir
+        // Al cerrar el formulario
         private void frmRegistrarUsuario_FormClosing(object sender, FormClosingEventArgs e)
         {
-            DialogResult deseaCerrar = MessageBox.Show("Desea cerrar la aplicacion?", "Cerrar Sistema",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-            if (deseaCerrar == DialogResult.Yes)
-                Application.ExitThread();
-            //Sino, cancela el evento
-            else e.Cancel=true;
+            if (!volviendo && e.CloseReason == CloseReason.UserClosing)
+            {
+                volviendo = true;
+                frmPrincipal principal = new frmPrincipal(usuario);
+                principal.Show();
+            }
         }
     }
 }

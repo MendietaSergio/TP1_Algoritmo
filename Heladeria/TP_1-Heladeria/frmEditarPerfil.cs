@@ -31,6 +31,7 @@ namespace TP_1_Heladeria
         private int idUsuarioEditando;
         private bool esModoAdmin;
         private bool isCargando = false;
+        private bool volviendo = false;
 
         public frmEditarPerfil(int idUsuario, bool _esModoAdmin = false) : this(ObtenerUsuarioPorId(idUsuario), 0, _esModoAdmin)
         {
@@ -545,6 +546,7 @@ namespace TP_1_Heladeria
         // Eventos Botones
         private void btnVolver_Click(object sender, EventArgs e)
         {
+            volviendo = true;
             frmPrincipal principal = new frmPrincipal(usuario);
             principal.Show();
             this.Close();
@@ -743,6 +745,7 @@ namespace TP_1_Heladeria
 
                     MessageBox.Show("Perfil actualizado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
+                    volviendo = true;
                     frmPrincipal prin = new frmPrincipal(usuario);
                     prin.Show();
                     this.Close();
@@ -787,6 +790,7 @@ namespace TP_1_Heladeria
                     MessageBox.Show("Usuario eliminado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     // Refrescamos la pantalla para actualizar la lista de usuarios
+                    volviendo = true;
                     frmEditarPerfil recargar = new frmEditarPerfil(usuario, 0, true);
                     recargar.Show();
                     this.Close();
@@ -802,12 +806,15 @@ namespace TP_1_Heladeria
             }
         }
 
-        private void btnCerrar_Click(object sender, EventArgs e)
+        // Al cerrar con la [X] de la ventana
+        private void frmEditarPerfil_FormClosing(object sender, FormClosingEventArgs e)
         {
-            DialogResult deseaCerrar = MessageBox.Show("¿Desea cerrar la aplicación?", "Cerrar Sistema",
-                MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
-            if (deseaCerrar == DialogResult.Yes)
-                Application.Exit();
+            if (!volviendo && e.CloseReason == CloseReason.UserClosing)
+            {
+                volviendo = true;
+                frmPrincipal principal = new frmPrincipal(usuario);
+                principal.Show();
+            }
         }
     }
 }

@@ -183,8 +183,6 @@ namespace TP_1_Heladeria
                 lblError.Visible = false;
                 MessageBox.Show("¡Éxito! Contraseña cambiada correctamente.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
-                frmLogin login = new frmLogin();
-                login.Show();
             }
             catch (Exception ex)
             {
@@ -199,8 +197,6 @@ namespace TP_1_Heladeria
         }
         private void btnAtras_Click(object sender, EventArgs e)
         {
-            frmLogin login = new frmLogin();
-            login.Show();
             this.Close();
         }
 
