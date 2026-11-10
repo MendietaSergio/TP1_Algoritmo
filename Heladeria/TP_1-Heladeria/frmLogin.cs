@@ -1,6 +1,5 @@
 using Microsoft.Data.SqlClient;
 using System.ComponentModel;
-using System.Security.Cryptography.X509Certificates;
 
 namespace TP_1_Heladeria
 {

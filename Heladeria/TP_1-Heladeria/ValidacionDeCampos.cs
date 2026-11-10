@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
-//using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace TP_1_Heladeria
 {

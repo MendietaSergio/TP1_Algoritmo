@@ -3,13 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Text.RegularExpressions;
-using TP_1_Heladeria;
-using System.Dynamic;
 using Microsoft.Data.SqlClient;
 
 namespace TP_1_Heladeria
@@ -25,16 +21,14 @@ namespace TP_1_Heladeria
             TextBox[] txtCampos =
                 { txtNombre, txtApellido, txtDNI,
                 txtTelefono, txtEmail,
-                txtCodPostal, txtCalle,txtAltura,
-                txtPiso,txtPiso,txtDepartamento };
+                txtCodPostal, txtCalle, txtAltura,
+                txtPiso, txtDepartamento };
             ComboBox[] cmbCamposParaLimpiar =
                 { cmbPartidoMunicipio,
                  cmbLocalidad };
 
-
             foreach (TextBox campo in txtCampos) campo.Text = "";
             foreach (ComboBox campo in cmbCamposParaLimpiar) campo.DataSource = null;
-            cmbNacionalidad.SelectedIndex = 0;
             cmbNacionalidad.SelectedIndex = 0;
             cmbTipoUsuario.SelectedIndex = 0;
 
