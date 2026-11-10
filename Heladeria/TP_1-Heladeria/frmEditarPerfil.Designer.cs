@@ -68,7 +68,6 @@
             lblProvincia = new Label();
             btnGuardarCambios = new Button();
             btnVolver = new Button();
-            btnEditarContrasena = new Button();
             cmbUsuarioEditado = new ComboBox();
             btnEliminar = new Button();
             btnCerrar = new Button();
@@ -466,16 +465,6 @@
             btnVolver.UseVisualStyleBackColor = true;
             btnVolver.Click += btnVolver_Click;
             // 
-            // btnEditarContrasena
-            // 
-            btnEditarContrasena.Location = new Point(599, 351);
-            btnEditarContrasena.Name = "btnEditarContrasena";
-            btnEditarContrasena.Size = new Size(121, 41);
-            btnEditarContrasena.TabIndex = 21;
-            btnEditarContrasena.Text = "Editar Clave de Acceso";
-            btnEditarContrasena.UseVisualStyleBackColor = true;
-            btnEditarContrasena.Click += btnEditarContrasena_Click;
-            // 
             // cmbUsuarioEditado
             // 
             cmbUsuarioEditado.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -519,7 +508,6 @@
             Controls.Add(btnCerrar);
             Controls.Add(btnEliminar);
             Controls.Add(cmbUsuarioEditado);
-            Controls.Add(btnEditarContrasena);
             Controls.Add(btnVolver);
             Controls.Add(btnGuardarCambios);
             Controls.Add(grpUbicacion);
@@ -581,7 +569,6 @@
         private ComboBox cmbProvincia;
         private ComboBox cmbNacionalidad;
         private Button btnVolver;
-        private Button btnEditarContrasena;
         private ComboBox cmbUsuarioEditado;
         private Button btnEliminar;
         private Button btnCerrar;

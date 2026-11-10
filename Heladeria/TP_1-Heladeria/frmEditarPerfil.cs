@@ -758,12 +758,6 @@ namespace TP_1_Heladeria
             }
         }
 
-        private void btnEditarContrasena_Click(object sender, EventArgs e)
-        {
-            frmCambioContrasena frm = new frmCambioContrasena(usuario);
-            frm.ShowDialog();
-        }
-
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             if (idUsuarioEditando == usuario.id)
