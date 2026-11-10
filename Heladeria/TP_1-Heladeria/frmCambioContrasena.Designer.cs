@@ -223,15 +223,12 @@ namespace TP_1_Heladeria
             // 
             // btnAtras
             // 
-            btnAtras.BackColor = Color.DarkRed;
-            btnAtras.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            btnAtras.ForeColor = Color.White;
-            btnAtras.Location = new Point(500, 8);
+            btnAtras.Location = new Point(440, 12);
             btnAtras.Name = "btnAtras";
-            btnAtras.Size = new Size(36, 37);
+            btnAtras.Size = new Size(85, 30);
             btnAtras.TabIndex = 22;
-            btnAtras.Text = "X";
-            btnAtras.UseVisualStyleBackColor = false;
+            btnAtras.Text = "Atras";
+            btnAtras.UseVisualStyleBackColor = true;
             btnAtras.Visible = false;
             btnAtras.Click += btnAtras_Click;
             // 

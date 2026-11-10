@@ -456,9 +456,9 @@ namespace TP_1_Heladeria
             // 
             // btnVolver
             // 
-            btnVolver.Location = new Point(624, 9);
+            btnVolver.Location = new Point(620, 10);
             btnVolver.Name = "btnVolver";
-            btnVolver.Size = new Size(54, 37);
+            btnVolver.Size = new Size(85, 30);
             btnVolver.TabIndex = 22;
             btnVolver.Text = "Atras";
             btnVolver.UseVisualStyleBackColor = true;
@@ -468,9 +468,9 @@ namespace TP_1_Heladeria
             // 
             cmbUsuarioEditado.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbUsuarioEditado.FormattingEnabled = true;
-            cmbUsuarioEditado.Location = new Point(200, 12);
+            cmbUsuarioEditado.Location = new Point(265, 14);
             cmbUsuarioEditado.Name = "cmbUsuarioEditado";
-            cmbUsuarioEditado.Size = new Size(201, 23);
+            cmbUsuarioEditado.Size = new Size(220, 23);
             cmbUsuarioEditado.TabIndex = 23;
             cmbUsuarioEditado.SelectedIndexChanged += cmbUsuarioEditado_SelectedIndexChanged;
             // 

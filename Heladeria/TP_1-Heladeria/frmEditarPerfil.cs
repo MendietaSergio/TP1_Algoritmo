@@ -33,52 +33,7 @@ namespace TP_1_Heladeria
         private bool isCargando = false;
         private bool volviendo = false;
 
-        public frmEditarPerfil(int idUsuario, bool _esModoAdmin = false) : this(ObtenerUsuarioPorId(idUsuario), 0, _esModoAdmin)
-        {
-        }
-
-        public frmEditarPerfil(Usuario _usuario) : this(_usuario, 0, _usuario != null && _usuario.TipoUsuario == 1)
-        {
-        }
-
-        public frmEditarPerfil(Usuario _usuario, bool _esModoAdmin) : this(_usuario, 0, _esModoAdmin)
-        {
-        }
-
-        private static Usuario ObtenerUsuarioPorId(int idUsuario)
-        {
-            Usuario u = new Usuario { id = idUsuario };
-            DB_Conexion cn = new DB_Conexion();
-            try
-            {
-                cn.Conectar_BD();
-                string query = "SELECT * FROM Usuarios WHERE IdUsuario = @Id";
-                SqlCommand cmd = new SqlCommand(query, cn.MostrarConexion());
-                cmd.Parameters.AddWithValue("@Id", idUsuario);
-                using (SqlDataReader r = cmd.ExecuteReader())
-                {
-                    if (r.Read())
-                    {
-                        u.Nombre = r["Nombre"].ToString() ?? "";
-                        u.Apellido = r["Apellido"].ToString() ?? "";
-                        u.UsuarioCompleto = r["UsuarioCompleto"].ToString() ?? "";
-                        u.TipoUsuario = Convert.ToInt32(r["IdTipoUsuario"]);
-                        u.Genero = Convert.ToInt32(r["IdGenero"]);
-                        u.Email = r["Email"].ToString() ?? "";
-                        u.Telefono = r["Telefono"].ToString() ?? "";
-                        u.DNI = Convert.ToInt32(r["DNI"]);
-                    }
-                }
-            }
-            catch { }
-            finally
-            {
-                cn.Desconectar();
-            }
-            return u;
-        }
-
-        public frmEditarPerfil(Usuario _usuario, int _indiceLogeado = 0, bool _esModoAdmin = false)
+        public frmEditarPerfil(Usuario _usuario, bool _esModoAdmin = false)
         {
             InitializeComponent();
 
@@ -94,7 +49,8 @@ namespace TP_1_Heladeria
 
             if (esModoAdmin) // Modo Gestión de Usuarios (Admin)
             {
-                lblTitulo.Text = "Gestión de Usuarios";
+                lblTitulo.Text = "Gestión de Usuarios:";
+                cmbUsuarioEditado.Visible = true;
                 try
                 {
                     CN.Conectar_BD();
@@ -127,6 +83,7 @@ namespace TP_1_Heladeria
             else // Modo Mi Perfil
             {
                 lblTitulo.Text = "Editar Mi Perfil";
+                cmbUsuarioEditado.Visible = false;
                 cmbUsuarioEditado.Items.Add(usuario.UsuarioCompleto);
                 cmbUsuarioEditado.SelectedIndex = 0;
                 CargarDatosUsuario(usuario.id);
@@ -139,6 +96,7 @@ namespace TP_1_Heladeria
                 cmbTipoUsuario.Enabled = false;
                 txtDNI.Enabled = false;
                 cmbUsuarioEditado.Enabled = false;
+                cmbUsuarioEditado.Visible = false;
                 btnGuardarCambios.Width = 201;
                 btnEliminar.Enabled = false;
                 btnEliminar.Visible = false;
@@ -148,6 +106,7 @@ namespace TP_1_Heladeria
                 cmbTipoUsuario.Enabled = true;
                 txtDNI.Enabled = false;
                 cmbUsuarioEditado.Enabled = true;
+                cmbUsuarioEditado.Visible = true;
                 btnEliminar.Enabled = true;
                 btnEliminar.Visible = true;
             }
@@ -791,7 +750,7 @@ namespace TP_1_Heladeria
 
                     // Refrescamos la pantalla para actualizar la lista de usuarios
                     volviendo = true;
-                    frmEditarPerfil recargar = new frmEditarPerfil(usuario, 0, true);
+                    frmEditarPerfil recargar = new frmEditarPerfil(usuario, true);
                     recargar.Show();
                     this.Close();
                 }
