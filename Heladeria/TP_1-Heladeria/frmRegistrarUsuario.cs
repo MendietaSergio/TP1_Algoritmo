@@ -116,14 +116,14 @@ namespace TP_1_Heladeria
 
 
             //Para pruebas
-            /*
+      
             txtNombre.Text = "asd";
             txtApellido.Text = "asd";
             txtDNI.Text = "12312312";
             txtTelefono.Text = "1231231231";
             txtEmail.Text = "asd@asd.asd";
             cmbTipoUsuario.SelectedIndex = 1;
-            */
+            
         }
 
 
@@ -263,6 +263,9 @@ namespace TP_1_Heladeria
         }
         private void btnAceptar_Click(object sender, EventArgs e)
         {
+            string qry = "";
+            string CadenaConexion = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0; DataBase=Heladeria";
+
             //Validaciones
             ////Requeridas ////
             try
@@ -324,8 +327,8 @@ namespace TP_1_Heladeria
                 nombreUsuarioConstruido = inicial + apellido + nros;
 
                 int cantVeces = 1;
-                string qry = "SELECT COUNT(*) FROM Usuarios WHERE UsuarioBase = @UsuarioBase";
-                string CadenaConexion = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0; DataBase=Heladeria";
+                qry = "SELECT COUNT(*) FROM Usuarios WHERE UsuarioBase = @UsuarioBase";
+                
                 CN = new SqlConnection(CadenaConexion);
                 SqlCommand cmd = new SqlCommand(qry, CN);
 
@@ -339,6 +342,15 @@ namespace TP_1_Heladeria
 
                 Random random = new Random();
                 long password = random.Next(10000000, 999999999);
+
+
+                //Verifico el DNI
+                qry = "SELECT COUNT(*) FROM Usuarios WHERE DNI = @dni";
+                cmd = new SqlCommand(qry, CN);
+                cmd.Parameters.AddWithValue("@dni", txtDNI.Text);
+                int repetido = (int)cmd.ExecuteScalar();
+                if (repetido > 0)
+                    throw new Exception("Ese DNI ya fue cargado previamente.");
 
                 //Cargo los datos
                 qry =
@@ -406,7 +418,7 @@ namespace TP_1_Heladeria
             volviendo = true;
             frmPrincipal principal = new frmPrincipal(usuario);
             principal.Show();
-            this.Close();
+            this.Hide();
         }
 
 
