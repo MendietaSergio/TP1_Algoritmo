@@ -69,12 +69,23 @@ namespace TP_1_Heladeria
             try
             {
                 CN.Conectar_BD();
-                string query = "UPDATE Usuarios SET Pass = @Pass, PrimerInicio = 0 WHERE IdUsuario = @IdUsuario";
-                SqlCommand cmd = new SqlCommand(query, CN.MostrarConexion());
-                cmd.Parameters.AddWithValue("@Pass", txtPass.Text.Trim());
-                cmd.Parameters.AddWithValue("@IdUsuario", usuario.id);
+                string query = @"UPDATE dbo.Usuarios
+                                 SET Pass = @Pass,
+                                     PrimerInicio = 0
+                                 WHERE IdUsuario = @IdUsuario";
 
-                cmd.ExecuteNonQuery();
+                using (SqlCommand cmd = new SqlCommand(query, CN.MostrarConexion()))
+                {
+                    cmd.Parameters.AddWithValue("@Pass", txtPass.Text.Trim());
+                    cmd.Parameters.AddWithValue("@IdUsuario", usuario.id);
+
+                    int filas = cmd.ExecuteNonQuery();
+                    if (filas == 0)
+                    {
+                        MessageBox.Show("No se encontró el usuario.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
+                    }
+                }
 
                 usuario.Pass = txtPass.Text.Trim();
                 bool eraPrimerInicio = usuario.PrimerInicio;
