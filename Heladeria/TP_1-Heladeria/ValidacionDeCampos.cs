@@ -34,7 +34,7 @@ namespace TP_1_Heladeria
                 if(!int.TryParse(txtBox.Text, out int val) || val < 1 )
                 {
                     txtBox.Focus();
-                    throw new Exception($"El campo {txtBox.AccessibleName} esperaba un valor numerico entre 1 y {int.MaxValue}");
+                    throw new Exception($"El campo {txtBox.AccessibleName} esperaba un valor numerico positivo y menor a {int.MaxValue}");
                 }
         }
 

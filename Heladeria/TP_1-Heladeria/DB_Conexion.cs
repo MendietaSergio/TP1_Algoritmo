@@ -30,12 +30,18 @@ namespace TP_1_Heladeria
         {
             return (CN.State == System.Data.ConnectionState.Open);
         }
-
+        public string MostrarCC()
+        {
+            return CadenaConexion;
+        }
         public void Desconectar()
         {
-            CN = new SqlConnection(CadenaConexion);
-            CN.Close();
-            CN.Dispose();
+            if(CN.State == System.Data.ConnectionState.Open)
+            {
+                CN.Close();
+                CN.Dispose();
+            }
+            
         }
     }
 }

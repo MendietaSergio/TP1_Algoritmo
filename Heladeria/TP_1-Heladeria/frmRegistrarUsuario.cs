@@ -15,7 +15,8 @@ namespace TP_1_Heladeria
 
         ValidacionDeCampos validacion = new ValidacionDeCampos();
 
-        SqlConnection CN;
+        DB_Conexion OCN = new DB_Conexion();
+        SqlConnection CN = new SqlConnection();
         public void Limpiar()
         {
             TextBox[] txtCampos =
@@ -45,8 +46,8 @@ namespace TP_1_Heladeria
         {
             InitializeComponent();
             usuario = _usuario;
-            string CadenaConexion = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0; DataBase=Heladeria";
-            CN = new SqlConnection(CadenaConexion);
+            
+            CN = new SqlConnection(OCN.MostrarCC());
 
 
             try
@@ -254,8 +255,7 @@ namespace TP_1_Heladeria
         private void btnAceptar_Click(object sender, EventArgs e)
         {
             string qry = "";
-            string CadenaConexion = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0; DataBase=Heladeria";
-
+           
             //Validaciones
             ////Requeridas ////
             try
@@ -319,7 +319,7 @@ namespace TP_1_Heladeria
                 int cantVeces = 1;
                 qry = "SELECT COUNT(*) FROM Usuarios WHERE UsuarioBase = @UsuarioBase";
                 
-                CN = new SqlConnection(CadenaConexion);
+                CN = new SqlConnection(OCN.MostrarCC());
                 SqlCommand cmd = new SqlCommand(qry, CN);
 
                 cmd.Parameters.AddWithValue("@UsuarioBase", nombreUsuarioConstruido);
@@ -443,8 +443,8 @@ namespace TP_1_Heladeria
             {
                 try
                 {
-                    string CadenaConexion = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0; DataBase=Heladeria";
-                    CN = new SqlConnection(CadenaConexion);
+               
+                    CN = new SqlConnection(OCN.MostrarCC());
                     SqlCommand cmd;
                     CN.Open();
                     SqlDataReader reader;
@@ -494,8 +494,7 @@ namespace TP_1_Heladeria
             {
                 try
                 {
-                    string CadenaConexion = "Data Source=.\\SQLEXPRESS;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name=\"SQL Server Management Studio\";Command Timeout=0; DataBase=Heladeria";
-                    CN = new SqlConnection(CadenaConexion);
+                    CN = new SqlConnection(OCN.MostrarCC());
                     SqlCommand cmd;
                     CN.Open();
                     SqlDataReader reader;

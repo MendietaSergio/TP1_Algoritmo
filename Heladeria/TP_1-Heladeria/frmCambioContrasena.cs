@@ -66,7 +66,7 @@ namespace TP_1_Heladeria
                 txtPass.Focus();
                 return;
             }
-
+            bool error = false;
             try
             {
                 CN.Conectar_BD();
@@ -105,15 +105,18 @@ namespace TP_1_Heladeria
                     frmPrincipal.Show();
                 }
 
-                this.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al actualizar la contraseña: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                error = true;
+
             }
             finally
             {
                 CN.Desconectar();
+                if(!error)
+                    this.Close();
             }
         }
         private void btnAtras_Click(object sender, EventArgs e)
