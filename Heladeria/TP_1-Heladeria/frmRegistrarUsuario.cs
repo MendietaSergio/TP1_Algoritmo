@@ -113,16 +113,6 @@ namespace TP_1_Heladeria
 
             cmbPartidoMunicipio.Enabled = false;
             cmbLocalidad.Enabled = false;
-
-
-            //Para pruebas
-      
-            txtNombre.Text = "asd";
-            txtApellido.Text = "asd";
-            txtDNI.Text = "12312312";
-            txtTelefono.Text = "1231231231";
-            txtEmail.Text = "asd@asd.asd";
-            cmbTipoUsuario.SelectedIndex = 1;
             
         }
 
